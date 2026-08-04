@@ -725,6 +725,23 @@ bdi, .lat { unicode-bidi: isolate; }
 .total-lbl { font-size: 16px; font-weight: 700; color: var(--t-2); }
 .total-val { font-size: 34px; font-weight: 900; color: var(--amber); line-height: 1; }
 
+/* --- delivery breakdown: the fee is a nudge toward the free threshold, not a fine --- */
+.total-row-sub { margin: -8px 2px 0; padding-top: 0; border-top: 0; }
+.total-lbl-sub { font-size: 14px; }
+.total-val-sub { font-size: 17px; font-weight: 800; color: var(--cream-2); }
+.total-val-sub.is-free { color: var(--green-txt); }
+.total-row-grand { margin-top: 10px; padding-top: 12px; }
+.free-nudge {
+  margin: 10px 2px 0;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(74, 107, 74, .18);
+  border: 1px dashed rgba(127, 174, 127, .55);
+  color: var(--cream);
+  font-size: 13.5px;
+  font-weight: 800;
+}
+
 .addr-head { font-size: 16px; font-weight: 900; color: var(--cream); margin-bottom: 4px; }
 .addr-hint { margin: 0 0 14px; font-size: 12.5px; line-height: 1.7; color: var(--t-3); }
 

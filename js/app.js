@@ -28,10 +28,13 @@
   var CLOSE_MIN = 30;    /* 00:30 exclusive */
   var TZ = 'Africa/Casablanca';
   var DIV = '─────────────';
-  var MIN_ORDER = 40;    /* dh — never shown until a send is actually blocked by it.
-                            Deliberately ABOVE the cheapest pack (فردي 34): a lone 34 dh
-                            order is near break-even, so the notice pushes a 6 dh مرقة
-                            or 10 dh بطاطا top-up (decided 2026-08-04). */
+  var MIN_ORDER = 34;         /* dh product floor (= cheapest pack) — silent until a
+                                 send is actually blocked by it. Add-ons alone can
+                                 never carry a delivery run. */
+  var FREE_DELIVERY_AT = 40;  /* subtotal >= this -> delivery free. Below it a fee
+                                 applies — framed as a gift threshold, not a rule
+                                 (decided 2026-08-04, replaced the hard 40 minimum). */
+  var DELIVERY_FEE = 10;      /* dh, charged only under the threshold */
 
   /* Traceability: invisible, no UI, fire-and-forget. If the VPS is down or slow NOTHING here
      changes — every call is inside try/catch, nothing is awaited, no response is read. */
@@ -68,7 +71,7 @@
     return out;
   }
 
-  function buildOrderMessage(cartLines, total, addr, gpsResult, code) {
+  function buildOrderMessage(cartLines, total, delivery, addr, gpsResult, code) {
     var lines = ['🛵 طلب جديد — با رشيد', DIV];
     for (var i = 0; i < cartLines.length; i++) {
       var it = cartLines[i];
@@ -76,7 +79,14 @@
       lines.push('• ' + it.name + sizePart + ' ×' + it.qty + ' — ' + it.total + ' درهم');
     }
     lines.push(DIV);
-    lines.push('المجموع: ' + total + ' درهم — التوصيل فابور');
+    /* «المجموع:» must stay the GRAND total (cash at the door) — it is the line
+       bot/tracking.py::parse_order reads, and the dashboard's revenue with it. */
+    if (delivery > 0) {
+      lines.push('التوصيل: ' + delivery + ' درهم');
+      lines.push('المجموع: ' + (total + delivery) + ' درهم (مع التوصيل)');
+    } else {
+      lines.push('المجموع: ' + total + ' درهم — التوصيل فابور');
+    }
     lines.push.apply(lines, addrLines(addr));
     var geo = (gpsResult && gpsResult.ok)
       ? 'https://maps.google.com/?q=' + Number(gpsResult.lat).toFixed(6) + ',' + Number(gpsResult.lng).toFixed(6)
@@ -246,6 +256,10 @@
   var elMapHint = $('#map-hint');
   var elMap = $('#map');
   var elMinNotice = $('#min-notice');
+  var elDelivery = $('#delivery-text');
+  var elGrandRow = $('#grand-row');
+  var elGrandText = $('#grand-text');
+  var elNudge = $('#free-nudge');
   var elWa = $('#wa-btn');
   var elMenu = $('#menu');
 
@@ -312,6 +326,23 @@
     /* sheet lines */
     renderLines(cartLines());
     elTotal.textContent = total + ' درهم';
+
+    /* delivery: free at the threshold, a fee under it — sold as a gift to unlock,
+       never as a penalty. The nudge does the upsell the old hard minimum used to. */
+    var fee = deliveryFee(total);
+    if (count > 0 && fee > 0) {
+      elDelivery.textContent = fee + ' درهم';
+      elDelivery.classList.remove('is-free');
+      elGrandRow.hidden = false;
+      elGrandText.textContent = (total + fee) + ' درهم';
+      elNudge.hidden = false;
+      elNudge.textContent = 'زيد ' + (FREE_DELIVERY_AT - total) + ' درهم وولي التوصيل فابور 🎁';
+    } else {
+      elDelivery.textContent = 'فابور 🎁';
+      elDelivery.classList.add('is-free');
+      elGrandRow.hidden = true;
+      elNudge.hidden = true;
+    }
 
     /* the send button must track the cart on EVERY change — it starts disabled on an
        empty cart, and a first-time visitor who adds items would otherwise be left with
@@ -660,6 +691,10 @@
   var WA_LABEL = 'صيفط الطلب فالواتساب ✅';
   var WA_LOADING = '⏳ كنجيبو الموقع...';
 
+  function deliveryFee(subtotal) {
+    return subtotal >= FREE_DELIVERY_AT ? 0 : DELIVERY_FEE;
+  }
+
   function showMinNotice() {
     state.minShown = true;
     elMinNotice.hidden = false;
@@ -706,14 +741,16 @@
   function handoff() {
     var lines = cartLines();
     var total = cartTotal();
+    var fee = deliveryFee(total);
     var code = orderCode();
-    var msg = buildOrderMessage(lines, total, readAddr(), state.geo, code);
+    var msg = buildOrderMessage(lines, total, fee, readAddr(), state.geo, code);
 
     /* BEFORE the hand-off: this tab may navigate away a millisecond later and sendBeacon is
-       what survives that. Same code as the message carries, so the server can merge the two. */
+       what survives that. Same code as the message carries, so the server can merge the two.
+       total = the GRAND total (with any delivery fee) — it must equal the cash at the door. */
     track('send', {
       code: code,
-      total: total,
+      total: total + fee,
       hasGps: !!(state.geo && state.geo.ok),
       items: lines.map(function (l) { return { id: l.id, size: l.size, qty: l.qty }; })
     });
