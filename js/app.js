@@ -28,7 +28,10 @@
   var CLOSE_MIN = 30;    /* 00:30 exclusive */
   var TZ = 'Africa/Casablanca';
   var DIV = '─────────────';
-  var MIN_ORDER = 34;    /* dh — never shown until a send is actually blocked by it */
+  var MIN_ORDER = 40;    /* dh — never shown until a send is actually blocked by it.
+                            Deliberately ABOVE the cheapest pack (فردي 34): a lone 34 dh
+                            order is near break-even, so the notice pushes a 6 dh مرقة
+                            or 10 dh بطاطا top-up (decided 2026-08-04). */
 
   /* Traceability: invisible, no UI, fire-and-forget. If the VPS is down or slow NOTHING here
      changes — every call is inside try/catch, nothing is awaited, no response is read. */
