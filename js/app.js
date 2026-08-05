@@ -10,8 +10,8 @@
      Catalog — prices in Western digits, exactly as the mock
      ------------------------------------------------------------------------- */
   var CATALOG = {
-    complet:   { name: 'الطبق الكامل',  sizes: [['فردي', 34], ['وسط', 49], ['عائلي', 75]] },
-    babbouche: { name: 'باك الببوش',    sizes: [['وسط', 26], ['عائلي', 45]] },
+    complet:   { name: 'الطبق الكامل',  sizes: [['زوجي', 50], ['عائلي', 100]] },
+    babbouche: { name: 'باك الببوش',    sizes: [['وسط', 37], ['عائلي', 50]] },
     hummus:    { name: 'باك الحمص',     sizes: [['وسط', 20], ['عائلي', 35]] },
     marqa:     { name: 'مرقة زيادة',    sizes: [['', 6]] },
     batata:    { name: 'بطاطا مسلوقة',  sizes: [['', 10]] }
@@ -22,14 +22,16 @@
      Flipped 2026-08-03 after the relay was verified end to end.
      Rollback: set this to '212677710579' to send orders straight to Saif again. */
   var WA_NUMBER = '212647351006';
-  var STORE_KEY = 'br-cart-v1';
+  var STORE_KEY = 'br-cart-v2';  /* v2 2026-08-04: menu repriced + complet resized —
+                                    a v1 cart's size indexes would silently map onto
+                                    the NEW prices, so old carts must not restore. */
   var OPEN_HOUR = 18;    /* 18:00 inclusive */
   var CLOSE_HOUR = 0;    /* closes 00:30 the next day */
   var CLOSE_MIN = 30;    /* 00:30 exclusive */
   var TZ = 'Africa/Casablanca';
   var DIV = '─────────────';
-  var MIN_ORDER = 34;         /* dh product floor (= cheapest pack) — silent until a
-                                 send is actually blocked by it. Add-ons alone can
+  var MIN_ORDER = 34;         /* dh product floor — silent until a send is actually
+                                 blocked by it. Add-ons (and a lone 20 dh حمص) can
                                  never carry a delivery run. */
   var FREE_DELIVERY_AT = 40;  /* subtotal >= this -> delivery free. Below it a fee
                                  applies — framed as a gift threshold, not a rule
