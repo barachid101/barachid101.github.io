@@ -430,8 +430,10 @@
   /* ---------------------------------------------------------------------------
      Cart actions
      ------------------------------------------------------------------------- */
-  function addItem(id) {
-    var si = state.sel[id] || 0;
+  function addItem(id, forceSi) {
+    /* forceSi (2026-08-08): the hero best-seller cards print a fixed price, so their +
+       must add exactly that size — never the menu card's currently selected chip. */
+    var si = (typeof forceSi === 'number') ? forceSi : (state.sel[id] || 0);
     var k = key(id, si);
     var i = -1;
     for (var n = 0; n < state.cart.length; n++) { if (state.cart[n].k === k) { i = n; break; } }
@@ -801,7 +803,10 @@
     });
 
     $$('[data-add]').forEach(function (btn) {
-      btn.addEventListener('click', function () { addItem(btn.getAttribute('data-add')); });
+      btn.addEventListener('click', function () {
+        var fixed = btn.getAttribute('data-add-si');   /* hero cards pin their size */
+        addItem(btn.getAttribute('data-add'), fixed === null ? undefined : parseInt(fixed, 10));
+      });
     });
 
     elCtaOpen.addEventListener('click', goMenu);
