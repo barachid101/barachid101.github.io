@@ -111,28 +111,28 @@ bdi, .lat { unicode-bidi: isolate; }
 
 .hero {
   position: relative;
-  padding: 22px 20px 26px;
+  padding: 14px 20px 26px;
   text-align: center;
 }
 
 /* Hero compacted 2026-08-08 (ad-night data: 76 visitors, 0 interactions — the bowl
    photo and the prices sat entirely below the first in-app-browser screen).
    Everything above the photo shrank so food + entry price are visible on landing. */
-.logo-row { display: flex; justify-content: center; margin-bottom: 8px; }
+.logo-row { display: flex; justify-content: center; margin-bottom: 6px; }
 
 .logo-ring {
-  width: 78px;
-  height: 78px;
+  width: 62px;
+  height: 62px;
   border-radius: 50%;
-  padding: 4px;
+  padding: 3px;
   background: conic-gradient(from 200deg, var(--amber), #7a4c17, var(--amber));
-  box-shadow: 0 0 34px rgba(200, 128, 45, .35);
+  box-shadow: 0 0 28px rgba(200, 128, 45, .35);
 }
-.logo-img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; }
+.logo-img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
 
 .brand-ar {
   margin: 0;
-  font-size: 34px;
+  font-size: 29px;
   line-height: 1.15;
   font-weight: 900;
   letter-spacing: -1px;
@@ -153,9 +153,9 @@ bdi, .lat { unicode-bidi: isolate; }
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin: 8px 0 4px;
+  margin: 6px 0 3px;
 }
-.tagline-txt { font-size: 15px; font-weight: 700; color: var(--cream-2); }
+.tagline-txt { font-size: 14px; font-weight: 700; color: var(--cream-2); }
 .rule { height: 1px; width: 34px; }
 .rule-a { background: linear-gradient(90deg, transparent, var(--amber)); }
 .rule-b { background: linear-gradient(270deg, transparent, var(--amber)); }
@@ -257,40 +257,44 @@ bdi, .lat { unicode-bidi: isolate; }
 }
 .best-card img {
   width: 100%;
-  height: 74px;
+  height: 54px;
   object-fit: cover;
   display: block;
 }
 .best-row {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 9px 8px;
+  gap: 5px;
+  padding: 5px 7px 6px;
 }
 .best-txt { flex: 1; min-width: 0; }
 .best-name {
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 800;
   color: var(--cream-2);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.best-price { font-size: 15px; font-weight: 900; color: var(--amber-lt); }
+.best-price { font-size: 13.5px; font-weight: 900; color: var(--amber-lt); }
+/* smaller + inside the mini-cards; flash shrinks with it */
+.best-card .add { width: 34px; height: 34px; font-size: 19px; }
+.best-card .add.is-flash { width: 60px; font-size: 11.5px; }
 
 .hero-actions {
   margin-top: 12px;
   display: grid;
   gap: 8px;
 }
-.cta-top { margin-top: 0; min-height: 50px; padding-top: 10px; padding-bottom: 10px; font-size: 19px; }
+.cta-top { margin-top: 0; min-height: 46px; padding-top: 8px; padding-bottom: 8px; font-size: 17px; }
 
 .cta-wa {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 50px;
+  min-height: 46px;
+  font-size: 16px;
   border-radius: 16px;
   background: linear-gradient(180deg, #34d16a, #1da851);
   color: #04321a;
@@ -303,9 +307,9 @@ bdi, .lat { unicode-bidi: isolate; }
 .hero-call {
   display: block;
   text-align: center;
-  padding: 4px 0 2px;
+  padding: 2px 0 0;
   color: var(--cream-2);
-  font-size: 14px;
+  font-size: 12.5px;
   font-weight: 700;
   text-decoration: none;
 }
