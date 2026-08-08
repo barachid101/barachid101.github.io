@@ -235,6 +235,54 @@ bdi, .lat { unicode-bidi: isolate; }
   cursor: pointer;
 }
 
+/* Hero action stack — sits ABOVE the photo so no scroll is needed to order.
+   Added 2026-08-08 after ad run 1: paid visitors landed and never reached a CTA. */
+.hero-actions {
+  margin-top: 18px;
+  display: grid;
+  gap: 10px;
+}
+.cta-top { margin-top: 0; }
+
+.cta-wa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #34d16a, #1da851);
+  color: #04321a;
+  font-size: 19px;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 0 10px 22px rgba(29, 168, 81, .3), inset 0 -3px 0 rgba(0, 0, 0, .18);
+}
+
+.hero-call {
+  display: block;
+  text-align: center;
+  padding: 4px 0 2px;
+  color: var(--cream-2);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.hero-call bdi { letter-spacing: .4px; }
+
+/* Free-delivery ride strip. The lane only exists for motion-friendly users;
+   everyone else gets the plain line. */
+.ride {
+  position: relative;
+  margin-top: 10px;
+  padding: 8px 0 4px;
+  text-align: center;
+  overflow: hidden;
+}
+.ride-txt { font-size: 15px; font-weight: 800; color: var(--green-txt); }
+.ride-txt b { color: var(--amber-lt); }
+.ride-lane { display: none; }
+
 .closed-box {
   margin-top: 20px;
   text-align: start;
@@ -921,6 +969,67 @@ bdi, .lat { unicode-bidi: isolate; }
   font-size: 30px;
   line-height: 1;
   will-change: transform, opacity;
+}
+
+/* ==========================================================================
+   Free-delivery ride — the 🛵 crosses the strip right-to-left (the emoji faces
+   left) leaving steam puffs behind it. Gated like every other animation.
+   The lane spans the strip; the bike sits at the lane's right edge and the
+   whole lane slides one strip-width left, so the bike enters from the right,
+   rides across, exits left, then waits off-screen until the next cycle.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  .ride-lane {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    animation: ride-go 7s linear 1.2s infinite;
+    will-change: transform;
+  }
+
+  .ride-moto {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    font-size: 22px;
+    line-height: 1;
+    filter: drop-shadow(0 3px 4px rgba(0, 0, 0, .45));
+  }
+
+  @keyframes ride-go {
+    0%   { transform: translateX(0); }
+    46%  { transform: translateX(calc(-100% - 48px)); }
+    100% { transform: translateX(calc(-100% - 48px)); }
+  }
+
+  /* Exhaust steam: puffs spawn behind the bike (its right side, since it rides
+     left), drift up-right and fade — same cream as the hero steam wisps. */
+  .ride-steam {
+    position: absolute;
+    right: -4px;
+    top: 10%;
+  }
+  .ride-steam i {
+    position: absolute;
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(242, 232, 213, .75);
+    opacity: 0;
+    animation: ride-puff 1s ease-out infinite;
+  }
+  .ride-steam i:nth-child(2) { animation-delay: .33s; }
+  .ride-steam i:nth-child(3) { animation-delay: .66s; }
+
+  @keyframes ride-puff {
+    0%   { transform: translate(0, 0) scale(.5); opacity: .7; }
+    100% { transform: translate(10px, -12px) scale(1.7); opacity: 0; }
+  }
 }
 
 /* ==========================================================================

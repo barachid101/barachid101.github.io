@@ -22,6 +22,13 @@
      Flipped 2026-08-03 after the relay was verified end to end.
      Rollback: set this to '212677710579' to send orders straight to Saif again. */
   var WA_NUMBER = '212647351006';
+  /* The hero's «كومندي فالواتساب» / call buttons go to Saif DIRECTLY — deliberately not
+     the bot number. They are the escape hatch for visitors who will not use a cart.
+     No source tag in the text (Saif's call 2026-08-08) — ask «منين عرفتونا؟» in chat.
+     These orders never get a code and never reach the dashboard's order table —
+     only the wa_direct / call beacons prove they happened. */
+  var WA_DIRECT = '212677710579';
+  var WA_DIRECT_TEXT = 'السلام 👋 بغيت نطلب ببوش من با رشيد';
   var STORE_KEY = 'br-cart-v2';  /* v2 2026-08-04: menu repriced + complet resized —
                                     a v1 cart's size indexes would silently map onto
                                     the NEW prices, so old carts must not restore. */
@@ -33,10 +40,9 @@
   var MIN_ORDER = 34;         /* dh product floor — silent until a send is actually
                                  blocked by it. Add-ons (and a lone 20 dh حمص) can
                                  never carry a delivery run. */
-  var FREE_DELIVERY_AT = 40;  /* subtotal >= this -> delivery free. Below it a fee
-                                 applies — framed as a gift threshold, not a rule
-                                 (decided 2026-08-04, replaced the hard 40 minimum). */
-  var DELIVERY_FEE = 10;      /* dh, charged only under the threshold */
+  /* Delivery is FREE on every order (Saif's call 2026-08-08, before ad run 2 —
+     replaced the 40 dh gift threshold + 10 dh under-fee of 2026-08-04). The floor
+     stays 34, so the worst case is a 34-39 dh order carrying a ~15 dh run. */
 
   /* Traceability: invisible, no UI, fire-and-forget. If the VPS is down or slow NOTHING here
      changes — every call is inside try/catch, nothing is awaited, no response is read. */
@@ -195,12 +201,9 @@
       }
       state.cart = clean;
     }
-    if (data.sel && typeof data.sel === 'object') {
-      ['complet', 'babbouche', 'hummus'].forEach(function (id) {
-        var v = data.sel[id];
-        if (typeof v === 'number' && v >= 0 && v < CATALOG[id].sizes.length) state.sel[id] = v;
-      });
-    }
+    /* Size chips deliberately NOT restored (2026-08-08): the cards must always
+       greet a visitor with زوجي 50 / وسط selected — a returning tester who once
+       tapped عائلي was seeing 100 pre-chosen and reading it as the default. */
   }
 
   /* ---------------------------------------------------------------------------
@@ -329,22 +332,12 @@
     renderLines(cartLines());
     elTotal.textContent = total + ' درهم';
 
-    /* delivery: free at the threshold, a fee under it — sold as a gift to unlock,
-       never as a penalty. The nudge does the upsell the old hard minimum used to. */
-    var fee = deliveryFee(total);
-    if (count > 0 && fee > 0) {
-      elDelivery.textContent = fee + ' درهم';
-      elDelivery.classList.remove('is-free');
-      elGrandRow.hidden = false;
-      elGrandText.textContent = (total + fee) + ' درهم';
-      elNudge.hidden = false;
-      elNudge.textContent = 'زيد ' + (FREE_DELIVERY_AT - total) + ' درهم وولي التوصيل فابور 🎁';
-    } else {
-      elDelivery.textContent = 'فابور 🎁';
-      elDelivery.classList.add('is-free');
-      elGrandRow.hidden = true;
-      elNudge.hidden = true;
-    }
+    /* delivery: always free (2026-08-08) — the row stays so the gift is SEEN,
+       the fee/nudge/grand-total machinery is gone with the threshold. */
+    elDelivery.textContent = 'فابور 🎁';
+    elDelivery.classList.add('is-free');
+    elGrandRow.hidden = true;
+    elNudge.hidden = true;
 
     /* the send button must track the cart on EVERY change — it starts disabled on an
        empty cart, and a first-time visitor who adds items would otherwise be left with
@@ -693,10 +686,6 @@
   var WA_LABEL = 'صيفط الطلب فالواتساب ✅';
   var WA_LOADING = '⏳ كنجيبو الموقع...';
 
-  function deliveryFee(subtotal) {
-    return subtotal >= FREE_DELIVERY_AT ? 0 : DELIVERY_FEE;
-  }
-
   function showMinNotice() {
     state.minShown = true;
     elMinNotice.hidden = false;
@@ -743,16 +732,15 @@
   function handoff() {
     var lines = cartLines();
     var total = cartTotal();
-    var fee = deliveryFee(total);
     var code = orderCode();
-    var msg = buildOrderMessage(lines, total, fee, readAddr(), state.geo, code);
+    var msg = buildOrderMessage(lines, total, 0, readAddr(), state.geo, code);
 
     /* BEFORE the hand-off: this tab may navigate away a millisecond later and sendBeacon is
        what survives that. Same code as the message carries, so the server can merge the two.
-       total = the GRAND total (with any delivery fee) — it must equal the cash at the door. */
+       total = the cash at the door (delivery is always free since 2026-08-08). */
     track('send', {
       code: code,
-      total: total + fee,
+      total: total,
       hasGps: !!(state.geo && state.geo.ok),
       items: lines.map(function (l) { return { id: l.id, size: l.size, qty: l.qty }; })
     });
@@ -818,6 +806,25 @@
 
     elCtaOpen.addEventListener('click', goMenu);
     $('#cta-closed-btn').addEventListener('click', goMenu);
+
+    /* Hero actions. The wa.me href is built here so the Darija text is encoded by the
+       browser, never by hand; the plain href in the HTML stays as the no-JS fallback. */
+    var elCtaTop = $('#cta-top');
+    var elWaDirect = $('#wa-direct');
+    var elCallDirect = $('#call-direct');
+
+    if (elCtaTop) elCtaTop.addEventListener('click', goMenu);
+
+    if (elWaDirect) {
+      elWaDirect.href = 'https://wa.me/' + WA_DIRECT + '?text=' + encodeURIComponent(WA_DIRECT_TEXT);
+      /* Fire-and-forget, exactly like every other beacon: the tab may navigate away a
+         millisecond later, so nothing is awaited and a dead tracker changes nothing. */
+      elWaDirect.addEventListener('click', function () { track('wa_direct', {}); });
+    }
+
+    if (elCallDirect) {
+      elCallDirect.addEventListener('click', function () { track('call', {}); });
+    }
 
     elCartBtn.addEventListener('click', openSheet);
     elSheetClose.addEventListener('click', closeSheet);
