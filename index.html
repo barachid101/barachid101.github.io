@@ -55,6 +55,34 @@
 
     <p class="hero-p">ببوش با رشيد — 20 عام فنفس الكوان، دابا حتى لباب دارك</p>
 
+    <!-- Best-sellers (2026-08-08 night 2): the two most-ordered packs, shoppable from
+         the very first screen. The + buttons are ordinary data-add buttons — init()
+         wires them, render() flashes them; sizes resolve to the defaults زوجي 50 /
+         وسط 37 because state.sel is never restored. PRICES HERE ARE STATIC TEXT —
+         when the menu is repriced, change them too (grep: best-price). -->
+    <div class="best" role="group" aria-label="الأكثر طلبا">
+      <div class="best-card">
+        <img src="img/pack-complet.jpg" width="384" height="264" decoding="async" alt="الطبق الكامل: ببوش وحمص وبطاطا ومرقة">
+        <div class="best-row">
+          <div class="best-txt">
+            <div class="best-name">⭐ الطبق الكامل</div>
+            <div class="best-price">50 درهم</div>
+          </div>
+          <button type="button" class="add add-sm" data-add="complet" aria-label="زيد الطبق الكامل للسلة"><span class="add-lbl">+</span></button>
+        </div>
+      </div>
+      <div class="best-card">
+        <img src="img/pack-babbouche.jpg" width="384" height="264" decoding="async" alt="باك الببوش مع مرقة">
+        <div class="best-row">
+          <div class="best-txt">
+            <div class="best-name">باك الببوش</div>
+            <div class="best-price">37 درهم</div>
+          </div>
+          <button type="button" class="add add-sm" data-add="babbouche" aria-label="زيد باك الببوش للسلة"><span class="add-lbl">+</span></button>
+        </div>
+      </div>
+    </div>
+
     <!-- ===== PRIMARY ACTIONS — above the photo, no scroll needed (2026-08-08) =====
          Two doors on purpose: the site cart (full menu, GPS pin, tracked order code)
          and a direct WhatsApp/phone line to Saif for anyone who will not use a cart.

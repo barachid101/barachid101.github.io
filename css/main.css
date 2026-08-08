@@ -240,6 +240,44 @@ bdi, .lat { unicode-bidi: isolate; }
 
 /* Hero action stack — sits ABOVE the photo so no scroll is needed to order.
    Added 2026-08-08 after ad run 1: paid visitors landed and never reached a CTA. */
+/* Best-sellers: two shoppable mini-cards in the first screen. Food + price + a real
+   add button before any scrolling — the ad-night fix (76 visitors, 0 taps). */
+.best {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+.best-card {
+  background: rgba(0, 0, 0, .28);
+  border: 1px solid rgba(200, 128, 45, .4);
+  border-radius: 14px;
+  overflow: hidden;
+  text-align: start;
+}
+.best-card img {
+  width: 100%;
+  height: 74px;
+  object-fit: cover;
+  display: block;
+}
+.best-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 9px 8px;
+}
+.best-txt { flex: 1; min-width: 0; }
+.best-name {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--cream-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.best-price { font-size: 15px; font-weight: 900; color: var(--amber-lt); }
+
 .hero-actions {
   margin-top: 12px;
   display: grid;
