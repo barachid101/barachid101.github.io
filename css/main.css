@@ -115,21 +115,24 @@ bdi, .lat { unicode-bidi: isolate; }
   text-align: center;
 }
 
-.logo-row { display: flex; justify-content: center; margin-bottom: 14px; }
+/* Hero compacted 2026-08-08 (ad-night data: 76 visitors, 0 interactions — the bowl
+   photo and the prices sat entirely below the first in-app-browser screen).
+   Everything above the photo shrank so food + entry price are visible on landing. */
+.logo-row { display: flex; justify-content: center; margin-bottom: 8px; }
 
 .logo-ring {
-  width: 112px;
-  height: 112px;
+  width: 78px;
+  height: 78px;
   border-radius: 50%;
-  padding: 5px;
+  padding: 4px;
   background: conic-gradient(from 200deg, var(--amber), #7a4c17, var(--amber));
   box-shadow: 0 0 34px rgba(200, 128, 45, .35);
 }
-.logo-img { width: 102px; height: 102px; border-radius: 50%; object-fit: cover; }
+.logo-img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; }
 
 .brand-ar {
   margin: 0;
-  font-size: 46px;
+  font-size: 34px;
   line-height: 1.15;
   font-weight: 900;
   letter-spacing: -1px;
@@ -139,7 +142,7 @@ bdi, .lat { unicode-bidi: isolate; }
 
 .brand-lat {
   font-family: 'Alfa Slab One', serif;
-  font-size: 19px;
+  font-size: 15px;
   letter-spacing: 2px;
   color: var(--amber);
   margin-top: 2px;
@@ -150,9 +153,9 @@ bdi, .lat { unicode-bidi: isolate; }
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin: 14px 0 6px;
+  margin: 8px 0 4px;
 }
-.tagline-txt { font-size: 17px; font-weight: 700; color: var(--cream-2); }
+.tagline-txt { font-size: 15px; font-weight: 700; color: var(--cream-2); }
 .rule { height: 1px; width: 34px; }
 .rule-a { background: linear-gradient(90deg, transparent, var(--amber)); }
 .rule-b { background: linear-gradient(270deg, transparent, var(--amber)); }
@@ -168,16 +171,16 @@ bdi, .lat { unicode-bidi: isolate; }
 }
 
 .hero-p {
-  margin: 16px 6px 0;
-  font-size: 14.5px;
-  line-height: 1.9;
+  margin: 8px 6px 0;
+  font-size: 14px;
+  line-height: 1.6;
   color: var(--t-2);
 }
 
 /* --- bowl + steam --- */
-.bowl-wrap { margin-top: 18px; position: relative; }
+.bowl-wrap { margin-top: 10px; position: relative; }
 
-.steam { height: 76px; position: relative; }
+.steam { height: 46px; position: relative; }
 
 .bowl-frame {
   position: relative;
@@ -238,18 +241,18 @@ bdi, .lat { unicode-bidi: isolate; }
 /* Hero action stack — sits ABOVE the photo so no scroll is needed to order.
    Added 2026-08-08 after ad run 1: paid visitors landed and never reached a CTA. */
 .hero-actions {
-  margin-top: 18px;
+  margin-top: 12px;
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
-.cta-top { margin-top: 0; }
+.cta-top { margin-top: 0; min-height: 50px; padding-top: 10px; padding-bottom: 10px; font-size: 19px; }
 
 .cta-wa {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 56px;
+  min-height: 50px;
   border-radius: 16px;
   background: linear-gradient(180deg, #34d16a, #1da851);
   color: #04321a;
@@ -274,12 +277,12 @@ bdi, .lat { unicode-bidi: isolate; }
    everyone else gets the plain line. */
 .ride {
   position: relative;
-  margin-top: 10px;
-  padding: 8px 0 4px;
+  margin-top: 6px;
+  padding: 5px 0 3px;
   text-align: center;
   overflow: hidden;
 }
-.ride-txt { font-size: 15px; font-weight: 800; color: var(--green-txt); }
+.ride-txt { font-size: 14px; font-weight: 800; color: var(--green-txt); }
 .ride-txt b { color: var(--amber-lt); }
 .ride-lane { display: none; }
 
