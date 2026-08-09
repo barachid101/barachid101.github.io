@@ -10,7 +10,10 @@
      Catalog — prices in Western digits, exactly as the mock
      ------------------------------------------------------------------------- */
   var CATALOG = {
-    complet:   { name: 'الطبق الكامل',  sizes: [['زوجي', 50], ['عائلي', 100]] },
+    /* عائلي 100 → 89 (2026-08-09): «عرض الانطلاقة» launch price — the card shows
+       the struck-through 100 next to it. Raise back by editing BOTH here and the
+       static best-solo/menu chips in index.html (grep: best-price). */
+    complet:   { name: 'الطبق الكامل',  sizes: [['زوجي', 50], ['عائلي', 89]] },
     babbouche: { name: 'باك الببوش',    sizes: [['وسط', 37], ['عائلي', 50]] },
     hummus:    { name: 'باك الحمص',     sizes: [['وسط', 20], ['عائلي', 35]] },
     marqa:     { name: 'مرقة زيادة',    sizes: [['', 6]] },
@@ -29,12 +32,11 @@
      only the wa_direct / call beacons prove they happened. */
   var WA_DIRECT = '212677710579';
   var WA_DIRECT_TEXT = 'السلام 👋 بغيت نطلب ببوش من با رشيد';
-  var STORE_KEY = 'br-cart-v2';  /* v2 2026-08-04: menu repriced + complet resized —
-                                    a v1 cart's size indexes would silently map onto
-                                    the NEW prices, so old carts must not restore. */
-  var OPEN_HOUR = 18;    /* 18:00 inclusive */
-  var CLOSE_HOUR = 0;    /* closes 00:30 the next day */
-  var CLOSE_MIN = 30;    /* 00:30 exclusive */
+  var STORE_KEY = 'br-cart-v3';  /* v3 2026-08-09: عائلي 100→89 — a v2 cart would
+                                    silently restore onto the new price, so old
+                                    carts must not restore (same rule as v1→v2). */
+  var OPEN_HOUR = 20;    /* 20:00 inclusive (permanent hours since 2026-08-09) */
+  var CLOSE_HOUR = 1;    /* closes 01:00 the next day (exclusive) */
   var TZ = 'Africa/Casablanca';
   var DIV = '─────────────';
   var MIN_ORDER = 34;         /* dh product floor — silent until a send is actually
@@ -523,7 +525,7 @@
 
   /* ---------------------------------------------------------------------------
      Hours gate — real Africa/Casablanca clock, window crosses midnight
-     (18:00 → 00:30 the next day)
+     (20:00 → 01:00 the next day)
      ------------------------------------------------------------------------- */
   function casablancaTime() {
     var now = new Date();
@@ -543,7 +545,7 @@
 
   function isOpenNow() {
     var t = casablancaTime();
-    return t.h >= OPEN_HOUR || (t.h === CLOSE_HOUR && t.m < CLOSE_MIN);
+    return t.h >= OPEN_HOUR || t.h < CLOSE_HOUR;
   }
 
   function applyHours() {

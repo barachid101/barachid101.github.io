@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>با رشيد — ببوش طنجة، توصيل فابور</title>
-<meta name="description" content="ببوش با رشيد فطنجة — 20 عام ونفس البنة. كومندي فالواتساب، التوصيل فابور من 18:00 حتى 00:30. Escargots à Tanger, livraison gratuite.">
+<meta name="description" content="ببوش با رشيد فطنجة — 20 عام ونفس البنة. بولات كبار، كومندي فالواتساب، التوصيل فابور من 20:00 حتى 01:00. Escargots à Tanger, livraison gratuite.">
 <meta name="theme-color" content="#1A1512">
 <meta name="color-scheme" content="dark">
 
@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="با رشيد">
 <meta property="og:locale" content="ar_MA">
 <meta property="og:title" content="با رشيد — ببوش طنجة، توصيل فابور">
-<meta property="og:description" content="ببوش با رشيد فطنجة — 20 عام ونفس البنة. كومندي فالواتساب، التوصيل فابور من 18:00 حتى 00:30.">
+<meta property="og:description" content="ببوش با رشيد فطنجة — 20 عام ونفس البنة. بولات كبار، كومندي فالواتساب، التوصيل فابور من 20:00 حتى 01:00.">
 <meta property="og:url" content="https://barachid101.github.io/">
 <meta property="og:image" content="https://barachid101.github.io/img/hero.jpg">
 <meta property="og:image:width" content="960">
@@ -28,7 +28,7 @@
 
 <link rel="preload" as="font" type="font/woff2" href="fonts/cairo-arabic-3.woff2" crossorigin>
 <link rel="stylesheet" href="fonts/fonts.css">
-<link rel="stylesheet" href="css/main.css?v=20260804">
+<link rel="stylesheet" href="css/main.css?v=20260809">
 </head>
 <body>
 
@@ -56,30 +56,30 @@
     <!-- hero-p removed 2026-08-08 night 2: redundant with the tagline + ride strip,
          and its ~30px were needed to fit cards AND buttons in the first screen. -->
 
-    <!-- Best-sellers (2026-08-08 night 2): the two most-ordered packs, shoppable from
-         the very first screen. The + buttons are ordinary data-add buttons — init()
-         wires them, render() flashes them; sizes resolve to the defaults زوجي 50 /
-         وسط 37 because state.sel is never restored. PRICES HERE ARE STATIC TEXT —
-         when the menu is repriced, change them too (grep: best-price). -->
+    <!-- Best-seller (2026-08-09): ONE big shoppable card — the Complet with a REAL
+         photo pulled from the shoot footage (IMG_0583 frame), volume copy that
+         anchors against street-cup prices, and the two sizes as direct add buttons.
+         The عائلي price is the 89 launch price («عرض الانطلاقة», was 100).
+         PRICES HERE ARE STATIC TEXT — reprice with app.js CATALOG (grep: best-price). -->
     <div class="best" role="group" aria-label="الأكثر طلبا">
-      <div class="best-card">
-        <img src="img/pack-complet.jpg" width="384" height="264" decoding="async" alt="الطبق الكامل: ببوش وحمص وبطاطا ومرقة">
-        <div class="best-row">
-          <div class="best-txt">
-            <div class="best-name">⭐ الطبق الكامل</div>
-            <div class="best-price">50 درهم</div>
-          </div>
-          <button type="button" class="add add-sm" data-add="complet" data-add-si="0" aria-label="زيد الطبق الكامل زوجي للسلة"><span class="add-lbl">+</span></button>
+      <div class="best-solo">
+        <div class="best-badge">عرض الانطلاقة 🎉 كميات زايدة</div>
+        <img class="best-solo-img" src="img/complet-vrai-01.jpg" width="1200" height="675" decoding="async" fetchpriority="high" alt="بولات الطبق الكامل الحقيقيين عند الكارو: مرقة وحمص وببوش وبطاطا">
+        <div class="best-solo-txt">
+          <div class="best-name-lg">⭐ الطبق الكامل — بولات كبار، ماشي كيسان 😉</div>
+          <div class="best-desc">الزوجي فيه قد <b>×3 كيسان ببوش</b> ديال الشارع + <b>×3 ديال الحمص</b> + بطاطا + المرقة — عشا كامل لجوج</div>
         </div>
-      </div>
-      <div class="best-card">
-        <img src="img/pack-babbouche.jpg" width="384" height="264" decoding="async" alt="باك الببوش مع مرقة">
-        <div class="best-row">
-          <div class="best-txt">
-            <div class="best-name">باك الببوش</div>
-            <div class="best-price">37 درهم</div>
-          </div>
-          <button type="button" class="add add-sm" data-add="babbouche" data-add-si="0" aria-label="زيد باك الببوش وسط للسلة"><span class="add-lbl">+</span></button>
+        <div class="best-sizes">
+          <button type="button" class="best-size" data-add="complet" data-add-si="0" aria-label="زيد الطبق الكامل زوجي للسلة">
+            <span class="bs-name">زوجي</span>
+            <span class="bs-price best-price">50 درهم</span>
+            <span class="add-lbl">+</span>
+          </button>
+          <button type="button" class="best-size" data-add="complet" data-add-si="1" aria-label="زيد الطبق الكامل عائلي للسلة">
+            <span class="bs-name">عائلي ×2</span>
+            <span class="bs-price best-price"><s class="bs-old">100</s> 89 درهم</span>
+            <span class="add-lbl">+</span>
+          </button>
         </div>
       </div>
     </div>
@@ -104,7 +104,7 @@
     <!-- Free-delivery ride — a 🛵 crosses the strip trailing steam puffs.
          Reduced motion: the lane is hidden, the line stays. -->
     <div class="ride">
-      <span class="ride-txt">الأثمنة من <b>20 درهم</b> · التوصيل <b>فابور</b> 🎁</span>
+      <span class="ride-txt">التوصيل <b>فابور</b> على كل طلب 🎁</span>
       <span class="ride-lane" aria-hidden="true">
         <span class="ride-moto">🛵<span class="ride-steam"><i></i><i></i><i></i></span></span>
       </span>
@@ -138,7 +138,7 @@
 
     <div class="pills">
       <span class="pill pill-green">🛵 التوصيل فابور 🎁</span>
-      <span class="pill">🕕 <bdi>18:00–00:30</bdi></span>
+      <span class="pill">🕗 <bdi>20:00–01:00</bdi></span>
       <span class="pill">📍 طنجة — 3 كم</span>
     </div>
 
@@ -146,8 +146,8 @@
 
     <div id="cta-closed" class="closed-box" hidden>
       <div class="closed-title">مسدودين دابا 😴</div>
-      <div class="closed-txt">كنحلو من 18:00 حتى 00:30 — صيفط الطلب من دابا ونأكدوه ليك أول ما نحلو</div>
-      <button type="button" id="cta-closed-btn" class="cta-ghost">شوف الميني وصيفط 🐌</button>
+      <div class="closed-txt">كنحلو من 20:00 حتى 01:00 — صيفط الطلب من دابا ونأكدوه ليك أول ما نحلو</div>
+      <button type="button" id="cta-closed-btn" class="cta-ghost">شوف العروض وصيفط 🐌</button>
     </div>
   </header>
 
@@ -164,7 +164,7 @@
   <!-- ================= MENU ================= -->
   <section id="menu" class="menu">
     <div class="menu-head">
-      <h2 class="h2 h2-lg">الميني</h2>
+      <h2 class="h2 h2-lg">العروض</h2>
       <span class="menu-fr"><bdi>La carte</bdi></span>
     </div>
     <div class="menu-underline" aria-hidden="true"></div>
@@ -176,18 +176,19 @@
       <div id="snail-slot" class="snail-slot" aria-hidden="true"><span class="snail">🐌</span></div>
 
       <div class="card-hero-media">
-        <img src="img/pack-complet.jpg" width="960" height="660" loading="lazy" decoding="async" alt="الطبق الكامل: بول ببوش مع الحمص والبطاطا والمرقة">
+        <img src="img/complet-vrai-01.jpg" width="1200" height="675" loading="lazy" decoding="async" alt="بولات الطبق الكامل الحقيقيين عند الكارو: مرقة وحمص وببوش وبطاطا">
       </div>
 
       <div class="card-hero-txt">
         <h3 class="card-hero-title">الطبق الكامل</h3>
         <div class="card-hero-lat"><bdi>LE COMPLET</bdi></div>
-        <p class="card-hero-desc">ببوش + حمص + بطاطا + مرقة الببوش</p>
+        <p class="card-hero-desc">بولات كبار: ببوش + حمص + بطاطا + مرقة الببوش</p>
+        <p class="card-hero-desc card-hero-vol">الزوجي = قد <b>×3 كيسان ببوش</b> ديال الشارع + <b>×3 حمص</b> — عشا كامل لجوج · العائلي = <b>الضعف ×2</b></p>
       </div>
 
       <div class="sizes sizes-2" role="group" aria-label="الحجم — الطبق الكامل">
         <button type="button" class="chip is-on" data-pick="complet" data-si="0" aria-pressed="true">زوجي<br><span class="chip-price">50 درهم</span></button>
-        <button type="button" class="chip" data-pick="complet" data-si="1" aria-pressed="false">عائلي<br><span class="chip-price">100 درهم</span></button>
+        <button type="button" class="chip" data-pick="complet" data-si="1" aria-pressed="false">عائلي<br><span class="chip-price"><s class="bs-old">100</s> 89 درهم</span></button>
       </div>
 
       <div class="price-row">
@@ -207,7 +208,7 @@
       <div>
         <h3 class="card-md-title">باك الببوش</h3>
         <div class="card-md-lat"><bdi>Pack Escargots</bdi></div>
-        <p class="card-md-desc">بول ببوش + مرقة</p>
+        <p class="card-md-desc">بول كبير ديال الببوش + مرقة</p>
         <div class="sizes sizes-2" role="group" aria-label="الحجم — باك الببوش">
           <button type="button" class="chip chip-sm is-on" data-pick="babbouche" data-si="0" aria-pressed="true">وسط 37</button>
           <button type="button" class="chip chip-sm" data-pick="babbouche" data-si="1" aria-pressed="false">عائلي 50</button>
@@ -227,7 +228,7 @@
       <div>
         <h3 class="card-md-title">باك الحمص</h3>
         <div class="card-md-lat"><bdi>Pack Pois chiches</bdi></div>
-        <p class="card-md-desc">بول حمص + مرقة الببوش</p>
+        <p class="card-md-desc">بول كبير ديال الحمص + مرقة الببوش</p>
         <div class="sizes sizes-2" role="group" aria-label="الحجم — باك الحمص">
           <button type="button" class="chip chip-sm is-on" data-pick="hummus" data-si="0" aria-pressed="true">وسط 20</button>
           <button type="button" class="chip chip-sm" data-pick="hummus" data-si="1" aria-pressed="false">عائلي 35</button>

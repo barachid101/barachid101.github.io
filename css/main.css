@@ -240,46 +240,80 @@ bdi, .lat { unicode-bidi: isolate; }
 
 /* Hero action stack — sits ABOVE the photo so no scroll is needed to order.
    Added 2026-08-08 after ad run 1: paid visitors landed and never reached a CTA. */
-/* Best-sellers: two shoppable mini-cards in the first screen. Food + price + a real
-   add button before any scrolling — the ad-night fix (76 visitors, 0 taps). */
-.best {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 10px;
-}
-.best-card {
+/* Best-seller (2026-08-09): ONE big shoppable card — real bowls photo, volume copy,
+   launch-price badge, two direct size-add buttons. Replaces the two mini-cards. */
+.best { margin-top: 10px; }
+.best-solo {
+  position: relative;
   background: rgba(0, 0, 0, .28);
   border: 1px solid rgba(200, 128, 45, .4);
   border-radius: 14px;
   overflow: hidden;
   text-align: start;
 }
-.best-card img {
+.best-badge {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-start: 8px;
+  z-index: 1;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--amber);
+  color: var(--on-amber);
+  font-size: 11.5px;
+  font-weight: 900;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .45);
+}
+.best-solo-img {
   width: 100%;
-  height: 54px;
+  height: 118px;
   object-fit: cover;
+  object-position: 50% 60%;
   display: block;
 }
-.best-row {
+.best-solo-txt { padding: 7px 9px 0; }
+.best-name-lg { font-size: 13px; font-weight: 800; color: var(--cream-2); }
+.best-desc { margin-top: 2px; font-size: 11.5px; line-height: 1.7; color: var(--t-2); }
+.best-desc b { color: var(--amber-lt); }
+.best-price { font-weight: 900; color: var(--amber-lt); }
+.best-sizes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  padding: 7px 9px 9px;
+}
+.best-size {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 5px 7px 6px;
-}
-.best-txt { flex: 1; min-width: 0; }
-.best-name {
-  font-size: 11.5px;
+  justify-content: space-between;
+  gap: 6px;
+  min-height: 40px;
+  padding: 5px 9px;
+  border-radius: 11px;
+  border: 1px solid rgba(200, 128, 45, .5);
+  background: rgba(200, 128, 45, .12);
+  color: var(--cream);
+  font: inherit;
+  font-size: 12.5px;
   font-weight: 800;
-  color: var(--cream-2);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  cursor: pointer;
 }
-.best-price { font-size: 13.5px; font-weight: 900; color: var(--amber-lt); }
-/* smaller + inside the mini-cards; flash shrinks with it */
-.best-card .add { width: 34px; height: 34px; font-size: 19px; }
-.best-card .add.is-flash { width: 60px; font-size: 11.5px; }
+.best-size .bs-price { font-size: 13px; }
+.best-size .add-lbl {
+  flex: 0 0 auto;
+  min-width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--amber);
+  color: var(--on-amber);
+  font-size: 16px;
+  font-weight: 900;
+}
+.best-size.is-flash .add-lbl { min-width: auto; padding: 0 7px; font-size: 10.5px; }
+/* struck-through pre-launch price, also reused inside the menu's عائلي chip */
+.bs-old { font-size: .82em; font-weight: 700; opacity: .62; margin-inline-end: 2px; }
 
 .hero-actions {
   margin-top: 12px;
@@ -448,6 +482,8 @@ bdi, .lat { unicode-bidi: isolate; }
   margin-top: 3px;
 }
 .card-hero-desc { margin: 8px 0 0; font-size: 14px; line-height: 1.85; color: var(--t-2); }
+.card-hero-vol { margin-top: 4px; font-size: 12.5px; line-height: 1.8; }
+.card-hero-vol b { color: var(--amber-lt); }
 
 /* --- size chips --- */
 .sizes { display: grid; gap: 8px; margin-top: 14px; }
