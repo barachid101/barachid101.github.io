@@ -139,6 +139,12 @@
     return v;
   }
 
+  /* Meta pixel events — the pixel can NEVER affect ordering. The loader in
+     index.html defines window.fbq; if it failed to load, calls queue harmlessly. */
+  function px(event, data) {
+    try { if (window.fbq) window.fbq('track', event, data || {}); } catch (e) { /* never breaks ordering */ }
+  }
+
   function track(event, data) {
     try {
       var body = JSON.stringify({ vid: visitorId(), event: event, ts: Date.now(), data: data || {} });
@@ -443,6 +449,7 @@
     else state.cart.push({ k: k, id: id, si: si, qty: 1 });
 
     track('add', { id: id, size: CATALOG[id].sizes[si][0], price: CATALOG[id].sizes[si][1] });
+    px('AddToCart', { content_name: CATALOG[id].name, value: CATALOG[id].sizes[si][1], currency: 'MAD' });
 
     state.flash[id] = true;
     clearTimeout(flashTimers[id]);
@@ -489,6 +496,7 @@
     document.body.style.overflow = 'hidden';
     elSheetClose.focus();
     track('sheet', {});
+    px('InitiateCheckout', { value: cartTotal(), currency: 'MAD' });
     requestGeo(); /* ask on open, not at send time — gives the user time to fix it */
   }
 
@@ -748,6 +756,8 @@
       hasGps: !!(state.geo && state.geo.ok),
       items: lines.map(function (l) { return { id: l.id, size: l.size, qty: l.qty }; })
     });
+    /* Lead = the conversion this business optimizes ads on (an order sent to WhatsApp) */
+    px('Lead', { value: total, currency: 'MAD' });
 
     var url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
     var win = null;
@@ -826,7 +836,7 @@
       elWaDirect.href = 'https://wa.me/' + WA_DIRECT + '?text=' + encodeURIComponent(WA_DIRECT_TEXT);
       /* Fire-and-forget, exactly like every other beacon: the tab may navigate away a
          millisecond later, so nothing is awaited and a dead tracker changes nothing. */
-      elWaDirect.addEventListener('click', function () { track('wa_direct', {}); });
+      elWaDirect.addEventListener('click', function () { track('wa_direct', {}); px('Contact', {}); });
     }
 
     if (elCallDirect) {

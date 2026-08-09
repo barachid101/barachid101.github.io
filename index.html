@@ -29,6 +29,25 @@
 <link rel="preload" as="font" type="font/woff2" href="fonts/cairo-arabic-3.woff2" crossorigin>
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="css/main.css?v=20260809">
+
+<!-- Meta pixel (2026-08-09, run 3): the ONE deliberate exception to the
+     no-external-requests rule. Async loader — if connect.facebook.net is down or
+     blocked, fbq() calls are queued into a dead array and ordering is untouched.
+     Events beyond PageView fire from js/app.js via px(). -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '882639741291025');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt=""
+  src="https://www.facebook.com/tr?id=882639741291025&ev=PageView&noscript=1"></noscript>
 </head>
 <body>
 
