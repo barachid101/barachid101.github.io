@@ -20,11 +20,12 @@
     batata:    { name: 'بطاطا مسلوقة',  sizes: [['', 10]] }
   };
 
-  /* The Meta Cloud API number. Orders land here; the VPS concierge bot auto-acks the
-     customer and forwards the order to Saif's personal phone (212677710579).
-     Flipped 2026-08-03 after the relay was verified end to end.
-     Rollback: set this to '212677710579' to send orders straight to Saif again. */
-  var WA_NUMBER = '212647351006';
+  /* 2026-08-09 mid-run-3 (Saif's call): cart orders go STRAIGHT to Saif's personal
+     WhatsApp — removing the bot hop from the money path to test conversion. Cost:
+     no auto-ack and the dashboard never sees these orders arrive (status stays
+     sent_click; phone/received-merge lost). The send beacon still logs everything.
+     Bot mode again: set this back to '212647351006' (the Meta Cloud API number). */
+  var WA_NUMBER = '212677710579';
   /* The hero's «كومندي فالواتساب» / call buttons go to Saif DIRECTLY — deliberately not
      the bot number. They are the escape hatch for visitors who will not use a cart.
      No source tag in the text (Saif's call 2026-08-08) — ask «منين عرفتونا؟» in chat.
