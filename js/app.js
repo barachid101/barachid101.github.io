@@ -99,9 +99,11 @@
       lines.push('المجموع: ' + total + ' درهم — التوصيل فابور');
     }
     lines.push.apply(lines, addrLines(addr));
+    /* No fix is the NORMAL case since GPS went opt-in (2026-08-10) — the line promises
+       the confirmation call instead of announcing a failure («بلا GPS»). */
     var geo = (gpsResult && gpsResult.ok)
       ? 'https://maps.google.com/?q=' + Number(gpsResult.lat).toFixed(6) + ',' + Number(gpsResult.lng).toFixed(6)
-      : 'بلا GPS';
+      : 'نأكدو البلاصة فالتيليفون';
     lines.push('📍 ' + geo);
     /* An ARGUMENT, not generated here: keeps this function pure and testable, and lets
        bot/tracking.py parse_order be tested against a fixed string. */
@@ -278,15 +280,17 @@
   var elMenu = $('#menu');
 
   var LOC_TEXT = {
-    idle: '📍 كنجيبو الموقع ديالك...',
     ok: '📍 الموقع تسجل ✔',
-    pin: '📍 الموقع تحدد ✔',
-    fail: '📍 ما قدرناش ناخدو الموقع — عمر العنوان ولا حدد فالخريطة'
+    pin: '📍 الموقع تحدد ✔'
   };
-  var LOC_CLASS = { idle: 'is-idle', ok: 'is-ok', pin: 'is-ok', fail: 'is-fail' };
 
   function setLoc(kind) {
-    elLoc.className = 'locchip ' + LOC_CLASS[kind];
+    /* Only the green success states ever render (2026-08-10). idle/fail keep the chip
+       hidden — the sheet never talks about locating the customer unless they opted in
+       via the map button and it worked. */
+    if (!LOC_TEXT[kind]) { elLoc.hidden = true; return; }
+    elLoc.hidden = false;
+    elLoc.className = 'locchip is-ok';
     elLoc.textContent = LOC_TEXT[kind];
   }
 
@@ -498,7 +502,10 @@
     elSheetClose.focus();
     track('sheet', {});
     px('InitiateCheckout', { value: cartTotal(), currency: 'MAD' });
-    requestGeo(); /* ask on open, not at send time — gives the user time to fix it */
+    /* NO geolocation request here (2026-08-10): the OS permission popup on sheet-open
+       scared customers off — two nights of data showed ~2/3 of sheet-openers bailing
+       and every real order arriving GPS-less anyway. Location is opt-in via the map
+       button; otherwise the confirmation call settles the address. */
   }
 
   function closeSheet() {
@@ -602,16 +609,22 @@
     if (geoPromise && !geoSettled) return geoPromise;    /* one request in flight */
 
     geoSettled = false;
-    setLoc('idle');
     geoPromise = getPosition().then(function (gps) {
       geoSettled = true;
-      if (state.pinned) {                 /* the user beat us to it on the map */
-        elMapBtn.hidden = false;
-        return state.geo;
+      if (state.pinned) return state.geo; /* the user beat us to it on the map */
+      if (gps.ok) {
+        state.geo = { ok: true, lat: gps.lat, lng: gps.lng };
+        setLoc('ok');
+        /* the map is usually already open (geo only fires from its button now) —
+           swing it from the Tangier default onto the real fix */
+        if (map) {
+          map.setView([gps.lat, gps.lng], 16);
+          if (marker) marker.setLatLng([gps.lat, gps.lng]);
+          if (!elMapHint.hidden) elMapHint.textContent = 'جر العلامة إلا بغيتي تصحح البلاصة';
+        }
       }
-      if (gps.ok) { state.geo = { ok: true, lat: gps.lat, lng: gps.lng }; setLoc('ok'); }
-      else { state.geo = null; setLoc('fail'); }
-      elMapBtn.hidden = false;            /* pin path is offered either way */
+      /* denied / no fix: stay silent — the map's Tangier pin and the confirmation
+         call cover it; no red chip, no scare */
       return state.geo;
     });
     return geoPromise;
@@ -852,7 +865,9 @@
       trapTab(e);
     });
 
-    elMapBtn.addEventListener('click', showMap);
+    /* opt-in location (2026-08-10): tapping the map button is the ONLY thing that
+       triggers the OS permission popup — and the map opens under it either way */
+    elMapBtn.addEventListener('click', function () { requestGeo(); showMap(); });
     elMapCenterBtn.addEventListener('click', function () {
       /* keyboard path: the map pans with the arrow keys, this drops the pin */
       if (!map || !marker) return;
@@ -873,7 +888,14 @@
     render();
     initSnail();
 
-    track('visit', {});   /* once per page load, last so a failure cannot delay the UI */
+    /* ?s= source tag (2026-08-10): ?s=bio on the Instagram link, ?s=ad on campaign
+       URLs — the only way to tell paid, bio and word-of-mouth traffic apart. */
+    var src = null;
+    try {
+      var sm = /[?&]s=([a-z0-9_-]{1,16})(?:&|$)/i.exec(location.search);
+      if (sm) src = sm[1].toLowerCase();
+    } catch (e) { src = null; }
+    track('visit', src ? { s: src } : {});   /* once per page load, last so a failure cannot delay the UI */
 
     setInterval(applyHours, 60000);
     document.addEventListener('visibilitychange', function () {
