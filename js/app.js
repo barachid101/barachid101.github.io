@@ -40,12 +40,18 @@
   var CLOSE_HOUR = 1;    /* closes 01:00 the next day (exclusive) */
   var TZ = 'Africa/Casablanca';
   var DIV = '─────────────';
-  var MIN_ORDER = 34;         /* dh product floor — silent until a send is actually
-                                 blocked by it. Add-ons (and a lone 20 dh حمص) can
-                                 never carry a delivery run. */
-  /* Delivery is FREE on every order (Saif's call 2026-08-08, before ad run 2 —
-     replaced the 40 dh gift threshold + 10 dh under-fee of 2026-08-04). The floor
-     stays 34, so the worst case is a 34-39 dh order carrying a ~15 dh run. */
+  /* Delivery model (Saif's call 2026-08-10, mid-run-4): NO product floor anymore —
+     run-4's live feed showed small baskets (مرقة+بطاطا = 16 dh) dying against the old
+     34 dh block. Any order sends now; below FREE_FROM it carries a DELIVERY_FEE that
+     keeps a tiny basket from riding the bike for free. At/above FREE_FROM delivery
+     stays «فابور 🎁». (History: 40/10 model 2026-08-04 → free-on-every-order + 34
+     floor 2026-08-08 → this.) */
+  var FREE_FROM = 34;         /* dh — delivery free from here up */
+  var DELIVERY_FEE = 12;      /* dh — charged below FREE_FROM */
+
+  function deliveryFee(subtotal) {
+    return subtotal >= FREE_FROM ? 0 : DELIVERY_FEE;
+  }
 
   /* Traceability: invisible, no UI, fire-and-forget. If the VPS is down or slow NOTHING here
      changes — every call is inside try/catch, nothing is awaited, no response is read. */
@@ -174,8 +180,7 @@
     flash: {},
     open: false,
     geo: null,        /* { ok: true, lat, lng } — auto fix or hand-placed pin */
-    pinned: false,    /* true once the user moved the marker themselves */
-    minShown: false
+    pinned: false     /* true once the user moved the marker themselves */
   };
   var flashTimers = {};
   var lastFocus = null;
@@ -271,7 +276,6 @@
   var elMapCenterBtn = $('#map-center-btn');
   var elMapHint = $('#map-hint');
   var elMap = $('#map');
-  var elMinNotice = $('#min-notice');
   var elDelivery = $('#delivery-text');
   var elGrandRow = $('#grand-row');
   var elGrandText = $('#grand-text');
@@ -345,20 +349,28 @@
     renderLines(cartLines());
     elTotal.textContent = total + ' درهم';
 
-    /* delivery: always free (2026-08-08) — the row stays so the gift is SEEN,
-       the fee/nudge/grand-total machinery is gone with the threshold. */
-    elDelivery.textContent = 'فابور 🎁';
-    elDelivery.classList.add('is-free');
-    elGrandRow.hidden = true;
-    elNudge.hidden = true;
+    /* delivery: free from FREE_FROM up; below it the fee is shown as its own row
+       plus the grand total — the customer must never discover the fee in WhatsApp */
+    var fee = deliveryFee(total);
+    if (fee > 0 && count > 0) {
+      elDelivery.textContent = fee + ' درهم';
+      elDelivery.classList.remove('is-free');
+      elGrandText.textContent = (total + fee) + ' درهم';
+      elGrandRow.hidden = false;
+      /* the honest upsell: what's missing for the fee to disappear */
+      elNudge.textContent = 'زيد ' + (FREE_FROM - total) + ' درهم وولي التوصيل فابور 🎁';
+      elNudge.hidden = false;
+    } else {
+      elDelivery.textContent = 'فابور 🎁';
+      elDelivery.classList.add('is-free');
+      elGrandRow.hidden = true;
+      elNudge.hidden = true;
+    }
 
     /* the send button must track the cart on EVERY change — it starts disabled on an
        empty cart, and a first-time visitor who adds items would otherwise be left with
        a dead button (init() only syncs once, at load). */
     syncWaEnabled();
-
-    /* the minimum-order notice disappears the moment the cart clears the bar */
-    if (state.minShown && total >= MIN_ORDER) hideMinNotice();
 
     /* empty cart auto-closes the sheet */
     if (count === 0 && state.open) closeSheet();
@@ -516,7 +528,6 @@
     elSheet.setAttribute('inert', '');
     elSheet.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    hideMinNotice(); /* never greet a reopened sheet with a warning they didn't trigger */
 
     /* never leave focus stranded inside the now-inert sheet */
     var target = (lastFocus && lastFocus.focus && lastFocus !== document.body && document.contains(lastFocus))
@@ -707,29 +718,14 @@
   }
 
   /* ---------------------------------------------------------------------------
-     Minimum order + WhatsApp handoff
+     WhatsApp handoff (no minimum since 2026-08-10 — a small basket pays the
+     DELIVERY_FEE instead of being blocked)
      ------------------------------------------------------------------------- */
   var WA_LABEL = 'صيفط الطلب فالواتساب ✅';
   var WA_LOADING = '⏳ كنجيبو الموقع...';
 
-  function showMinNotice() {
-    state.minShown = true;
-    elMinNotice.hidden = false;
-    elMinNotice.classList.remove('is-shake');
-    void elMinNotice.offsetWidth; /* force reflow so the animation re-triggers */
-    elMinNotice.classList.add('is-shake');
-  }
-
-  function hideMinNotice() {
-    state.minShown = false;
-    elMinNotice.hidden = true;
-    elMinNotice.classList.remove('is-shake');
-  }
-
   function sendOrder() {
     if (elWa.disabled || cartCount() === 0) return;
-    if (cartTotal() < MIN_ORDER) { showMinNotice(); return; }
-    hideMinNotice();
 
     /* coords are usually already in hand — only wait if the fix is still pending.
        The wait is HARD-CAPPED at 4s: a customer who ignored the GPS permission
@@ -758,20 +754,22 @@
   function handoff() {
     var lines = cartLines();
     var total = cartTotal();
+    var fee = deliveryFee(total);
     var code = orderCode();
-    var msg = buildOrderMessage(lines, total, 0, readAddr(), state.geo, code);
+    var msg = buildOrderMessage(lines, total, fee, readAddr(), state.geo, code);
 
     /* BEFORE the hand-off: this tab may navigate away a millisecond later and sendBeacon is
        what survives that. Same code as the message carries, so the server can merge the two.
-       total = the cash at the door (delivery is always free since 2026-08-08). */
+       total = the cash at the door (subtotal + delivery fee when one applies) — it must
+       match the message's «المجموع:» line or the dashboard revenue drifts from reality. */
     track('send', {
       code: code,
-      total: total,
+      total: total + fee,
       hasGps: !!(state.geo && state.geo.ok),
       items: lines.map(function (l) { return { id: l.id, size: l.size, qty: l.qty }; })
     });
     /* Lead = the conversion this business optimizes ads on (an order sent to WhatsApp) */
-    px('Lead', { value: total, currency: 'MAD' });
+    px('Lead', { value: total + fee, currency: 'MAD' });
 
     var url = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
     var win = null;
