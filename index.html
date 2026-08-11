@@ -1,377 +1,203 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>با رشيد — ببوش طنجة، توصيل فابور</title>
-<meta name="description" content="ببوش با رشيد فطنجة — 20 عام ونفس البنة. بولات كبار، كومندي فالواتساب، التوصيل فابور من 20:00 حتى 01:00. Escargots à Tanger, livraison gratuite.">
-<meta name="theme-color" content="#1A1512">
-<meta name="color-scheme" content="dark">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>با رشيد — ببوش طنجة</title>
+<meta name="description" content="ببوش با رشيد فطنجة — 20 عام ونفس البنة. كومندي فالواتساب ولا عيط لينا. التوصيل فابور.">
+<meta name="theme-color" content="#12100D">
+<link rel="icon" href="img/icon.png">
+<meta property="og:title" content="با رشيد — ببوش طنجة">
+<meta property="og:description" content="ببوش با رشيد فطنجة — 20 عام ونفس البنة. كومندي فالواتساب ولا عيط لينا.">
+<meta property="og:image" content="https://barachid101.github.io/img/story.jpg">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="با رشيد">
-<meta property="og:locale" content="ar_MA">
-<meta property="og:title" content="با رشيد — ببوش طنجة، توصيل فابور">
-<meta property="og:description" content="ببوش با رشيد فطنجة — 20 عام ونفس البنة. بولات كبار، كومندي فالواتساب، التوصيل فابور من 20:00 حتى 01:00.">
-<meta property="og:url" content="https://barachid101.github.io/">
-<meta property="og:image" content="https://barachid101.github.io/img/rachid-pour-01.jpg">
-<meta property="og:image:width" content="960">
-<meta property="og:image:height" content="600">
-<meta property="og:image:alt" content="رشيد كيصب مرقة الببوش السخونة عند الكارو">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="با رشيد — ببوش طنجة، توصيل فابور">
-<meta name="twitter:description" content="ببوش با رشيد فطنجة — 20 عام ونفس البنة. كومندي فالواتساب، التوصيل فابور.">
-<meta name="twitter:image" content="https://barachid101.github.io/img/rachid-pour-01.jpg">
-
-<link rel="icon" type="image/png" sizes="192x192" href="img/icon.png">
-<link rel="apple-touch-icon" href="img/icon.png">
-
-<link rel="preload" as="font" type="font/woff2" href="fonts/cairo-arabic-3.woff2" crossorigin>
 <link rel="stylesheet" href="fonts/fonts.css">
-<link rel="stylesheet" href="css/main.css?v=20260809">
 
-<!-- Meta pixel (2026-08-09, run 3): the ONE deliberate exception to the
-     no-external-requests rule. Async loader — if connect.facebook.net is down or
-     blocked, fbq() calls are queued into a dead array and ordering is untouched.
-     Events beyond PageView fire from js/app.js via px(). -->
+<!-- Meta pixel — the ONE deliberate external request (ad optimization). Async and
+     failure-proof: if it never loads, the page works exactly the same. -->
 <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window,document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '882639741291025');
 fbq('track', 'PageView');
 </script>
-<noscript><img height="1" width="1" style="display:none" alt=""
-  src="https://www.facebook.com/tr?id=882639741291025&ev=PageView&noscript=1"></noscript>
+
+<style>
+  :root {
+    --bg: #12100D; --card: #1C1813; --line: rgba(242,232,213,.14);
+    --amber: #C8802D; --amber-lt: #E09A45; --cream: #F2E8D5; --cream-2: #D9CDB8;
+    --dim: #A6987F; --wa: #1FAF57; --wa-lt: #27C463;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--cream);
+    font-family: 'Cairo', system-ui, sans-serif;
+    min-height: 100svh; display: flex; flex-direction: column; align-items: center;
+    text-align: center;
+    background-image: radial-gradient(ellipse 90% 40% at 50% -5%, rgba(200,128,45,.16), transparent);
+  }
+  .wrap { width: 100%; max-width: 560px; padding: 26px 18px 130px; }
+  .logo {
+    width: 86px; height: 86px; border-radius: 50%; object-fit: cover;
+    border: 2px solid var(--amber); box-shadow: 0 0 26px rgba(200,128,45,.35);
+  }
+  h1 { font-size: 40px; font-weight: 900; line-height: 1.2; margin-top: 10px; }
+  .tag { color: var(--cream-2); font-size: 15px; font-weight: 700; }
+  .pills { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 14px 0 18px; }
+  .pill {
+    background: rgba(200,128,45,.16); border: 1px solid rgba(200,128,45,.45);
+    color: var(--cream); border-radius: 999px; padding: 7px 14px;
+    font-size: 13.5px; font-weight: 800;
+  }
+  .pill-green { background: rgba(31,175,87,.14); border-color: rgba(31,175,87,.5); }
+
+  .menu-img {
+    width: 100%; border-radius: 16px; border: 1px solid var(--line);
+    box-shadow: 0 10px 40px rgba(0,0,0,.45); display: block;
+  }
+
+  /* text menu — the fallback until the designed card image is deployed */
+  .menu-txt {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 20px 16px; text-align: right;
+  }
+  .mi { padding: 12px 2px; border-bottom: 1px dashed var(--line); }
+  .mi:last-child { border-bottom: 0; }
+  .mi-name { font-size: 17px; font-weight: 900; }
+  .mi-sub { font-size: 13px; color: var(--dim); line-height: 1.7; }
+  .mi-price { font-size: 16px; font-weight: 900; color: var(--amber-lt); margin-top: 2px; }
+  .mi-price s { color: var(--dim); font-weight: 700; font-size: 13px; }
+
+  .note { margin-top: 14px; color: var(--cream-2); font-size: 14.5px; font-weight: 700; line-height: 1.8; }
+
+  .actions {
+    position: fixed; bottom: 0; right: 0; left: 0; z-index: 5;
+    display: flex; gap: 10px; justify-content: center;
+    padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+    background: linear-gradient(0deg, var(--bg) 65%, transparent);
+  }
+  .btn {
+    flex: 1; max-width: 270px; min-height: 58px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    border-radius: 16px; text-decoration: none;
+    font-family: 'Cairo', sans-serif; font-size: 17px; font-weight: 900; color: #fff;
+  }
+  .btn-wa { background: linear-gradient(180deg, var(--wa-lt), var(--wa)); box-shadow: 0 6px 22px rgba(31,175,87,.35); }
+  .btn-call { background: linear-gradient(180deg, var(--amber-lt), var(--amber)); color: #1C1005; box-shadow: 0 6px 22px rgba(200,128,45,.3); }
+</style>
 </head>
 <body>
+<div class="wrap">
+  <img class="logo" src="img/logo-rachid-01.jpg" alt="با رشيد">
+  <h1>با رشيد</h1>
+  <div class="tag">عشرين عام ونفس البنة 🐌</div>
 
-<div class="app">
-  <div class="hatch" aria-hidden="true"></div>
+  <div class="pills">
+    <span class="pill pill-green">🛵 التوصيل فابور 🎁</span>
+    <span class="pill">⏰ كل ليلة من 20:00 حتى 04:00</span>
+    <span class="pill">💰 كاش عند الباب</span>
+  </div>
 
-  <!-- ================= HERO ================= -->
-  <header class="hero">
-    <div class="logo-row">
-      <div class="logo-ring">
-        <img class="logo-img" src="img/logo-rachid-01.jpg" width="102" height="102" decoding="async" alt="رشيد — مول الكارو، 20 عام فنفس القنط">
-      </div>
+  <!-- the designed menu card; until it is deployed the text menu below shows instead -->
+  <img id="menu-card" class="menu-img" src="img/menu-wa-v1.jpg" alt="الميني ديال با رشيد" hidden>
+
+  <div id="menu-txt" class="menu-txt">
+    <div class="mi">
+      <div class="mi-name">الطبق الفردي</div>
+      <div class="mi-sub">بول ونص 🥣 ببوش + بول ونص 🥣 حمص + بطاطا + مرقة</div>
+      <div class="mi-price">27 درهم</div>
     </div>
-
-    <h1 class="brand-ar">با رشيد</h1>
-    <div class="brand-lat"><bdi>BaRachid</bdi></div>
-
-    <div class="tagline">
-      <span class="rule rule-a" aria-hidden="true"></span>
-      <span class="tagline-txt">عشرين عام ونفس البنة</span>
-      <span class="rule rule-b" aria-hidden="true"></span>
+    <div class="mi">
+      <div class="mi-name">الطبق الكامل</div>
+      <div class="mi-sub">ببوش + حمص + بطاطا + مرقة</div>
+      <div class="mi-price">زوجي 50 درهم — 3 بولات 🥣 &nbsp;·&nbsp; عائلي 89 درهم <s>100</s> — 6 بولات 🥣</div>
     </div>
-    <div class="tagline-fr"><bdi>20 ans, le même goût</bdi></div>
-
-    <!-- hero-p removed 2026-08-08 night 2: redundant with the tagline + ride strip,
-         and its ~30px were needed to fit cards AND buttons in the first screen. -->
-
-    <!-- Best-seller (2026-08-09): ONE big shoppable card — the Complet with a REAL
-         photo pulled from the shoot footage (IMG_0583 frame), volume copy that
-         anchors against street-cup prices, and the two sizes as direct add buttons.
-         The عائلي price is the 89 launch price («عرض الانطلاقة», was 100).
-         PRICES HERE ARE STATIC TEXT — reprice with app.js CATALOG (grep: best-price). -->
-    <div class="best" role="group" aria-label="الأكثر طلبا">
-      <div class="best-solo">
-        <div class="best-badge">عرض الانطلاقة 🎉 كميات زايدة</div>
-        <img class="best-solo-img" src="img/complet-vrai-01.jpg" width="1200" height="675" decoding="async" fetchpriority="high" alt="بولات الطبق الكامل الحقيقيين عند الكارو: مرقة وحمص وببوش وبطاطا">
-        <div class="best-solo-txt">
-          <div class="best-name-lg">⭐ الطبق الكامل — بولات كبار، ماشي كيسان 😉</div>
-          <div class="best-desc">الزوجي: قد <b>×3 كيسان ببوش</b> ديال الشارع + <b>×3 ديال الحمص</b> + بطاطا والمرقة — عشا كامل لجوج</div>
-          <div class="best-desc">العائلي: قد <b>×6 كيسان ببوش</b> + <b>×6 ديال الحمص</b> + بطاطا والمرقة — عشا عائلة كاملة 😋</div>
-        </div>
-        <div class="best-sizes">
-          <button type="button" class="best-size" data-add="complet" data-add-si="0" aria-label="زيد الطبق الكامل زوجي للسلة">
-            <span class="bs-name">زوجي</span>
-            <span class="bs-price best-price">50 درهم</span>
-            <span class="add-lbl">+</span>
-          </button>
-          <button type="button" class="best-size" data-add="complet" data-add-si="1" aria-label="زيد الطبق الكامل عائلي للسلة">
-            <span class="bs-name">عائلي</span>
-            <span class="bs-price best-price"><s class="bs-old">100</s> 89 درهم</span>
-            <span class="add-lbl">+</span>
-          </button>
-        </div>
-      </div>
+    <div class="mi">
+      <div class="mi-name">باك الببوش</div>
+      <div class="mi-sub">+ مرقة</div>
+      <div class="mi-price">زوجي 37 درهم &nbsp;·&nbsp; عائلي 50 درهم</div>
     </div>
-
-    <!-- ===== PRIMARY ACTIONS — above the photo, no scroll needed (2026-08-08) =====
-         Two doors on purpose: the site cart (full menu, GPS pin, tracked order code)
-         and a direct WhatsApp/phone line to Saif for anyone who will not use a cart.
-         The wa.me href is completed in app.js (prefilled Darija text). -->
-    <div class="hero-actions">
-      <button type="button" id="cta-top" class="cta cta-top">كومندي دابا 🐌</button>
-
-      <a id="wa-direct" class="cta-wa" href="https://wa.me/212677710579"
-         target="_blank" rel="noopener">
-        <span aria-hidden="true">💬</span> كومندي فالواتساب
-      </a>
-
-      <a id="call-direct" class="hero-call" href="tel:+212677710579">
-        ولا عيط لينا 📞 <bdi>0677710579</bdi>
-      </a>
+    <div class="mi">
+      <div class="mi-name">باك الحمص</div>
+      <div class="mi-sub">+ مرقة</div>
+      <div class="mi-price">زوجي 20 درهم &nbsp;·&nbsp; عائلي 35 درهم</div>
     </div>
-
-    <!-- Free-delivery ride — a 🛵 crosses the strip trailing steam puffs.
-         Reduced motion: the lane is hidden, the line stays. -->
-    <div class="ride">
-      <span class="ride-txt">التوصيل <b>فابور</b> من 34 درهم 🎁</span>
-      <span class="ride-lane" aria-hidden="true">
-        <span class="ride-moto">🛵<span class="ride-steam"><i></i><i></i><i></i></span></span>
-      </span>
-    </div>
-
-    <!-- bowl + reserved steam space -->
-    <div class="bowl-wrap">
-      <div id="steam-slot" class="steam" aria-hidden="true">
-        <span class="wisp wisp-1"></span>
-        <span class="wisp wisp-2"></span>
-        <span class="wisp wisp-3"></span>
-      </div>
-      <div class="bowl-frame">
-        <!--
-          HERO VIDEO SWAP — when img/hero-loop.mp4 exists, replace the <img> below
-          with exactly this block (same .bowl-media class keeps the framing identical):
-
-          <video class="bowl-media" autoplay muted loop playsinline
-                 preload="metadata" poster="img/hero.jpg"
-                 width="960" height="600" aria-label="مرقة الببوش كتصب فبول سخون">
-            <source src="img/hero-loop.mp4" type="video/mp4">
-            <img class="bowl-media" src="img/hero.jpg" width="960" height="600"
-                 alt="مرقة الببوش كتصب فبول سخون">
-          </video>
-
-          Nothing else changes: .bowl-frame owns the 16:10 ratio, radius and border.
-        -->
-        <img class="bowl-media" src="img/rachid-pour-01.jpg" width="960" height="600" decoding="async" fetchpriority="high" alt="رشيد كيصب المرقة السخونة فبول الببوش عند الكارو فالليل">
-      </div>
-    </div>
-
-    <div class="pills">
-      <span class="pill pill-green">🛵 التوصيل فابور من 34 درهم 🎁</span>
-      <span class="pill">🕗 <bdi>20:00–01:00</bdi></span>
-      <span class="pill">📍 طنجة — 3 كم</span>
-    </div>
-
-    <button type="button" id="cta-open" class="cta" hidden>كومندي دابا 🐌</button>
-
-    <div id="cta-closed" class="closed-box" hidden>
-      <div class="closed-title">مسدودين دابا 😴</div>
-      <div class="closed-txt">كنحلو من 20:00 حتى 01:00 — صيفط الطلب من دابا ونأكدوه ليك أول ما نحلو</div>
-      <button type="button" id="cta-closed-btn" class="cta-ghost">شوف العروض وصيفط 🐌</button>
-    </div>
-  </header>
-
-  <!-- ================= HOW IT WORKS ================= -->
-  <section class="how">
-    <h2 class="h2">كيفاش كيمشي الحال</h2>
-    <ol class="steps">
-      <li class="step"><span class="step-n" aria-hidden="true">1</span><span class="step-t">ختار الباك ديالك</span></li>
-      <li class="step"><span class="step-n" aria-hidden="true">2</span><span class="step-t">قول لينا فين ساكن</span></li>
-      <li class="step"><span class="step-n" aria-hidden="true">3</span><span class="step-t">كنعيطو ليك ونوصلو سخون 🛵</span></li>
-    </ol>
-  </section>
-
-  <!-- ================= MENU ================= -->
-  <section id="menu" class="menu">
-    <div class="menu-head">
-      <h2 class="h2 h2-lg">العروض</h2>
-      <span class="menu-fr"><bdi>La carte</bdi></span>
-    </div>
-    <div class="menu-underline" aria-hidden="true"></div>
-
-    <!-- FEATURED -->
-    <article class="card-hero">
-      <div class="ribbon">⭐ الأكثر طلبا</div>
-
-      <div id="snail-slot" class="snail-slot" aria-hidden="true"><span class="snail">🐌</span></div>
-
-      <div class="card-hero-media">
-        <img src="img/complet-vrai-01.jpg" width="1200" height="675" loading="lazy" decoding="async" alt="بولات الطبق الكامل الحقيقيين عند الكارو: مرقة وحمص وببوش وبطاطا">
-      </div>
-
-      <div class="card-hero-txt">
-        <h3 class="card-hero-title">الطبق الكامل</h3>
-        <div class="card-hero-lat"><bdi>LE COMPLET</bdi></div>
-        <p class="card-hero-desc">بولات كبار: ببوش + حمص + بطاطا + مرقة الببوش</p>
-        <p class="card-hero-desc card-hero-vol">الزوجي: قد <b>×3 كيسان ببوش</b> ديال الشارع + <b>×3 ديال الحمص</b> + بطاطا والمرقة — عشا كامل لجوج</p>
-        <p class="card-hero-desc card-hero-vol">العائلي: قد <b>×6 كيسان ببوش</b> + <b>×6 ديال الحمص</b> + بطاطا والمرقة — عشا عائلة كاملة 😋</p>
-      </div>
-
-      <div class="sizes sizes-2" role="group" aria-label="الحجم — الطبق الكامل">
-        <button type="button" class="chip is-on" data-pick="complet" data-si="0" aria-pressed="true">زوجي<br><span class="chip-price">50 درهم</span></button>
-        <button type="button" class="chip" data-pick="complet" data-si="1" aria-pressed="false">عائلي<br><span class="chip-price"><s class="bs-old">100</s> 89 درهم</span></button>
-      </div>
-
-      <div class="price-row">
-        <div class="price">
-          <span class="price-n" data-price="complet">50</span>
-          <span class="price-c">درهم</span>
-        </div>
-        <button type="button" class="add add-lg" data-add="complet" aria-label="زيد الطبق الكامل للسلة"><span class="add-lbl">+</span></button>
-      </div>
-    </article>
-
-    <!-- MEDIUM CARDS -->
-    <article class="card-md">
-      <div class="card-md-media">
-        <img src="img/pack-babbouche.jpg" width="384" height="384" loading="lazy" decoding="async" alt="بول ديال الببوش مع مرقة">
-      </div>
-      <div>
-        <h3 class="card-md-title">باك الببوش</h3>
-        <div class="card-md-lat"><bdi>Pack Escargots</bdi></div>
-        <p class="card-md-desc">بول كبير ديال الببوش + مرقة</p>
-        <div class="sizes sizes-2" role="group" aria-label="الحجم — باك الببوش">
-          <button type="button" class="chip chip-sm is-on" data-pick="babbouche" data-si="0" aria-pressed="true">وسط 37</button>
-          <button type="button" class="chip chip-sm" data-pick="babbouche" data-si="1" aria-pressed="false">عائلي 50</button>
-        </div>
-        <div class="price-row price-row-sm">
-          <div class="price">
-            <span class="price-n price-n-sm" data-price="babbouche">37</span>
-            <span class="price-c price-c-sm">درهم</span>
-          </div>
-          <button type="button" class="add add-md" data-add="babbouche" aria-label="زيد باك الببوش للسلة"><span class="add-lbl">+</span></button>
-        </div>
-      </div>
-    </article>
-
-    <article class="card-md card-md-gap">
-      <div class="card-md-media"><img src="img/pack-hummus.jpg" width="384" height="384" loading="lazy" decoding="async" alt="بول ديال الحمص مع مرقة"></div>
-      <div>
-        <h3 class="card-md-title">باك الحمص</h3>
-        <div class="card-md-lat"><bdi>Pack Pois chiches</bdi></div>
-        <p class="card-md-desc">بول كبير ديال الحمص + مرقة الببوش</p>
-        <div class="sizes sizes-2" role="group" aria-label="الحجم — باك الحمص">
-          <button type="button" class="chip chip-sm is-on" data-pick="hummus" data-si="0" aria-pressed="true">وسط 20</button>
-          <button type="button" class="chip chip-sm" data-pick="hummus" data-si="1" aria-pressed="false">عائلي 35</button>
-        </div>
-        <div class="price-row price-row-sm">
-          <div class="price">
-            <span class="price-n price-n-sm" data-price="hummus">20</span>
-            <span class="price-c price-c-sm">درهم</span>
-          </div>
-          <button type="button" class="add add-md" data-add="hummus" aria-label="زيد باك الحمص للسلة"><span class="add-lbl">+</span></button>
-        </div>
-      </div>
-    </article>
-
-    <!-- ADD-ONS -->
-    <div class="addons">
-      <div class="addons-h">زيادات</div>
-      <div class="addons-grid">
-        <div class="addon">
-          <div class="addon-media"><img src="img/marqa.jpg" width="384" height="384" loading="lazy" decoding="async" alt="بول ديال مرقة الببوش"></div>
-          <div class="addon-txt">
-            <div class="addon-name">مرقة زيادة</div>
-            <div class="addon-price">6 درهم</div>
-          </div>
-          <button type="button" class="add add-sm" data-add="marqa" aria-label="زيد مرقة زيادة للسلة"><span class="add-lbl">+</span></button>
-        </div>
-        <div class="addon">
-          <div class="addon-media"><img src="img/batata.jpg" width="384" height="384" loading="lazy" decoding="async" alt="بلاطو ديال البطاطا المسلوقة بالكامون"></div>
-          <div class="addon-txt">
-            <div class="addon-name">بطاطا مسلوقة</div>
-            <div class="addon-price">10 درهم</div>
-          </div>
-          <button type="button" class="add add-sm" data-add="batata" aria-label="زيد بطاطا مسلوقة للسلة"><span class="add-lbl">+</span></button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= FOOTER ================= -->
-  <footer class="footer">
-    <div class="logo-row">
-      <div class="logo-ring-sm">
-        <img class="logo-img-sm" src="img/logo-rachid-01.jpg" width="68" height="68" loading="lazy" decoding="async" alt="رشيد">
-      </div>
-    </div>
-    <p class="footer-p">من 2005 وا حنا كنطيبو الببوش بنفس المرقة ديال الوالد، فنفس الكوان — والزبناء ديالنا ولاو عائلة.</p>
-    <a class="tel" href="tel:+212677710579">📞 <bdi dir="ltr">06 77 71 05 79</bdi></a>
-    <div class="ig">
-      <span aria-hidden="true">📷</span>
-      <a class="ig-link" href="https://www.instagram.com/barachid101" target="_blank" rel="noopener"><bdi dir="ltr">@barachid101</bdi></a>
-    </div>
-    <div class="footer-cash">كاش عند الباب 💰</div>
-  </footer>
-
-  <!-- ================= STICKY CART BAR ================= -->
-  <div class="cartbar-wrap">
-    <div class="cartbar">
-      <button type="button" id="cart-btn" class="cartbar-btn" hidden>
-        <span class="cartbar-live" aria-live="polite">
-          <span id="cart-count" class="cart-badge">0</span>
-          <span class="cartbar-sep" aria-hidden="true">🛒</span>
-          <span id="cart-text"></span>
-        </span>
-        <span class="cartbar-cta">شوف الطلب ‹</span>
-      </button>
-      <div id="cart-empty" class="cartbar-empty">🛒 السلة خاوية — ختار باك وزيدو</div>
+    <div class="mi">
+      <div class="mi-name">زيادات</div>
+      <div class="mi-price">بطاطا 10 درهم &nbsp;·&nbsp; مرقة الببوش 6 درهم</div>
     </div>
   </div>
 
-  <!-- ================= CHECKOUT SHEET ================= -->
-  <div id="scrim" class="scrim"></div>
-  <div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
-    <div class="sheet-panel">
-      <div class="sheet-grab" aria-hidden="true"><span></span></div>
-
-      <div class="sheet-head">
-        <h2 id="sheet-title" class="sheet-title">الطلب ديالك</h2>
-        <button type="button" id="sheet-close" class="sheet-x" aria-label="سد الطلب">✕</button>
-      </div>
-
-      <div id="lines" class="lines"></div>
-
-      <div class="total-row">
-        <span class="total-lbl">المجموع</span>
-        <span id="total-text" class="total-val">0 درهم</span>
-      </div>
-      <div class="total-row total-row-sub">
-        <span class="total-lbl total-lbl-sub">التوصيل</span>
-        <span id="delivery-text" class="total-val total-val-sub is-free">فابور 🎁</span>
-      </div>
-      <div class="total-row total-row-grand" id="grand-row" hidden>
-        <span class="total-lbl">المجموع مع التوصيل</span>
-        <span id="grand-text" class="total-val"></span>
-      </div>
-      <div id="free-nudge" class="free-nudge" hidden></div>
-
-      <div class="addr-head">فين ساكن؟</div>
-      <p class="addr-hint">عمر اللي عرفتي — الباقي كنتافقو عليه فالتيليفون 📞</p>
-
-      <label class="addr-lbl" for="addr-res">الإقامة <span class="addr-fr"><bdi>La résidence</bdi></span></label>
-      <input type="text" id="addr-res" name="addr-res" class="addr addr-in" autocomplete="off" placeholder="سمية الإقامة ولا الحي">
-
-      <label class="addr-lbl addr-lbl-gap" for="addr-apt">الطابق والشقة <span class="addr-fr"><bdi>Étage &amp; appart</bdi></span></label>
-      <input type="text" id="addr-apt" name="addr-apt" class="addr addr-in" autocomplete="off" placeholder="مثلا: الطابق 3، الشقة 12">
-
-      <label class="addr-lbl addr-lbl-gap" for="addr-rue">الزنقة ولا علامة <span class="addr-fr"><bdi>Rue ou repère</bdi></span></label>
-      <input type="text" id="addr-rue" name="addr-rue" class="addr addr-in" autocomplete="off" placeholder="الزنقة، ولا علامة: صيدلية، قهوة...">
-
-      <div id="loc-chip" class="locchip is-ok" role="status" hidden></div>
-
-      <button type="button" id="map-btn" class="cta-ghost map-btn">📍 زيد الموقع فالخريطة <span class="map-btn-opt">(اختياري)</span></button>
-      <p id="map-hint" class="map-hint" hidden>جر العلامة للبلاصة ديالك</p>
-      <div id="map" class="map" hidden></div>
-      <button type="button" id="map-center-btn" class="cta-ghost map-center-btn" hidden>حط العلامة فوسط الخريطة ✔</button>
-
-      <p class="send-reassure">غير صيفط الطلب — كنعيطو ليك فالحين نأكدو معاك البلاصة 📞</p>
-      <button type="button" id="wa-btn" class="wa-btn" disabled aria-disabled="true">صيفط الطلب فالواتساب ✅</button>
-      <div class="sheet-note sheet-note-sm">كاش عند الباب 💰</div>
-    </div>
-  </div>
+  <p class="note">صيفط لينا ميساج ولا عيط — ونتافقو على كولشي فالتيليفون 📞</p>
 </div>
 
-<script src="js/app.js"></script>
+<div class="actions">
+  <a id="wa-btn" class="btn btn-wa"
+     href="https://wa.me/212677710579?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%F0%9F%91%8B%20%D8%A8%D8%BA%D9%8A%D8%AA%20%D9%86%D8%B7%D9%84%D8%A8%20%D9%85%D9%86%20%D8%A8%D8%A7%20%D8%B1%D8%B4%D9%8A%D8%AF%20%F0%9F%90%8C">
+    كومندي فالواتساب
+  </a>
+  <a id="call-btn" class="btn btn-call" href="tel:+212677710579">عيط لينا 📞</a>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var TRACK_URL = 'https://suivipatient.duckdns.org/barachid/track';
+  var VID_KEY = 'br-vid';
+
+  function visitorId() {
+    var v = null;
+    try { v = localStorage.getItem(VID_KEY); } catch (e) { return 'anon'; }
+    if (v && /^v[a-z0-9-]{6,38}$/.test(v)) return v;
+    v = 'v' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+    try { localStorage.setItem(VID_KEY, v); } catch (e) { /* private mode */ }
+    return v;
+  }
+
+  function track(event, data) {
+    try {
+      var body = JSON.stringify({ vid: visitorId(), event: event, ts: Date.now(), data: data || {} });
+      if (navigator.sendBeacon) {
+        var blob = new Blob([body], { type: 'text/plain;charset=UTF-8' });
+        if (navigator.sendBeacon(TRACK_URL, blob)) return;
+      }
+      if (window.fetch) {
+        fetch(TRACK_URL, { method: 'POST', body: body, keepalive: true, mode: 'cors',
+                           credentials: 'omit', headers: { 'Content-Type': 'text/plain' } })
+          .catch(function () {});
+      }
+    } catch (e) { /* tracking never affects the page */ }
+  }
+
+  function px(ev) { try { if (window.fbq) window.fbq('track', ev); } catch (e) {} }
+
+  /* the designed card replaces the text menu the moment it exists on the server */
+  var card = document.getElementById('menu-card');
+  var probe = new Image();
+  probe.onload = function () {
+    card.hidden = false;
+    document.getElementById('menu-txt').hidden = true;
+  };
+  probe.src = card.getAttribute('src');
+
+  document.getElementById('wa-btn').addEventListener('click', function () {
+    track('wa_direct', {}); px('Contact');
+  });
+  document.getElementById('call-btn').addEventListener('click', function () {
+    track('call', {}); px('Contact');
+  });
+
+  /* ?s= source tag (bio / ad / ...) rides on the visit beacon */
+  var src = null;
+  try {
+    var m = /[?&]s=([a-z0-9_-]{1,16})(?:&|$)/i.exec(location.search);
+    if (m) src = m[1].toLowerCase();
+  } catch (e) { src = null; }
+  track('visit', src ? { s: src } : {});
+})();
+</script>
 </body>
 </html>
