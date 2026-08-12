@@ -39,7 +39,7 @@ fbq('track', 'PageView');
     text-align: center;
     background-image: radial-gradient(ellipse 90% 40% at 50% -5%, rgba(200,128,45,.16), transparent);
   }
-  .wrap { width: 100%; max-width: 560px; padding: 26px 18px 130px; }
+  .wrap { width: 100%; max-width: 560px; padding: 22px 18px 175px; }
   .logo {
     width: 86px; height: 86px; border-radius: 50%; object-fit: cover;
     border: 2px solid var(--amber); box-shadow: 0 0 26px rgba(200,128,45,.35);
@@ -54,12 +54,22 @@ fbq('track', 'PageView');
   }
   .pill-green { background: rgba(31,175,87,.14); border-color: rgba(31,175,87,.5); }
 
-  .menu-img {
-    width: 100%; border-radius: 16px; border: 1px solid var(--line);
-    box-shadow: 0 10px 40px rgba(0,0,0,.45); display: block;
+  /* tappable preview of the designed card — full readable menu is the text below;
+     the card opens full-screen (pinch-zoom) for sharing/saving */
+  .menu-peek {
+    display: block; position: relative; border-radius: 16px; overflow: hidden;
+    border: 1px solid var(--line); box-shadow: 0 10px 40px rgba(0,0,0,.45);
+    margin-bottom: 14px; text-decoration: none;
+  }
+  .menu-peek img { width: 100%; max-height: 150px; object-fit: cover; object-position: left center; display: block; }
+  .menu-peek span {
+    position: absolute; bottom: 8px; left: 8px;
+    background: rgba(18,16,13,.82); color: var(--cream);
+    border: 1px solid rgba(200,128,45,.5); border-radius: 999px;
+    padding: 6px 12px; font-size: 12.5px; font-weight: 800;
+    font-family: 'Cairo', sans-serif;
   }
 
-  /* text menu — the fallback until the designed card image is deployed */
   .menu-txt {
     background: var(--card); border: 1px solid var(--line); border-radius: 16px;
     padding: 20px 16px; text-align: right;
@@ -75,14 +85,14 @@ fbq('track', 'PageView');
 
   .actions {
     position: fixed; bottom: 0; right: 0; left: 0; z-index: 5;
-    display: flex; gap: 10px; justify-content: center;
-    padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
-    background: linear-gradient(0deg, var(--bg) 65%, transparent);
+    display: flex; flex-direction: column; gap: 8px; align-items: center;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    background: linear-gradient(0deg, var(--bg) 72%, transparent);
   }
   .btn {
-    flex: 1; max-width: 270px; min-height: 58px;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    border-radius: 16px; text-decoration: none;
+    width: 100%; max-width: 420px; min-height: 54px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    border-radius: 16px; text-decoration: none; white-space: nowrap;
     font-family: 'Cairo', sans-serif; font-size: 17px; font-weight: 900; color: #fff;
   }
   .btn-wa { background: linear-gradient(180deg, var(--wa-lt), var(--wa)); box-shadow: 0 6px 22px rgba(31,175,87,.35); }
@@ -102,8 +112,11 @@ fbq('track', 'PageView');
     <span class="pill">💰 كاش عند الباب</span>
   </div>
 
-  <!-- the designed menu card; until it is deployed the text menu below shows instead -->
-  <img id="menu-card" class="menu-img" src="img/menu-wa-v2.jpg" alt="الميني ديال با رشيد" hidden>
+  <!-- the designed card, one tap away full-screen (zoomable / savable) -->
+  <a id="menu-card" class="menu-peek" href="img/menu-wa-v2.jpg" target="_blank" rel="noopener">
+    <img src="img/menu-wa-v2.jpg" alt="الميني ديال با رشيد">
+    <span>🔍 كبّر الميني بالصورة</span>
+  </a>
 
   <div id="menu-txt" class="menu-txt">
     <div class="mi">
@@ -176,15 +189,6 @@ fbq('track', 'PageView');
   }
 
   function px(ev) { try { if (window.fbq) window.fbq('track', ev); } catch (e) {} }
-
-  /* the designed card replaces the text menu the moment it exists on the server */
-  var card = document.getElementById('menu-card');
-  var probe = new Image();
-  probe.onload = function () {
-    card.hidden = false;
-    document.getElementById('menu-txt').hidden = true;
-  };
-  probe.src = card.getAttribute('src');
 
   document.getElementById('wa-btn').addEventListener('click', function () {
     track('wa_direct', {}); px('Contact');
