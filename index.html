@@ -12,7 +12,7 @@
 <meta property="og:image" content="https://barachid101.github.io/img/og-brand-0819.jpg">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="fonts/fonts.css">
-<link rel="preload" as="image" href="img/card-complet-0819.jpg">
+<link rel="preload" as="image" href="img/card-complet-zouji-0819.jpg">
 
 <!-- Meta pixel — the ONE deliberate external request (ad optimization). Async and
      failure-proof: if it never loads, the page works exactly the same. -->
@@ -64,9 +64,9 @@ fbq('track', 'PageView');
 
   /* ── the card gallery — best-seller first, swipeable, snap-centered ── */
   .gallery {
-    display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain;
+    display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: none;
     scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-    padding: 4px 32px 10px; scrollbar-width: none;
+    padding: 4px 32px 10px; scroll-padding-inline: 32px; scrollbar-width: none;
   }
   .gallery::-webkit-scrollbar { display: none; }
   .gcard {
@@ -85,8 +85,9 @@ fbq('track', 'PageView');
   .gwrap { position: relative; }
   .garrow {
     position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
-    width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(200,128,45,.55);
-    background: rgba(18,16,13,.78); color: var(--cream); font-size: 22px; font-weight: 900;
+    width: 58px; height: 58px; border-radius: 50%; border: 2px solid rgba(200,128,45,.75);
+    background: rgba(18,16,13,.88); color: var(--cream); font-size: 30px; font-weight: 900;
+    line-height: 1; padding-bottom: 4px;
     display: flex; align-items: center; justify-content: center; cursor: pointer;
     -webkit-tap-highlight-color: transparent;
   }
@@ -102,6 +103,17 @@ fbq('track', 'PageView');
     @keyframes nudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-5px); } }
   }
 
+  .lb {
+    position: fixed; inset: 0; z-index: 20; background: rgba(10,9,7,.94);
+    display: none; align-items: center; justify-content: center; padding: 14px;
+  }
+  .lb.open { display: flex; }
+  .lb img { max-width: 100%; max-height: 88vh; border-radius: 14px; }
+  .lb .lb-close {
+    position: absolute; top: calc(12px + env(safe-area-inset-top)); left: 16px;
+    width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(242,232,213,.4);
+    background: rgba(28,24,19,.9); color: var(--cream); font-size: 22px; font-weight: 900;
+  }
   .vidbox {
     margin: 4px 18px 0; border-radius: 18px; overflow: hidden;
     border: 1px solid var(--line); box-shadow: 0 10px 34px rgba(0,0,0,.5); background: var(--card);
@@ -150,31 +162,35 @@ fbq('track', 'PageView');
   <button id="ar-l" class="garrow garrow-l" aria-label="الكارطة الجاية">‹</button>
   <button id="ar-r" class="garrow garrow-r" aria-label="الكارطة اللي قبل">›</button>
   <div id="gallery" class="gallery" aria-label="الميني بالصور">
-    <a class="gcard" href="img/card-complet-0819.jpg" target="_blank" rel="noopener">
-      <img src="img/card-complet-0819.jpg" alt="الطبق الكامل — زوجي 50 درهم · عائلي 89 درهم">
+    <a class="gcard" href="img/card-complet-zouji-0819.jpg">
+      <img src="img/card-complet-zouji-0819.jpg" alt="الطبق الكامل — زوجي 50 درهم — 3 بولات ببوش · 3 بولات حمص · بطاطا · مرقة">
       <span class="zoom">🔍</span>
     </a>
-    <a class="gcard" href="img/card-fardi-0819.jpg" target="_blank" rel="noopener">
+    <a class="gcard" href="img/card-complet-aili-0819.jpg">
+      <img src="img/card-complet-aili-0819.jpg" alt="الطبق الكامل — عائلي 89 درهم — 6 بولات ببوش · 6 بولات حمص · بطاطا كبيرة · مرقة" loading="lazy">
+      <span class="zoom">🔍</span>
+    </a>
+    <a class="gcard" href="img/card-fardi-0819.jpg">
       <img src="img/card-fardi-0819.jpg" alt="الطبق الفردي — 27 درهم" loading="lazy">
       <span class="zoom">🔍</span>
     </a>
-    <a class="gcard" href="img/card-babbouche-0819.jpg" target="_blank" rel="noopener">
+    <a class="gcard" href="img/card-babbouche-0819.jpg">
       <img src="img/card-babbouche-0819.jpg" alt="باك الببوش — زوجي 37 · عائلي 50" loading="lazy">
       <span class="zoom">🔍</span>
     </a>
-    <a class="gcard" href="img/card-hummus-0819.jpg" target="_blank" rel="noopener">
+    <a class="gcard" href="img/card-hummus-0819.jpg">
       <img src="img/card-hummus-0819.jpg" alt="باك الحمص — زوجي 20 · عائلي 35" loading="lazy">
       <span class="zoom">🔍</span>
     </a>
-    <a class="gcard" href="img/card-marqa-0819.jpg" target="_blank" rel="noopener">
+    <a class="gcard" href="img/card-marqa-0819.jpg">
       <img src="img/card-marqa-0819.jpg" alt="زيادة مرقة الببوش — 6 درهم" loading="lazy">
       <span class="zoom">🔍</span>
     </a>
-    <a class="gcard" href="img/card-batata-0819.jpg" target="_blank" rel="noopener">
+    <a class="gcard" href="img/card-batata-0819.jpg">
       <img src="img/card-batata-0819.jpg" alt="زيادة بطاطا — 6 درهم" loading="lazy">
       <span class="zoom">🔍</span>
     </a>
-    <a class="gcard" href="img/card-brand-0819.jpg" target="_blank" rel="noopener">
+    <a class="gcard" href="img/card-brand-0819.jpg">
       <img src="img/card-brand-0819.jpg" alt="با رشيد — ببوش طنجة بالليل" loading="lazy">
       <span class="zoom">🔍</span>
     </a>
@@ -191,6 +207,11 @@ fbq('track', 'PageView');
   </div>
 
   <p class="note">صيفط لينا ميساج ولا عيط — ونتافقو على كولشي فالتيليفون 📞</p>
+</div>
+
+<div id="lb" class="lb" role="dialog" aria-label="الصورة مكبرة">
+  <button class="lb-close" aria-label="سد">✕</button>
+  <img id="lb-img" src="" alt="">
 </div>
 
 <div class="actions">
@@ -270,6 +291,29 @@ fbq('track', 'PageView');
       for (var k = 0; k < dots.length; k++) dots[k].className = 'dot' + (k === best ? ' on' : '');
     });
   }, { passive: true });
+
+  /* tap a card -> in-page zoom overlay (never a new page) */
+  var lb = document.getElementById('lb');
+  var lbImg = document.getElementById('lb-img');
+  function openLb(src, alt) {
+    lbImg.src = src; lbImg.alt = alt || '';
+    lb.className = 'lb open';
+    try { document.body.style.overflow = 'hidden'; } catch (e) {}
+  }
+  function closeLb() {
+    lb.className = 'lb'; lbImg.src = '';
+    try { document.body.style.overflow = ''; } catch (e) {}
+  }
+  lb.addEventListener('click', closeLb);
+  for (var ci = 0; ci < cards.length; ci++) {
+    (function (a) {
+      a.addEventListener('click', function (ev) {
+        ev.preventDefault();
+        var im = a.querySelector('img');
+        openLb(a.getAttribute('href'), im ? im.alt : '');
+      });
+    })(cards[ci]);
+  }
 
   /* arrows — tap to move one card (visual direction; works in RTL) */
   function cardStep() {
