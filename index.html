@@ -82,8 +82,19 @@ fbq('track', 'PageView');
     border: 1px solid rgba(200,128,45,.5); border-radius: 999px;
     padding: 4px 10px; font-size: 11.5px; font-weight: 800; font-family: 'Cairo', sans-serif;
   }
-  .dots { display: flex; gap: 6px; justify-content: center; margin: 2px 0 4px; }
-  .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(242,232,213,.25); transition: background .2s, transform .2s; }
+  .gwrap { position: relative; }
+  .garrow {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+    width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(200,128,45,.55);
+    background: rgba(18,16,13,.78); color: var(--cream); font-size: 22px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .garrow:active { background: rgba(200,128,45,.35); }
+  .garrow-l { left: 6px; }
+  .garrow-r { right: 6px; }
+  .dots { display: flex; gap: 7px; justify-content: center; margin: 2px 0 4px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(242,232,213,.25); transition: background .2s, transform .2s; }
   .dot.on { background: var(--amber-lt); transform: scale(1.25); }
   .swipe-hint { color: var(--dim); font-size: 12px; font-weight: 700; margin-bottom: 12px; }
   @media (prefers-reduced-motion: no-preference) {
@@ -91,17 +102,12 @@ fbq('track', 'PageView');
     @keyframes nudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-5px); } }
   }
 
-  .menu-txt {
-    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
-    padding: 20px 16px; text-align: right; margin: 0 18px;
+  .vidbox {
+    margin: 4px 18px 0; border-radius: 18px; overflow: hidden;
+    border: 1px solid var(--line); box-shadow: 0 10px 34px rgba(0,0,0,.5); background: var(--card);
   }
-  .mi { padding: 12px 2px; border-bottom: 1px dashed var(--line); }
-  .mi:last-child { border-bottom: 0; }
-  .mi-name { font-size: 17.5px; font-weight: 900; }
-  .mi-sub { font-size: 13px; color: var(--dim); line-height: 1.7; }
-  .mi-price { font-size: 16.5px; font-weight: 900; color: var(--amber-lt); margin-top: 2px; }
-  .mi-price s { color: var(--dim); font-weight: 700; font-size: 13px; }
-
+  .vidbox video { width: 100%; display: block; }
+  .vidcap { padding: 10px 12px; font-size: 14px; font-weight: 800; color: var(--cream-2); }
   .note { margin: 14px 18px 0; color: var(--cream-2); font-size: 14.5px; font-weight: 700; line-height: 1.8; }
 
   /* ordering options — fixed, always on screen */
@@ -140,6 +146,9 @@ fbq('track', 'PageView');
   </div>
 
   <!-- best-seller first; every card zooms full-screen in a tap -->
+  <div class="gwrap">
+  <button id="ar-l" class="garrow garrow-l" aria-label="الكارطة الجاية">‹</button>
+  <button id="ar-r" class="garrow garrow-r" aria-label="الكارطة اللي قبل">›</button>
   <div id="gallery" class="gallery" aria-label="الميني بالصور">
     <a class="gcard" href="img/card-complet-0819.jpg" target="_blank" rel="noopener">
       <img src="img/card-complet-0819.jpg" alt="الطبق الكامل — زوجي 50 درهم · عائلي 89 درهم">
@@ -170,34 +179,15 @@ fbq('track', 'PageView');
       <span class="zoom">🔍</span>
     </a>
   </div>
+  </div>
   <div id="dots" class="dots" aria-hidden="true"></div>
-  <div class="swipe-hint"><span>👈</span> جرّ باش تشوف الباقي</div>
+  <div class="swipe-hint"><span>👈</span> جرّ ولا ورّك على السهم باش تشوف الباقي</div>
 
-  <div id="menu-txt" class="menu-txt">
-    <div class="mi">
-      <div class="mi-name">الطبق الفردي</div>
-      <div class="mi-sub">بول ونص 🥣 ببوش + بول ونص 🥣 حمص + بطاطا + مرقة</div>
-      <div class="mi-price">27 درهم</div>
-    </div>
-    <div class="mi">
-      <div class="mi-name">الطبق الكامل</div>
-      <div class="mi-sub">ببوش + حمص + بطاطا + مرقة</div>
-      <div class="mi-price">زوجي 50 درهم — 3 بولات 🥣 &nbsp;·&nbsp; عائلي 89 درهم <s>100</s> — 6 بولات 🥣</div>
-    </div>
-    <div class="mi">
-      <div class="mi-name">باك الببوش</div>
-      <div class="mi-sub">+ مرقة</div>
-      <div class="mi-price">زوجي 37 درهم &nbsp;·&nbsp; عائلي 50 درهم</div>
-    </div>
-    <div class="mi">
-      <div class="mi-name">باك الحمص</div>
-      <div class="mi-sub">+ مرقة</div>
-      <div class="mi-price">زوجي 20 درهم &nbsp;·&nbsp; عائلي 35 درهم</div>
-    </div>
-    <div class="mi">
-      <div class="mi-name">زيادات</div>
-      <div class="mi-price">بطاطا 6 درهم &nbsp;·&nbsp; مرقة الببوش 6 درهم</div>
-    </div>
+  <!-- رشيد live — looping, muted, gif-style -->
+  <div class="vidbox">
+    <video id="rvid" src="img/rachid-live-0819.mp4" poster="img/rachid-live-poster-0819.jpg"
+           autoplay muted loop playsinline preload="metadata" aria-label="رشيد كيطيب الببوش"></video>
+    <div class="vidcap">رشيد فالخدمة 🍲 كل ليلة على نفس الكانطرة — عشرين عام ونفس البنة</div>
   </div>
 
   <p class="note">صيفط لينا ميساج ولا عيط — ونتافقو على كولشي فالتيليفون 📞</p>
@@ -280,6 +270,33 @@ fbq('track', 'PageView');
       for (var k = 0; k < dots.length; k++) dots[k].className = 'dot' + (k === best ? ' on' : '');
     });
   }, { passive: true });
+
+  /* arrows — tap to move one card (visual direction; works in RTL) */
+  function cardStep() {
+    var c = cards[0]; return (c ? c.getBoundingClientRect().width : 300) + 12;
+  }
+  document.getElementById('ar-l').addEventListener('click', function () {
+    gal.scrollBy({ left: -cardStep(), behavior: 'smooth' });
+  });
+  document.getElementById('ar-r').addEventListener('click', function () {
+    gal.scrollBy({ left: cardStep(), behavior: 'smooth' });
+  });
+
+  /* one gentle auto-nudge so the swipe is discoverable without reading */
+  try {
+    if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setTimeout(function () { gal.scrollBy({ left: -70, behavior: 'smooth' }); }, 1100);
+      setTimeout(function () { gal.scrollBy({ left: 70, behavior: 'smooth' }); }, 1900);
+    }
+  } catch (e) {}
+
+  /* looping video: iOS sometimes blocks autoplay — retry on first touch */
+  var rv = document.getElementById('rvid');
+  if (rv) {
+    var kick = function () { var p = rv.play(); if (p && p.catch) p.catch(function () {}); };
+    kick();
+    document.addEventListener('touchstart', kick, { once: true, passive: true });
+  }
 
   /* ?s= source tag (bio / ad / ...) rides on the visit beacon */
   var src = null;
