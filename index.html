@@ -74,8 +74,13 @@ fbq('track', 'PageView');
     border-radius: 18px; overflow: hidden; display: block; position: relative;
     border: 1px solid var(--line); box-shadow: 0 10px 34px rgba(0,0,0,.5);
     background: var(--card);
+    -webkit-user-select: none; user-select: none;
+    -webkit-tap-highlight-color: transparent;
   }
-  .gcard img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
+  .gcard img {
+    width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;
+    -webkit-user-drag: none; pointer-events: none;
+  }
   .gcard .zoom {
     position: absolute; bottom: 8px; left: 8px;
     background: rgba(18,16,13,.8); color: var(--cream);
@@ -273,6 +278,7 @@ fbq('track', 'PageView');
     dotsBox.appendChild(d);
   }
   var dots = dotsBox.children;
+  var cur = 0;             /* index of the card nearest center — dots + arrows share it */
   var ticking = false;
   gal.addEventListener('scroll', function () {
     if (ticking) return;
@@ -288,49 +294,84 @@ fbq('track', 'PageView');
         var dist = Math.abs(r.left + r.width / 2 - mid);
         if (dist < bestDist) { bestDist = dist; best = j; }
       }
+      cur = best;
       for (var k = 0; k < dots.length; k++) dots[k].className = 'dot' + (k === best ? ' on' : '');
     });
   }, { passive: true });
 
-  /* tap a card -> in-page zoom overlay (never a new page) */
+  /* swipe guard — a drag that ends on a card must NOT count as a tap */
+  var swiping = false, sx = 0, sy = 0;
+  gal.addEventListener('touchstart', function (e) {
+    swiping = false;
+    if (e.touches && e.touches[0]) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }
+  }, { passive: true });
+  gal.addEventListener('touchmove', function (e) {
+    if (!e.touches || !e.touches[0]) return;
+    if (Math.abs(e.touches[0].clientX - sx) > 10 ||
+        Math.abs(e.touches[0].clientY - sy) > 10) swiping = true;
+  }, { passive: true });
+
+  /* tap a card -> in-page zoom overlay (never a new page).
+     Android back button closes the overlay instead of leaving the site. */
   var lb = document.getElementById('lb');
   var lbImg = document.getElementById('lb-img');
+  var lbPushed = false;
   function openLb(src, alt) {
     lbImg.src = src; lbImg.alt = alt || '';
     lb.className = 'lb open';
     try { document.body.style.overflow = 'hidden'; } catch (e) {}
+    try { history.pushState({ br: 'lb' }, ''); lbPushed = true; } catch (e) { lbPushed = false; }
   }
-  function closeLb() {
+  function hideLb() {
     lb.className = 'lb'; lbImg.src = '';
     try { document.body.style.overflow = ''; } catch (e) {}
+    lbPushed = false;
   }
+  function closeLb() {
+    if (lbPushed) { try { history.back(); return; } catch (e) {} }
+    hideLb();
+  }
+  window.addEventListener('popstate', function () {
+    if (lb.className.indexOf('open') !== -1) hideLb();
+  });
   lb.addEventListener('click', closeLb);
   for (var ci = 0; ci < cards.length; ci++) {
     (function (a) {
       a.addEventListener('click', function (ev) {
-        ev.preventDefault();
+        ev.preventDefault();          /* never navigate — with or without the overlay */
+        if (swiping) { swiping = false; return; }
+        var href = a.getAttribute('href');
         var im = a.querySelector('img');
-        openLb(a.getAttribute('href'), im ? im.alt : '');
+        openLb(href, im ? im.alt : '');
+        var m = /card-([a-z0-9-]+?)-\d+\.(?:jpg|png)$/i.exec(href || '');
+        track('zoom', { card: m ? m[1].toLowerCase() : 'card' });
+        px('ViewContent');
       });
     })(cards[ci]);
   }
 
-  /* arrows — tap to move one card (visual direction; works in RTL) */
-  function cardStep() {
-    var c = cards[0]; return (c ? c.getBoundingClientRect().width : 300) + 12;
+  /* arrows — one card per tap, index-clamped so spamming can never overshoot
+     into empty space (RTL: the LEFT arrow moves forward through the menu) */
+  var interacted = false;
+  function goTo(i) {
+    interacted = true;
+    cur = Math.max(0, Math.min(cards.length - 1, i));
+    try {
+      cards[cur].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    } catch (e) { cards[cur].scrollIntoView(); }
   }
-  document.getElementById('ar-l').addEventListener('click', function () {
-    gal.scrollBy({ left: -cardStep(), behavior: 'smooth' });
-  });
-  document.getElementById('ar-r').addEventListener('click', function () {
-    gal.scrollBy({ left: cardStep(), behavior: 'smooth' });
-  });
+  document.getElementById('ar-l').addEventListener('click', function () { goTo(cur + 1); });
+  document.getElementById('ar-r').addEventListener('click', function () { goTo(cur - 1); });
 
-  /* one gentle auto-nudge so the swipe is discoverable without reading */
+  /* one gentle auto-nudge so the swipe is discoverable without reading —
+     but never fight a lead who is already touching the gallery */
+  var markTouched = function () { interacted = true; };
+  gal.addEventListener('touchstart', markTouched, { passive: true, once: true });
+  gal.addEventListener('wheel', markTouched, { passive: true, once: true });
   try {
     if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setTimeout(function () { gal.scrollBy({ left: -70, behavior: 'smooth' }); }, 1100);
-      setTimeout(function () { gal.scrollBy({ left: 70, behavior: 'smooth' }); }, 1900);
+      setTimeout(function () { if (!interacted) gal.scrollBy({ left: -70, behavior: 'smooth' }); }, 1100);
+      setTimeout(function () { if (!interacted) gal.scrollBy({ left: 70, behavior: 'smooth' }); }, 1900);
     }
   } catch (e) {}
 
