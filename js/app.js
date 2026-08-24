@@ -329,10 +329,13 @@
       el.textContent = String(CATALOG[id].sizes[state.sel[id] || 0][1]);
     });
 
-    /* add buttons (flash state) */
+    /* add buttons (flash state) — keyed by id:size, so the زوجي button never
+       flashes when its عائلي sibling was the one tapped (bug found 2026-08-24) */
     $$('[data-add]').forEach(function (btn) {
       var id = btn.getAttribute('data-add');
-      var on = !!state.flash[id];
+      var fixed = btn.getAttribute('data-add-si');
+      var si = fixed === null ? (state.sel[id] || 0) : parseInt(fixed, 10);
+      var on = !!state.flash[key(id, si)];
       btn.classList.toggle('is-flash', on);
       btn.querySelector('.add-lbl').textContent = on ? 'تزاد ✔' : '+';
     });
@@ -472,10 +475,10 @@
     track('add', { id: id, size: CATALOG[id].sizes[si][0], price: CATALOG[id].sizes[si][1] });
     px('AddToCart', { content_name: CATALOG[id].name, value: CATALOG[id].sizes[si][1], currency: 'MAD' });
 
-    state.flash[id] = true;
-    clearTimeout(flashTimers[id]);
-    flashTimers[id] = setTimeout(function () {
-      state.flash[id] = false;
+    state.flash[k] = true;
+    clearTimeout(flashTimers[k]);
+    flashTimers[k] = setTimeout(function () {
+      state.flash[k] = false;
       render();
     }, 1100);
 
