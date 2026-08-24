@@ -149,6 +149,8 @@ fbq('track', 'PageView');
     background: rgba(242,232,213,.07); border: 2px solid var(--amber-lt);
     box-shadow: 0 6px 22px rgba(0,0,0,.35);
   }
+  /* the order button steps aside while the add-to-cart section is on screen */
+  .btn-order.is-away { display: none; }
   .btn-call { min-height: 47px; font-size: 15.5px; background: linear-gradient(180deg, var(--amber-lt), var(--amber)); color: #1C1005; box-shadow: 0 6px 22px rgba(200,128,45,.3); }
   .btn:active { transform: scale(.985); }
 
@@ -298,12 +300,47 @@ fbq('track', 'PageView');
   .wa-btn[disabled] { cursor: not-allowed; filter: grayscale(.75); opacity: .5; box-shadow: none; }
   .wa-btn.is-loading { cursor: progress; opacity: .8; }
   .sheet-note-sm { margin-top: 8px; text-align: center; font-size: 12.5px; color: var(--dim); }
+
+  /* ── the delivery snail: rides down the page, parks over the buttons,
+        announces «وصل سخون وكيفور» — pure fun, never blocks a tap ── */
+  #rider {
+    position: fixed; top: 0; right: 10px; z-index: 8;
+    pointer-events: none; transform: translateY(-130px);
+  }
+  #rider.is-run {
+    transform: translateY(calc(100vh - 258px));
+    transition: transform 3s cubic-bezier(.5,.05,.6,.95);
+  }
+  .rider-guy { position: relative; display: block; font-size: 32px; line-height: 1; }
+  .rider-snail { position: absolute; top: -17px; right: 8px; font-size: 21px; }
+  .rider-steam { position: absolute; top: -26px; right: 10px; opacity: 0; }
+  #rider.is-run .rider-steam { opacity: 1; }
+  .rider-steam i {
+    position: absolute; width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(242,232,213,.55); animation: rpuff 1s infinite;
+  }
+  .rider-steam i:nth-child(2) { right: 10px; animation-delay: .33s; }
+  .rider-steam i:nth-child(3) { right: -8px; animation-delay: .66s; }
+  @keyframes rpuff {
+    0% { transform: translateY(0) scale(.6); opacity: .85; }
+    100% { transform: translateY(-26px) scale(1.5); opacity: 0; }
+  }
+  .rider-bubble {
+    position: absolute; top: -8px; right: 42px; white-space: nowrap;
+    background: var(--cream); color: #1C1005; font-weight: 900; font-size: 13.5px;
+    font-family: 'Cairo', sans-serif; padding: 7px 12px;
+    border-radius: 999px 999px 4px 999px; box-shadow: 0 6px 18px rgba(0,0,0,.45);
+    opacity: 0; transform: scale(.6); transform-origin: 100% 100%;
+    transition: opacity .25s, transform .25s;
+  }
+  #rider.is-said .rider-bubble { opacity: 1; transform: scale(1); }
+  @media (prefers-reduced-motion: reduce) { #rider { display: none; } }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="head pad">
-    <img class="logo" src="img/logo-rachid-01.jpg" alt="با رشيد">
+    <img class="logo" src="img/card-brand-0819.jpg" alt="با رشيد">
     <div class="head-txt">
       <h1>با رشيد</h1>
       <div class="tag">عشرين عام ونفس البنة 🐌</div>
@@ -430,6 +467,11 @@ fbq('track', 'PageView');
 <div id="lb" class="lb" role="dialog" aria-label="الصورة مكبرة">
   <button class="lb-close" aria-label="سد">✕</button>
   <img id="lb-img" src="" alt="">
+</div>
+
+<div id="rider" aria-hidden="true">
+  <span class="rider-bubble">وصل سخون وكيفور 🔥</span>
+  <span class="rider-guy">🛵<span class="rider-snail">🐌</span><span class="rider-steam"><i></i><i></i><i></i></span></span>
 </div>
 
 <div class="actions">
@@ -662,6 +704,37 @@ fbq('track', 'PageView');
 
   /* the visit beacon (with its ?s= source tag) is fired by js/app.js since
      2026-08-24 — firing it here too would double every visit in the live feed */
+
+  /* «كومندي من الموقع» only shows while the add-to-cart section is OFF screen:
+     scroll down to the cards -> it steps aside; scroll back up -> it returns.
+     The -180px bottom margin discounts the strip hidden behind the fixed stack. */
+  try {
+    var orderBtn2 = document.getElementById('order-btn');
+    var orderSec = document.getElementById('order');
+    if (orderBtn2 && orderSec && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        orderBtn2.classList.toggle('is-away', entries[0].isIntersecting);
+      }, { rootMargin: '0px 0px -180px 0px' }).observe(orderSec);
+    }
+  } catch (e) { /* no observer -> the button simply stays */ }
+
+  /* the delivery snail: down in 3s, announces for 3s, rests, repeats */
+  try {
+    var rider = document.getElementById('rider');
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (rider && !still) {
+      var ride = function () {
+        rider.classList.add('is-run');
+        setTimeout(function () { rider.classList.add('is-said'); }, 3000);
+        setTimeout(function () {
+          rider.classList.remove('is-said');
+          rider.classList.remove('is-run');   /* no transition class -> snaps back to the top */
+        }, 6300);
+      };
+      setTimeout(ride, 1200);
+      setInterval(ride, 9500);
+    }
+  } catch (e) { /* decoration only */ }
 })();
 </script>
 </body>
