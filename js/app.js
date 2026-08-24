@@ -14,30 +14,32 @@
        the struck-through 100 next to it. Raise back by editing BOTH here and the
        static best-solo/menu chips in index.html (grep: best-price). */
     complet:   { name: 'الطبق الكامل',  sizes: [['زوجي', 50], ['عائلي', 89]] },
-    babbouche: { name: 'باك الببوش',    sizes: [['وسط', 37], ['عائلي', 50]] },
-    hummus:    { name: 'باك الحمص',     sizes: [['وسط', 20], ['عائلي', 35]] },
+    fardi:     { name: 'الطبق الفردي',  sizes: [['', 27]] },
+    babbouche: { name: 'باك الببوش',    sizes: [['زوجي', 37], ['عائلي', 50]] },
+    hummus:    { name: 'باك الحمص',     sizes: [['زوجي', 20], ['عائلي', 35]] },
     marqa:     { name: 'مرقة زيادة',    sizes: [['', 6]] },
-    batata:    { name: 'بطاطا مسلوقة',  sizes: [['', 10]] }
+    batata:    { name: 'بطاطا مسلوقة',  sizes: [['', 6]] }
   };
 
-  /* 2026-08-09 mid-run-3 (Saif's call): cart orders go STRAIGHT to Saif's personal
-     WhatsApp — removing the bot hop from the money path to test conversion. Cost:
-     no auto-ack and the dashboard never sees these orders arrive (status stays
-     sent_click; phone/received-merge lost). The send beacon still logs everything.
+  /* 2026-08-24: cart orders go to the WhatsApp line 0705968617 — same number as
+     the landing's chat button, so one line owns all WhatsApp traffic. No bot in
+     the money path: no auto-ack, dashboard rows stay sent_click (phone/received-
+     merge lost). The send beacon still logs everything.
      Bot mode again: set this back to '212647351006' (the Meta Cloud API number). */
-  var WA_NUMBER = '212677710579';
-  /* The hero's «كومندي فالواتساب» / call buttons go to Saif DIRECTLY — deliberately not
-     the bot number. They are the escape hatch for visitors who will not use a cart.
-     No source tag in the text (Saif's call 2026-08-08) — ask «منين عرفتونا؟» in chat.
-     These orders never get a code and never reach the dashboard's order table —
-     only the wa_direct / call beacons prove they happened. */
-  var WA_DIRECT = '212677710579';
+  var WA_NUMBER = '212705968617';
+  /* The hero's «كومندي فالواتساب» button goes to the same WhatsApp line; the call
+     button stays Saif's personal number. They are the escape hatch for visitors
+     who will not use a cart. No source tag in the text (Saif's call 2026-08-08) —
+     ask «منين عرفتونا؟» in chat. These orders never get a code and never reach the
+     dashboard's order table — only the wa_direct / call beacons prove they happened. */
+  var WA_DIRECT = '212705968617';
   var WA_DIRECT_TEXT = 'السلام 👋 بغيت نطلب ببوش من با رشيد';
-  var STORE_KEY = 'br-cart-v3';  /* v3 2026-08-09: عائلي 100→89 — a v2 cart would
-                                    silently restore onto the new price, so old
-                                    carts must not restore (same rule as v1→v2). */
+  var STORE_KEY = 'br-cart-v4';  /* v4 2026-08-24: وسط→زوجي rename, batata 10→6,
+                                    fardi added — a v3 cart would silently restore
+                                    stale labels/prices, so it must not restore. */
   var OPEN_HOUR = 20;    /* 20:00 inclusive (permanent hours since 2026-08-09) */
-  var CLOSE_HOUR = 1;    /* closes 01:00 the next day (exclusive) */
+  var CLOSE_HOUR = 4;    /* closes 04:00 the next day (exclusive) — matches the
+                            landing pill + WhatsApp hours since the 08-11 pivot */
   var TZ = 'Africa/Casablanca';
   var DIV = '─────────────';
   /* Delivery model (Saif's call 2026-08-10, mid-run-4): NO product floor anymore —
