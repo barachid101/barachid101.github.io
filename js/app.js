@@ -282,7 +282,9 @@
   var elGrandRow = $('#grand-row');
   var elGrandText = $('#grand-text');
   var elNudge = $('#free-nudge');
-  var elWa = $('#wa-btn');
+  /* #send-btn since 2026-08-24: the cart now lives ON the landing, whose green
+     chat button already owns the id #wa-btn — the sheet's send button got its own. */
+  var elWa = $('#send-btn');
   var elMenu = $('#menu');
 
   var LOC_TEXT = {
