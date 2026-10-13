@@ -2,17 +2,24 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>با رشيد — ببوش طنجة</title>
-<meta name="description" content="ببوش با رشيد فطنجة — 20 عام ونفس البنة. كومندي فالواتساب ولا عيط لينا. التوصيل فابور.">
-<meta name="theme-color" content="#12100D">
-<link rel="icon" href="img/icon.png">
-<meta property="og:title" content="با رشيد — ببوش طنجة">
+<!-- maximum-scale=1: no accidental zoom (double-tap, input focus) — this page is used like an app -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>با رشيد — ماكلة الشارع فطنجة</title>
+<meta name="description" content="ببوش با رشيد فطنجة — 20 عام ونفس البنة. كومندي فالواتساب ولا عيط لينا. التوصيل فابور من 34 درهم.">
+<meta name="theme-color" content="#B3261E">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta property="og:title" content="BaRachid · با رشيد">
 <meta property="og:description" content="ببوش با رشيد فطنجة — 20 عام ونفس البنة. كومندي فالواتساب ولا عيط لينا.">
-<meta property="og:image" content="https://barachid101.github.io/img/og-brand-0819.jpg">
+<meta property="og:image" content="https://barachid101.github.io/og-image-1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="fonts/fonts.css">
-<link rel="preload" as="image" href="img/card-complet-zouji-0819.jpg">
+<link rel="preload" as="image" href="img/p-complet-zouji-1011.jpg">
 
 <!-- Meta pixel — the ONE deliberate external request (ad optimization). Async and
      failure-proof: if it never loads, the page works exactly the same. -->
@@ -25,195 +32,306 @@ document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '882639741291025');
 fbq('track', 'PageView');
 </script>
+<!-- Microsoft Clarity — heatmaps + session recordings (free). Masking is set to STRICT in
+     the Clarity project settings, so typed addresses are never recorded. Same failure
+     rule as the pixel: async, and the page never waits for it. Empty id = not loaded. -->
+<script>
+(function (c, l, a, r, i, t, y) {
+  if (!i) return;
+  c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+  t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+  y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+})(window, document, 'clarity', 'script', '');
+</script>
 
 <style>
   :root {
-    --bg: #12100D; --card: #1C1813; --line: rgba(242,232,213,.14);
-    --amber: #C8802D; --amber-lt: #E09A45; --cream: #F2E8D5; --cream-2: #D9CDB8;
-    --dim: #A6987F; --wa: #1FAF57; --wa-lt: #27C463;
+    --red: #B3261E; --amber: #C8802D; --cream: #F2E8D5; --ink: #1A1512;
+    --card: #FBF7EF; --text2: #4A3D33; --muted: #6E5E50; --ph: #E7D6B8;
+    --hair: rgba(26,21,18,.12); --line: rgba(26,21,18,.16); --tint: rgba(26,21,18,.05);
+    --wa: #25D366; --ok: #1E7A46;
+    --shadow: 0 1px 2px rgba(26,21,18,.06), 0 8px 20px -10px rgba(26,21,18,.22);
+    --ease: cubic-bezier(.2,.8,.25,1);
+    /* gallery card + photo geometry — ONE place to change after the photo shoot
+       (fold test in landing_smoke.py guards the price-above-the-fold rule) */
+    --card-w: min(69vw, 300px);
+    --photo-h: calc(var(--card-w) / 2);
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   /* the hidden attribute must beat display:flex/grid rules (cart bar, sheet rows) */
   [hidden] { display: none !important; }
-  html { scroll-behavior: smooth; }
+  /* app feel: no double-tap zoom, no font inflation, no rubber-band pull on the page */
+  html {
+    scroll-behavior: smooth; background: var(--cream);
+    -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
+    touch-action: manipulation; overscroll-behavior-y: none;
+  }
   body {
-    background: var(--bg); color: var(--cream);
-    font-family: 'Cairo', system-ui, sans-serif;
+    background: var(--cream); color: var(--ink);
+    font-family: 'Cairo', system-ui, sans-serif; font-weight: 400;
     min-height: 100svh; display: flex; flex-direction: column; align-items: center;
-    text-align: center;
-    background-image: radial-gradient(ellipse 90% 40% at 50% -5%, rgba(200,128,45,.16), transparent);
+    text-align: center; touch-action: pan-x pan-y;
+    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
   }
-  .wrap { width: 100%; max-width: 560px; padding: 16px 0 230px; }
-  .pad { padding-left: 18px; padding-right: 18px; }
+  input { -webkit-user-select: text; user-select: text; }
+  button { font: inherit; color: inherit; -webkit-appearance: none; appearance: none; touch-action: manipulation; }
+  :focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .wrap { width: 100%; max-width: 560px; padding: 0 0 220px; }
+  .pad { padding-left: 16px; padding-right: 16px; }
+  .ic { width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: currentColor;
+        stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .num { font-family: 'Alfa Slab One', 'Cairo', sans-serif; font-weight: 400; }
 
-  /* compact header — the gallery is the hero, keep everything above it tight */
-  .head { display: flex; align-items: center; justify-content: center; gap: 12px; }
-  .logo {
-    width: 58px; height: 58px; border-radius: 50%; object-fit: cover;
-    border: 2px solid var(--amber); box-shadow: 0 0 20px rgba(200,128,45,.35);
+  /* header band: sign plate + tagline; the rider rides along its bottom edge */
+  .head { position: relative; overflow: hidden; background: var(--red);
+          padding: calc(8px + env(safe-area-inset-top)) 16px 8px; }
+  .plate { display: block; height: 60px; width: auto; margin: 0 auto; }
+  /* inline-block: the box hugs the centred text (the rider check measures this box) */
+  .tag { display: inline-block; color: var(--cream); font-size: 13px; font-weight: 700; line-height: 1.4; margin-top: 4px; }
+
+  /* three equal columns — delivery, hours, cash — icon over label, one centre axis */
+  .info {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start;
+    padding: 8px 6px; border-bottom: 1px solid var(--hair);
   }
-  .head-txt { text-align: right; }
-  h1 { font-size: 30px; font-weight: 900; line-height: 1.15; }
-  .tag { color: var(--cream-2); font-size: 13px; font-weight: 700; }
-
-  .pills { display: flex; gap: 7px; justify-content: center; flex-wrap: wrap; margin: 12px 0 12px; }
-  .pill {
-    background: rgba(200,128,45,.16); border: 1px solid rgba(200,128,45,.45);
-    color: var(--cream); border-radius: 999px; padding: 6px 12px;
-    font-size: 12.5px; font-weight: 800;
+  .info > span {
+    display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 0 6px;
+    font-size: 11.5px; font-weight: 700; line-height: 1.35;
   }
-  .pill-green { background: rgba(31,175,87,.14); border-color: rgba(31,175,87,.5); }
+  .info > span + span { border-inline-start: 1px solid var(--hair); }
+  .info .ic { width: 18px; height: 18px; color: var(--red); }
 
-  /* Instagram + 5-star trust row (2026-08-24 — every review so far was happy) */
-  .igrow-wrap { margin: 0 0 12px; }
+  /* Instagram + 5-star trust row */
+  .igrow-wrap { margin: 10px 0 6px; }
   .igrow {
-    display: inline-flex; align-items: center; gap: 9px;
-    padding: 7px 15px; border-radius: 999px; text-decoration: none;
-    background: rgba(242,232,213,.05); border: 1px solid var(--line);
-    color: var(--cream-2); font-weight: 800; font-size: 13.5px;
-    -webkit-tap-highlight-color: transparent;
+    display: inline-flex; align-items: center; gap: 8px; min-height: 34px;
+    padding: 4px 14px; border-radius: 999px; text-decoration: none;
+    background: var(--card); border: 1px solid var(--hair); color: var(--ink);
+    transition: transform .12s var(--ease);
   }
   .igrow:active { transform: scale(.97); }
-  .ig-ic { flex-shrink: 0; color: var(--cream); }
-  .igstars { color: #F5B301; font-size: 13px; letter-spacing: 2.5px; }
+  .ig-ic { flex-shrink: 0; color: var(--red); }
+  .ighandle { font-size: 14px; }
+  .igstars { color: var(--amber); font-size: 13px; letter-spacing: 2px; }
 
-  /* ── the card gallery — best-seller first, swipeable, snap-centered ── */
+  /* ── the card gallery — best-seller first, one card per swipe, every card centred ── */
+  .gwrap { position: relative; }
   .gallery {
-    display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: none;
+    display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-    padding: 4px 32px 10px; scroll-padding-inline: 32px; scrollbar-width: none;
+    padding: 4px 0 16px; scrollbar-width: none;
   }
   .gallery::-webkit-scrollbar { display: none; }
+  /* spacers instead of padding (Safari drops a scroller's end padding): each one is
+     exactly the room that centres the first / last card */
+  .gallery::before, .gallery::after { content: ''; flex: 0 0 calc((100% - var(--card-w)) / 2 - 12px); }
+  /* the card is a button that flips: front = the order open and steaming, back = the same
+     order closed with the red seal. The faces carry the look; the card only holds the 3D. */
   .gcard {
-    flex: 0 0 min(78vw, 380px); scroll-snap-align: center;
-    border-radius: 18px; overflow: hidden; display: block; position: relative;
-    border: 1px solid var(--line); box-shadow: 0 10px 34px rgba(0,0,0,.5);
-    background: var(--card);
+    flex: 0 0 var(--card-w); scroll-snap-align: center; scroll-snap-stop: always;
+    position: relative; display: block; padding: 0; border: 0; background: none; cursor: pointer;
+    text-align: right; color: var(--ink); font: inherit; perspective: 1400px;
     -webkit-user-select: none; user-select: none;
-    -webkit-tap-highlight-color: transparent;
   }
-  .gcard img {
-    width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;
+  .gflip { position: relative; display: grid; transform-style: preserve-3d;
+           transition: transform .7s cubic-bezier(.45,.05,.55,.95); }  /* symmetric: edge-on exactly at .35 s */
+  .gcard.is-flipped .gflip { transform: rotateY(180deg); }
+  .gface {
+    grid-area: 1 / 1; display: block; overflow: hidden; border-radius: 20px;
+    background: var(--card); border: 1px solid rgba(26,21,18,.06); box-shadow: var(--shadow);
+    -webkit-backface-visibility: hidden; backface-visibility: hidden; transform: rotateY(0deg);
+  }
+  .gback { transform: rotateY(180deg); }
+  /* Safari flattens 3D inside a horizontal scroller and then ignores backface-visibility,
+     so each face also switches visibility at the exact midpoint of the turn (.35 s of .7 s) */
+  .gfront, .gback { transition: visibility 0s linear .35s; }
+  .gback, .gcard.is-flipped .gfront { visibility: hidden; }
+  .gcard.is-flipped .gback { visibility: visible; }
+  .gcard:focus-visible { outline: none; }
+  .gcard:focus-visible .gface { outline: 3px solid var(--amber); outline-offset: 2px; }
+  /* one-time hint that the row moves: the cards lean toward the next one and settle.
+     A transform, never a scroll — it can't fight the snap. */
+  .gallery.is-nudge .gcard { animation: peek 1.1s var(--ease); }
+  @keyframes peek { 45% { transform: translateX(26px); } }
+  .gphoto, .ophoto { position: relative; display: block; background: var(--ph); }
+  .gphoto { height: var(--photo-h); }
+  .gphoto img, .ophoto img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
     -webkit-user-drag: none; pointer-events: none;
   }
-  .gcard .zoom {
-    position: absolute; bottom: 8px; left: 8px;
-    background: rgba(18,16,13,.8); color: var(--cream);
-    border: 1px solid rgba(200,128,45,.5); border-radius: 999px;
-    padding: 4px 10px; font-size: 11.5px; font-weight: 800; font-family: 'Cairo', sans-serif;
+  .flipicon {
+    position: absolute; bottom: 8px; left: 8px; width: 32px; height: 32px;
+    border-radius: 50%; display: grid; place-items: center;
+    background: rgba(242,232,213,.9); color: var(--ink);
   }
-  .gwrap { position: relative; }
+  .flipicon .ic { width: 16px; height: 16px; stroke-width: 2.2; }
+  .badge {
+    position: absolute; top: 8px; right: 8px; padding: 2px 10px; border-radius: 999px;
+    font-size: 11.5px; font-weight: 700; line-height: 1.7;
+  }
+  .badge-amber { background: var(--amber); color: var(--ink); }
+  .badge-red { background: var(--red); color: var(--cream); }
+  .gbody, .obody { display: block; padding: 10px 14px 12px; }
+  .gkick, .okick { display: block; font-size: 12px; font-weight: 700; color: var(--amber); }
+  .gname, .oname { display: block; font-size: 17px; font-weight: 900; line-height: 1.35; }
+  .gsub, .osub { display: block; font-size: 12.5px; color: var(--text2); line-height: 1.5; margin-top: 2px; }
+  .gprice, .oprice { display: flex; align-items: baseline; gap: 5px; flex-wrap: wrap; }
+  .gprice { margin-top: 4px; }
+  .gprice b, .oprice b { font-family: 'Alfa Slab One', 'Cairo', sans-serif; font-weight: 400; color: var(--ink); font-size: 30px; line-height: 1; }
+  .gprice small, .oprice small { font-size: 12.5px; font-weight: 700; color: var(--muted); }
+  .gprice s, .oprice s { font-family: 'Alfa Slab One', 'Cairo', sans-serif; color: var(--muted); font-size: 14px; }
+  .gprice .sz, .oprice .sz { font-size: 13px; font-weight: 700; color: var(--text2); }
+  .gprice .sep { color: var(--muted); margin: 0 3px; }
+  .gprice-2 b { font-size: 24px; }
+  /* twin arrows: same size, same style, mirrored on the centre axis; they sit over the
+     neighbour peeks, never over the centred card */
   .garrow {
-    position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
-    width: 58px; height: 58px; border-radius: 50%; border: 2px solid rgba(200,128,45,.75);
-    background: rgba(18,16,13,.88); color: var(--cream); font-size: 30px; font-weight: 900;
-    line-height: 1; padding-bottom: 4px;
-    display: flex; align-items: center; justify-content: center; cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
+    position: absolute; top: calc(4px + var(--photo-h) / 2 - 22px); z-index: 3;
+    width: 44px; height: 44px; border-radius: 50%; border: none; cursor: pointer;
+    display: grid; place-items: center;
+    background: rgba(251,247,239,.96); color: var(--ink); box-shadow: var(--shadow);
+    transition: opacity .2s, transform .12s var(--ease);
   }
-  .garrow:active { background: rgba(200,128,45,.35); }
-  .garrow-l { left: 6px; }
-  .garrow-r { right: 6px; }
-  .dots { display: flex; gap: 7px; justify-content: center; margin: 2px 0 4px; }
-  .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(242,232,213,.25); transition: background .2s, transform .2s; }
-  .dot.on { background: var(--amber-lt); transform: scale(1.25); }
-  .swipe-hint { color: var(--dim); font-size: 12px; font-weight: 700; margin-bottom: 12px; }
-  @media (prefers-reduced-motion: no-preference) {
-    .swipe-hint span { display: inline-block; animation: nudge 1.6s ease-in-out 3; }
-    @keyframes nudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-5px); } }
-  }
+  .garrow .ic { width: 22px; height: 22px; stroke-width: 2.4; }
+  .garrow-l { left: 8px; }
+  .garrow-r { right: 8px; }
+  .garrow.is-end { opacity: .35; }
+  .garrow:active { transform: scale(.92); }
+  .dots { display: flex; gap: 6px; justify-content: center; margin: 0 0 4px; }
+  .dot { width: 6px; height: 6px; border-radius: 999px; background: rgba(26,21,18,.2); transition: width .25s var(--ease), background .25s; }
+  .dot.on { width: 18px; background: var(--red); }
 
-  .lb {
-    position: fixed; inset: 0; z-index: 20; background: rgba(10,9,7,.94);
-    display: none; align-items: center; justify-content: center; padding: 14px;
+  .vidbox { margin: 18px 16px 0; border-radius: 20px; overflow: hidden;
+            background: var(--card); box-shadow: var(--shadow); border: 1px solid rgba(26,21,18,.06); }
+  /* stacked clips, one visible; the stage keeps one fixed shape so nothing jumps */
+  .vstage { position: relative; aspect-ratio: 720 / 648; background: var(--ink); overflow: hidden; touch-action: pan-y; }
+  .vslide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+            opacity: 0; transition: opacity .45s ease; }
+  .vslide.is-on { opacity: 1; }
+  .varrow {
+    position: absolute; top: 50%; margin-top: -22px; z-index: 2; width: 44px; height: 44px;
+    border-radius: 50%; border: none; cursor: pointer; display: grid; place-items: center;
+    background: rgba(251,247,239,.92); color: var(--ink); box-shadow: var(--shadow);
+    transition: transform .12s var(--ease);
   }
-  .lb.open { display: flex; }
-  .lb img { max-width: 100%; max-height: 88vh; border-radius: 14px; }
-  .lb .lb-close {
-    position: absolute; top: calc(12px + env(safe-area-inset-top)); left: 16px;
-    width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(242,232,213,.4);
-    background: rgba(28,24,19,.9); color: var(--cream); font-size: 22px; font-weight: 900;
-  }
-  .vidbox {
-    margin: 4px 18px 0; border-radius: 18px; overflow: hidden;
-    border: 1px solid var(--line); box-shadow: 0 10px 34px rgba(0,0,0,.5); background: var(--card);
-  }
-  .vidbox video { width: 100%; display: block; }
-  .vidcap { padding: 10px 12px; font-size: 14px; font-weight: 800; color: var(--cream-2); }
-  .note { margin: 14px 18px 0; color: var(--cream-2); font-size: 14.5px; font-weight: 700; line-height: 1.8; }
+  .varrow:active { transform: scale(.92); }
+  .varrow .ic { width: 22px; height: 22px; stroke-width: 2.4; }
+  .varrow-l { left: 10px; }
+  .varrow-r { right: 10px; }
+  .vfoot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; }
+  .vdots { display: flex; gap: 5px; flex-shrink: 0; }
+  .vdots span { width: 6px; height: 6px; border-radius: 999px; background: rgba(26,21,18,.2); transition: width .25s var(--ease), background .25s; }
+  .vdots span.on { width: 16px; background: var(--red); }
+  .vidcap { font-size: 13.5px; font-weight: 700; color: var(--text2); line-height: 1.6; min-height: 2.4em; }
+  .privacy { margin: 6px 16px 0; font-size: 11px; line-height: 1.6; color: var(--muted); text-align: center; }
+  .note { margin: 18px 16px 0; color: var(--text2); font-size: 14px; font-weight: 700; line-height: 1.7; }
 
-  /* ordering options — fixed, always on screen */
+  /* ordering options — fixed, always on screen. Grid: WA full width, then order + call
+     as twins; the cart bar spans the top when the cart has items. Centred at max 528. */
   .actions {
     position: fixed; bottom: 0; right: 0; left: 0; z-index: 5;
-    display: flex; flex-direction: column; gap: 7px; align-items: center;
-    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
-    background: linear-gradient(0deg, var(--bg) 72%, transparent);
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;
+    padding: 10px max(16px, calc((100% - 528px) / 2)) calc(12px + env(safe-area-inset-bottom));
+    background: rgba(242,232,213,.94); border-top: 1px solid var(--hair);
+    -webkit-backdrop-filter: saturate(1.5) blur(14px); backdrop-filter: saturate(1.5) blur(14px);
+    box-shadow: 0 -10px 24px -18px rgba(26,21,18,.45);
   }
   .btn {
-    width: 100%; max-width: 420px;
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    border-radius: 16px; text-decoration: none; white-space: nowrap;
-    font-family: 'Cairo', sans-serif; font-weight: 900; color: #fff;
-  }
-  .btn-wa { min-height: 56px; font-size: 17.5px; background: linear-gradient(180deg, var(--wa-lt), var(--wa)); box-shadow: 0 6px 22px rgba(31,175,87,.35); }
-  .wa-ic { flex-shrink: 0; }
-  .btn-order {
-    min-height: 52px; font-size: 16px; color: var(--cream);
-    background: rgba(242,232,213,.07); border: 2px solid var(--amber-lt);
-    box-shadow: 0 6px 22px rgba(0,0,0,.35);
-  }
-  /* the order button steps aside while the add-to-cart section is on screen */
-  .btn-order.is-away { display: none; }
-  .btn-call { min-height: 47px; font-size: 15.5px; background: linear-gradient(180deg, var(--amber-lt), var(--amber)); color: #1C1005; box-shadow: 0 6px 22px rgba(200,128,45,.3); }
-  .btn:active { transform: scale(.985); }
-
-  /* ── the in-page order section (2026-08-24): same cards, stacked, add buttons ── */
-  .order { margin: 26px 18px 0; scroll-margin-top: 10px; }
-  .order-h { font-size: 24px; font-weight: 900; }
-  .order-sub { color: var(--cream-2); font-size: 13.5px; font-weight: 700; margin: 4px 0 14px; }
-  .ocard {
-    border-radius: 18px; overflow: hidden; background: var(--card);
-    border: 1px solid var(--line); box-shadow: 0 10px 34px rgba(0,0,0,.5);
-    margin-bottom: 14px;
-  }
-  .ocard img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
-  .obtns { display: flex; gap: 8px; padding: 10px; }
-  .obtn {
-    flex: 1; min-height: 50px; border: none; border-radius: 13px; cursor: pointer;
-    background: linear-gradient(180deg, var(--amber-lt), var(--amber)); color: #1C1005;
-    font-family: 'Cairo', sans-serif; font-size: 15px; font-weight: 900;
     display: flex; align-items: center; justify-content: center; gap: 8px;
-    -webkit-tap-highlight-color: transparent;
+    border-radius: 14px; text-decoration: none; white-space: nowrap;
+    font-family: 'Cairo', sans-serif; font-weight: 900;
+    transition: transform .12s var(--ease);
   }
-  .obtn:active { transform: scale(.97); }
-  .obtn .add-lbl {
-    display: inline-grid; place-items: center; min-width: 26px; height: 26px;
-    padding: 0 4px; border-radius: 999px; background: rgba(18,16,13,.35); font-size: 15px;
+  .btn:active { transform: scale(.97); }
+  .btn .ic { width: 20px; height: 20px; }
+  .btn-wa { grid-column: 1 / -1; min-height: 48px; font-size: 17px; background: var(--wa); color: var(--ink); }
+  .wa-ic { flex-shrink: 0; }
+  /* the twins: same surface, same border, same icon colour — labels shrink a little
+     on 360 px phones so they never spill out */
+  .btn-order, .btn-call {
+    min-height: 44px; padding: 0 6px; gap: 6px; font-size: clamp(13px, 3.8vw, 15px);
+    background: var(--card); color: var(--ink); border: 1px solid var(--line);
   }
-  .obtn.is-flash { background: linear-gradient(180deg, var(--wa-lt), var(--wa)); color: #fff; }
+  .btn-order .ic, .btn-call .ic { width: 18px; height: 18px; color: var(--red); }
+  /* the order button steps aside while the add-to-cart section is on screen;
+     the call button then takes the whole row */
+  .btn-order.is-away { display: none; }
+  .btn-order.is-away + .btn-call { grid-column: 1 / -1; }
 
-  /* cart bar — lives at the top of the fixed action stack; hidden when empty */
+  /* ── the in-page order section: same products stacked, + / stepper per size ── */
+  .order { margin: 36px 16px 0; scroll-margin-top: 12px; text-align: right; }
+  .order-h { font-size: 26px; font-weight: 900; line-height: 1.3; }
+  .order-sub { color: var(--text2); font-size: 14.5px; margin: 2px 0 16px; line-height: 1.6; }
+  .ocard {
+    position: relative; overflow: hidden; border-radius: 20px; margin-bottom: 14px;
+    background: var(--card); border: 1px solid rgba(26,21,18,.06); box-shadow: var(--shadow);
+    transition: box-shadow .2s;
+  }
+  /* a ring, not a border: the in-cart state never shifts the card's content */
+  .ocard.is-in-cart { box-shadow: 0 0 0 2px var(--red), var(--shadow); }
+  .ophoto { aspect-ratio: 2 / 1; }
+  .incart-tag {
+    display: none; position: absolute; top: 8px; left: 8px; z-index: 1;
+    align-items: center; gap: 4px; padding: 2px 10px 2px 8px; border-radius: 999px;
+    background: var(--ink); color: var(--cream); font-size: 12px; font-weight: 700; line-height: 1.7;
+  }
+  .incart-tag .ic { width: 14px; height: 14px; stroke-width: 2.6; }
+  .ocard.is-in-cart .incart-tag { display: inline-flex; }
+  .obody { padding-bottom: 8px; }
+  .orows { display: flex; flex-direction: column; gap: 8px; padding: 0 12px 12px; }
+  .orow {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    min-height: 56px; padding: 6px 12px 6px 6px; border-radius: 16px; background: var(--tint);
+  }
+  .oprice b { font-size: 24px; }
+  .oprice .sz { font-size: 14px; color: var(--ink); font-weight: 900; margin-left: 2px; }
+  /* qty control: «زيد +» pill while that size is not in the cart, red − n + stepper once it is */
+  .qty {
+    display: flex; align-items: center; flex-shrink: 0; height: 44px; border-radius: 999px;
+    background: var(--red); color: var(--cream);
+  }
+  .qbtn, .obtn {
+    height: 44px; min-width: 44px; border: none; border-radius: 999px; cursor: pointer;
+    background: transparent; color: inherit; display: flex; align-items: center; justify-content: center;
+  }
+  .qbtn .ic, .obtn .ic { width: 20px; height: 20px; stroke-width: 2.6; }
+  .obtn { gap: 6px; padding: 0 16px; font-family: 'Cairo', sans-serif; font-size: 15px; font-weight: 900; }
+  .qn { min-width: 22px; text-align: center; font-family: 'Alfa Slab One', 'Cairo', sans-serif; font-size: 16px; }
+  .qty .qbtn, .qty .qn { display: none; }
+  .qty.is-in .qbtn, .qty.is-in .qn { display: flex; justify-content: center; }
+  .qty.is-in .obtn { padding: 0; }
+  .qty.is-in .add-lbl { display: none; }
+  .qbtn:active, .obtn:active { background: rgba(0,0,0,.18); }
+  .obtn.is-flash .ic { animation: pop .35s var(--ease); }
+  @keyframes pop { 50% { transform: scale(1.45); } }
+
+  /* cart bar — spans the top of the action grid; hidden when empty */
   #cart-empty { display: none !important; }
   .cartbar-btn {
-    width: 100%; max-width: 420px; min-height: 54px;
-    display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
-    border: none; border-radius: 16px; cursor: pointer;
-    background: linear-gradient(180deg, var(--amber-lt), var(--amber)); color: #1C1005;
-    font-family: 'Cairo', sans-serif; font-weight: 900; font-size: 16px;
-    box-shadow: 0 10px 26px rgba(0,0,0,.5);
+    grid-column: 1 / -1; min-height: 50px; padding: 0 12px 0 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    border: none; border-radius: 14px; cursor: pointer;
+    background: var(--ink); color: var(--cream);
+    font-family: 'Cairo', sans-serif; font-weight: 900; font-size: 15px;
+    transition: transform .12s var(--ease);
+    animation: rise .3s var(--ease);
   }
-  .cartbar-live { display: flex; align-items: center; gap: 9px; }
+  .cartbar-btn:active { transform: scale(.98); }
+  @keyframes rise { from { transform: translateY(12px); opacity: 0; } }
+  .cartbar-live { display: flex; align-items: center; gap: 10px; }
   .cart-badge {
-    display: inline-grid; place-items: center; width: 26px; height: 26px;
-    border-radius: 50%; background: #1C1005; color: var(--cream); font-size: 13px;
+    display: inline-grid; place-items: center; min-width: 28px; height: 28px; padding: 0 6px; border-radius: 999px;
+    background: var(--amber); color: var(--ink); font-family: 'Alfa Slab One', 'Cairo', sans-serif; font-size: 14px;
   }
   .cart-badge.is-bump { animation: bump .3s; }
-  @keyframes bump { 50% { transform: scale(1.35); } }
-  .cartbar-cta { font-size: 14px; opacity: .85; }
+  @keyframes bump { 50% { transform: scale(1.3); } }
+  .cartbar-cta { display: inline-flex; align-items: center; gap: 2px; font-size: 14px; }
+  .cartbar-cta .ic { width: 16px; height: 16px; }
 
-  /* checkout sheet — behavior driven by js/app.js, styled to match the landing */
+  /* checkout sheet — behavior driven by js/app.js */
   .scrim {
-    position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.6);
+    position: fixed; inset: 0; z-index: 50; background: rgba(26,21,18,.55);
     transition: opacity .25s; opacity: 0; pointer-events: none;
   }
   .scrim.is-open { opacity: 1; pointer-events: auto; }
@@ -221,289 +339,562 @@ fbq('track', 'PageView');
     position: fixed; right: 0; left: 0; bottom: 0; z-index: 60;
     display: flex; justify-content: center;
     transform: translateY(105%); visibility: hidden;
-    transition: transform .3s cubic-bezier(.2,.8,.25,1), visibility 0s linear .3s;
+    transition: transform .3s var(--ease), visibility 0s linear .3s;
   }
   .sheet.is-open {
     transform: translateY(0); visibility: visible;
-    transition: transform .3s cubic-bezier(.2,.8,.25,1), visibility 0s;
+    transition: transform .3s var(--ease), visibility 0s;
   }
+  .sheet.is-drag { transition: none; }
   .sheet-panel {
-    width: 100%; max-width: 560px; background: var(--card);
-    border-radius: 24px 24px 0 0; border-top: 1px solid rgba(200,128,45,.4);
-    box-shadow: 0 -20px 50px rgba(0,0,0,.6); max-height: 88vh; overflow-y: auto;
-    padding: 10px 18px calc(22px + env(safe-area-inset-bottom));
-    text-align: right;
+    width: 100%; max-width: 560px; background: var(--cream); color: var(--ink);
+    border-radius: 24px 24px 0 0; max-height: 88vh; max-height: 88svh; overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 6px 16px calc(22px + env(safe-area-inset-bottom)); text-align: right;
+    box-shadow: 0 -12px 32px -12px rgba(26,21,18,.4);
   }
-  .sheet-grab { display: flex; justify-content: center; padding: 6px 0 12px; }
-  .sheet-grab span { width: 44px; height: 4px; border-radius: 2px; background: rgba(242,232,213,.25); }
+  .sheet-grab { display: flex; justify-content: center; padding: 8px 0 12px; }
+  .sheet-grab span { width: 40px; height: 5px; border-radius: 3px; background: rgba(26,21,18,.22); }
+  .sheet-grab, .sheet-head { touch-action: none; }
   .sheet-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
   .sheet-title { margin: 0; font-size: 22px; font-weight: 900; }
   .sheet-x {
-    width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
-    border: 1px solid rgba(242,232,213,.15); background: transparent;
-    color: var(--cream-2); font-size: 18px;
+    width: 44px; height: 44px; border-radius: 50%; cursor: pointer; border: none;
+    background: var(--tint); color: var(--ink); display: grid; place-items: center;
   }
-  .lines { display: flex; flex-direction: column; gap: 10px; }
+  .lines { display: flex; flex-direction: column; gap: 8px; }
   .line {
-    display: flex; align-items: center; gap: 12px; padding: 10px 12px;
-    border-radius: 14px; background: rgba(242,232,213,.04);
+    display: flex; align-items: center; gap: 10px; padding: 10px 10px 10px 12px; border-radius: 16px;
+    background: var(--card); border: 1px solid rgba(26,21,18,.06);
   }
   .line-txt { flex: 1; min-width: 0; }
-  .line-name { font-size: 15.5px; font-weight: 800; }
-  .line-sub { font-size: 12.5px; color: var(--dim); margin-top: 2px; }
-  .stepper { display: flex; align-items: center; gap: 4px; background: rgba(0,0,0,.3); border-radius: 999px; padding: 3px; }
-  .step-btn { width: 38px; height: 38px; border-radius: 50%; border: none; font-size: 19px; font-weight: 900; cursor: pointer; }
-  .step-dec { background: rgba(242,232,213,.08); color: var(--cream); }
-  .step-inc { background: var(--amber); color: #1C1005; }
-  .line-qty { min-width: 26px; text-align: center; font-size: 16px; font-weight: 900; }
-  .line-total { min-width: 62px; text-align: left; font-size: 15px; font-weight: 900; color: var(--amber); }
+  .line-name { font-size: 15px; font-weight: 900; line-height: 1.4; }
+  .line-sub { font-size: 12.5px; color: var(--text2); margin-top: 1px; }
+  .stepper { display: flex; align-items: center; gap: 2px; border-radius: 999px; padding: 2px; background: var(--tint); }
+  .step-btn { width: 40px; height: 40px; border-radius: 50%; border: none; font-size: 20px; font-weight: 900; line-height: 1;
+              cursor: pointer; display: grid; place-items: center; transition: transform .12s var(--ease); }
+  .step-btn:active { transform: scale(.9); }
+  .step-dec { background: var(--card); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+  .step-inc { background: var(--red); color: var(--cream); }
+  .step-btn .ic { width: 18px; height: 18px; stroke-width: 2.6; }
+  .line-qty { min-width: 22px; text-align: center; font-family: 'Alfa Slab One', 'Cairo', sans-serif; font-size: 15px; }
+  .line-total { min-width: 56px; text-align: left; font-family: 'Alfa Slab One', 'Cairo', sans-serif; font-size: 15px; }
   .total-row {
     display: flex; align-items: baseline; justify-content: space-between;
-    margin: 18px 2px 16px; padding-top: 14px; border-top: 1px dashed rgba(242,232,213,.18);
+    margin: 16px 2px 12px; padding-top: 14px; border-top: 1px solid var(--hair);
   }
-  .total-lbl { font-size: 16px; font-weight: 700; color: var(--cream-2); }
-  .total-val { font-size: 34px; font-weight: 900; color: var(--amber); line-height: 1; }
-  .total-row-sub { margin: -8px 2px 0; padding-top: 0; border-top: 0; }
-  .total-lbl-sub { font-size: 14px; }
-  .total-val-sub { font-size: 17px; font-weight: 800; color: var(--cream-2); }
-  .total-val-sub.is-free { color: #9FD89F; }
-  .total-row-grand { margin-top: 10px; padding-top: 12px; }
+  .total-lbl { font-size: 16px; font-weight: 700; }
+  .total-val { font-family: 'Alfa Slab One', 'Cairo', sans-serif; font-size: 26px; color: var(--ink); line-height: 1; }
+  .total-row-sub { margin: -4px 2px 0; padding-top: 0; border-top: 0; }
+  .total-lbl-sub { font-size: 15px; color: var(--text2); }
+  .total-val-sub { font-size: 16px; }
+  .total-val-sub.is-free { font-family: 'Cairo', sans-serif; font-weight: 900; color: var(--ok); }
+  .total-row-grand { margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--hair); }
+  .total-row-grand .total-val { font-size: 30px; }
+  /* the unit is a quiet label next to the number, never as loud as the number */
+  .total-val small, .line-total small { font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 13px; color: var(--muted); margin-right: 3px; }
   .free-nudge {
-    margin: 10px 2px 0; padding: 10px 14px; border-radius: 14px;
-    background: rgba(74,107,74,.18); border: 1px dashed rgba(127,174,127,.55);
-    font-size: 13.5px; font-weight: 800;
+    margin: 12px 0 0; padding: 12px 14px; border-radius: 14px;
+    background: rgba(200,128,45,.16); border: 1px solid rgba(200,128,45,.35); font-size: 14px; font-weight: 700;
   }
-  .addr-head { font-size: 16px; font-weight: 900; margin: 18px 0 4px; }
-  .addr-hint { margin: 0 0 14px; font-size: 12.5px; line-height: 1.7; color: var(--dim); }
-  .addr-lbl { display: block; font-size: 14.5px; font-weight: 800; color: var(--cream-2); margin-bottom: 8px; }
+  .addr-head { font-size: 17px; font-weight: 900; margin: 22px 0 2px; }
+  .addr-hint { margin: 0 0 14px; font-size: 12.5px; line-height: 1.7; color: var(--text2); }
+  .addr-lbl { display: block; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .addr-fr { color: var(--muted); font-weight: 400; font-size: 12px; }
   .addr-lbl-gap { margin-top: 12px; }
+  /* 16 px is the floor: iPhone zooms the whole page into any smaller input on focus */
   .addr {
-    width: 100%; padding: 14px; border-radius: 14px; background: rgba(0,0,0,.3);
-    border: 1px solid rgba(242,232,213,.18); color: var(--cream);
-    font-family: 'Cairo', sans-serif; font-size: 15px; line-height: 1.7; outline: none;
-    min-height: 50px;
+    width: 100%; padding: 11px 14px; border-radius: 12px; background: var(--card);
+    border: 1px solid var(--line); color: var(--ink); -webkit-appearance: none; appearance: none;
+    font-family: 'Cairo', sans-serif; font-size: 16px; line-height: 1.6; outline: none; min-height: 48px;
+    transition: border-color .15s, box-shadow .15s;
   }
-  .addr:focus-visible { border-color: var(--amber); }
+  .addr::placeholder { color: var(--muted); }
+  .addr:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(200,128,45,.22); }
   .locchip {
-    margin-top: 12px; display: flex; align-items: center; gap: 8px; min-height: 46px;
-    padding: 10px 14px; border-radius: 999px; font-size: 13.5px; font-weight: 800;
+    margin-top: 12px; display: flex; align-items: center; gap: 8px; min-height: 44px;
+    padding: 10px 14px; border-radius: 999px; font-size: 13.5px; font-weight: 700;
   }
-  .locchip.is-ok { background: rgba(74,107,74,.18); border: 1px solid rgba(74,107,74,.6); color: #9FD89F; }
+  .locchip.is-ok { background: rgba(30,122,70,.12); border: 1px solid rgba(30,122,70,.45); color: #135C30; }
+  .locchip.is-ok::before {
+    content: ''; width: 18px; height: 18px; flex-shrink: 0; background: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
   .cta-ghost {
-    width: 100%; border-radius: 14px; cursor: pointer;
-    background: rgba(242,232,213,.06); border: 1px solid rgba(200,128,45,.55);
-    color: var(--cream); font-family: 'Cairo', sans-serif; font-weight: 800;
+    width: 100%; border-radius: 12px; cursor: pointer; background: var(--card);
+    border: 1px solid var(--line); color: var(--ink);
+    font-family: 'Cairo', sans-serif; font-weight: 900;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: transform .12s var(--ease);
   }
-  .map-btn { margin-top: 10px; min-height: 46px; font-size: 15px; }
-  .map-btn-opt { font-weight: 600; font-size: 13px; color: var(--dim); }
-  .map-center-btn { margin-top: 8px; min-height: 44px; font-size: 14px; }
-  .map-hint { margin: 10px 2px 0; font-size: 12.5px; line-height: 1.7; color: var(--dim); }
-  .map {
-    position: relative; z-index: 0; margin-top: 10px; height: 180px;
-    border-radius: 14px; overflow: hidden;
-    border: 1px solid rgba(242,232,213,.18); background: rgba(0,0,0,.3);
-  }
-  .send-reassure { margin: 14px 2px 10px; text-align: center; font-size: 13.5px; font-weight: 700; line-height: 1.7; color: var(--cream-2); }
-  .wa-btn {
-    margin-top: 6px; width: 100%; min-height: 62px; border: none; border-radius: 16px;
-    background: linear-gradient(180deg, var(--wa-lt), var(--wa)); color: #fff;
-    font-family: 'Cairo', sans-serif; font-size: 19px; font-weight: 900; cursor: pointer;
-    box-shadow: 0 12px 26px rgba(31,175,87,.25); transition: opacity .2s, filter .2s;
-  }
-  .wa-btn[disabled] { cursor: not-allowed; filter: grayscale(.75); opacity: .5; box-shadow: none; }
-  .wa-btn.is-loading { cursor: progress; opacity: .8; }
-  .sheet-note-sm { margin-top: 8px; text-align: center; font-size: 12.5px; color: var(--dim); }
+  .cta-ghost:active { transform: scale(.98); }
+  .cta-ghost .ic { color: var(--red); }
+  .map-btn { margin-top: 12px; min-height: 48px; font-size: 15px; }
+  .map-btn-opt { font-weight: 400; font-size: 13px; color: var(--text2); }
 
-  /* ── the delivery snail: rides down the page, parks over the buttons,
-        announces «وصل سخون وكيفور» — pure fun, never blocks a tap ── */
-  #rider {
-    position: fixed; top: 0; right: 10px; z-index: 8;
-    pointer-events: none; transform: translateY(-130px);
+  /* ── full-screen location picker: slides up over the sheet; the pin is fixed at the
+        centre and lifts while the map moves (the Glovo pattern) ── */
+  .mapview {
+    position: fixed; inset: 0; z-index: 80; display: flex; flex-direction: column;
+    background: var(--cream); transform: translateY(100%); visibility: hidden;
+    transition: transform .32s var(--ease), visibility 0s linear .32s;
   }
-  #rider.is-run {
-    transform: translateY(calc(100vh - 258px));
-    transition: transform 3s cubic-bezier(.5,.05,.6,.95);
+  .mapview.is-open { transform: none; visibility: visible; transition: transform .32s var(--ease), visibility 0s; }
+  .mv-top {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: calc(8px + env(safe-area-inset-top)) 12px 8px; background: var(--cream);
+    border-bottom: 1px solid var(--hair);
   }
-  .rider-guy { position: relative; display: block; font-size: 32px; line-height: 1; }
-  .rider-snail { position: absolute; top: -17px; right: 8px; font-size: 21px; }
-  .rider-steam { position: absolute; top: -26px; right: 10px; opacity: 0; }
-  #rider.is-run .rider-steam { opacity: 1; }
-  .rider-steam i {
-    position: absolute; width: 8px; height: 8px; border-radius: 50%;
-    background: rgba(242,232,213,.55); animation: rpuff 1s infinite;
+  .mv-x {
+    width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; border: none; cursor: pointer;
+    background: var(--tint); color: var(--ink); display: grid; place-items: center;
   }
-  .rider-steam i:nth-child(2) { right: 10px; animation-delay: .33s; }
-  .rider-steam i:nth-child(3) { right: -8px; animation-delay: .66s; }
-  @keyframes rpuff {
-    0% { transform: translateY(0) scale(.6); opacity: .85; }
-    100% { transform: translateY(-26px) scale(1.5); opacity: 0; }
+  .mv-ghost { visibility: hidden; }  /* mirrors the X so the title sits dead centre */
+  .mv-title { font-size: 18px; font-weight: 900; }
+  .mv-search { position: relative; z-index: 4; padding: 10px 12px; background: var(--cream); border-bottom: 1px solid var(--hair); }
+  .mv-field {
+    display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 6px 0 14px; border-radius: 14px;
+    background: var(--card); border: 1px solid var(--line); transition: border-color .15s, box-shadow .15s;
   }
+  .mv-field:focus-within { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(200,128,45,.22); }
+  .mv-field > .ic { width: 20px; height: 20px; color: var(--muted); }
+  /* 16 px: iPhone must not zoom in on focus */
+  .mv-field input {
+    flex: 1; min-width: 0; height: 100%; border: none; outline: none; background: transparent; color: var(--ink);
+    font-family: 'Cairo', sans-serif; font-size: 16px; -webkit-appearance: none; appearance: none;
+  }
+  .mv-field input::placeholder { color: var(--muted); }
+  .mv-field input::-webkit-search-cancel-button { display: none; }
+  .mv-q-x {
+    width: 36px; height: 36px; flex-shrink: 0; border: none; border-radius: 50%; cursor: pointer;
+    background: var(--tint); color: var(--ink); display: grid; place-items: center;
+  }
+  .mv-q-x .ic { width: 16px; height: 16px; }
+  .mv-results {
+    position: absolute; left: 12px; right: 12px; top: calc(100% - 4px); list-style: none;
+    max-height: 50vh; overflow-y: auto; overscroll-behavior: contain;
+    background: var(--card); border-radius: 16px; box-shadow: 0 16px 32px -12px rgba(26,21,18,.45);
+    border: 1px solid rgba(26,21,18,.08); padding: 4px 0;
+  }
+  .mv-res {
+    display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 8px 14px;
+    border: none; background: transparent; cursor: pointer; text-align: right; color: var(--ink);
+    font-family: 'Cairo', sans-serif;
+  }
+  .mv-res:active, .mv-res.is-active { background: var(--tint); }
+  .mv-results li + li .mv-res { border-top: 1px solid var(--hair); }
+  .mv-res .ic { width: 18px; height: 18px; color: var(--red); }
+  .mv-res-txt { flex: 1; min-width: 0; }
+  .mv-res-name { display: block; font-size: 15px; font-weight: 900; line-height: 1.4;
+                 white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mv-res-sub { display: block; font-size: 12.5px; color: var(--text2); line-height: 1.5;
+                white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mv-res-note { padding: 14px; font-size: 13.5px; font-weight: 700; color: var(--text2); line-height: 1.6; text-align: center; }
+  .mv-mapwrap { position: relative; flex: 1; min-height: 0; background: #EDE6D8; }
+  /* two classes: must beat maplibre-gl.css (.maplibregl-map { position: relative }), which loads later */
+  .mv-mapwrap .mv-map { position: absolute; inset: 0; }
+  .mv-pin {
+    position: absolute; left: 50%; top: 50%; width: 40px; height: 52px;
+    margin: -50px 0 0 -20px; pointer-events: none; z-index: 2;
+  }
+  .mv-pin svg { display: block; filter: drop-shadow(0 3px 4px rgba(26,21,18,.35)); transition: transform .2s var(--ease); }
+  .mv-pin::after {   /* the spot on the ground the tip points at */
+    content: ''; position: absolute; left: 50%; bottom: -4px; width: 12px; height: 5px; margin-left: -6px;
+    border-radius: 50%; background: rgba(26,21,18,.35); transition: transform .2s var(--ease), opacity .2s;
+  }
+  .mapview.is-moving .mv-pin svg { transform: translateY(-12px); }
+  .mapview.is-moving .mv-pin::after { transform: scale(.6); opacity: .6; }
+  .mv-locate {
+    position: absolute; left: 14px; bottom: 14px; z-index: 2; width: 48px; height: 48px; border-radius: 50%;
+    border: none; cursor: pointer; display: grid; place-items: center;
+    background: var(--card); color: var(--red); box-shadow: var(--shadow);
+    transition: transform .12s var(--ease);
+  }
+  .mv-locate:active { transform: scale(.92); }
+  .mv-locate .ic { width: 22px; height: 22px; }
+  .mv-locate.is-busy .ic { animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .mv-msg {
+    position: absolute; left: 16px; right: 16px; top: 16px; z-index: 3; padding: 10px 14px; border-radius: 14px;
+    background: var(--ink); color: var(--cream); font-size: 13.5px; font-weight: 700; line-height: 1.6;
+  }
+  .mv-bottom {
+    padding: 12px 16px calc(14px + env(safe-area-inset-bottom)); background: var(--cream);
+    border-top: 1px solid var(--hair); box-shadow: 0 -10px 24px -18px rgba(26,21,18,.45);
+  }
+  .mv-hint { font-size: 13.5px; font-weight: 700; color: var(--text2); line-height: 1.6; margin-bottom: 10px; }
+  .mv-confirm {
+    width: 100%; min-height: 54px; border: none; border-radius: 14px; cursor: pointer;
+    background: var(--red); color: var(--cream); font-family: 'Cairo', sans-serif; font-size: 18px; font-weight: 900;
+    transition: opacity .2s, transform .12s var(--ease);
+  }
+  .mv-confirm:active { transform: scale(.98); }
+  .mv-confirm[disabled] { opacity: .4; cursor: not-allowed; }
+  /* MapLibre's own chrome, toned to the brand */
+  .mapview .maplibregl-ctrl-attrib { font-size: 10px; background: rgba(251,247,239,.85); }
+  .mapview .maplibregl-ctrl-bottom-right { bottom: 0; }
+  .send-reassure { margin: 18px 2px 10px; text-align: center; font-size: 13.5px; font-weight: 700; line-height: 1.7; color: var(--text2); }
+  .wa-btn {
+    margin-top: 4px; width: 100%; min-height: 54px; border: none; border-radius: 14px;
+    background: var(--wa); color: var(--ink);
+    font-family: 'Cairo', sans-serif; font-size: 18px; font-weight: 900; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    transition: opacity .2s, transform .12s var(--ease);
+  }
+  .wa-btn:active { transform: scale(.98); }
+  .wa-btn[disabled] { cursor: not-allowed; opacity: .45; }
+  .wa-btn.is-loading { cursor: progress; opacity: .8; }
+  .sheet-note-sm { margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px;
+                   font-size: 13px; font-weight: 700; color: var(--text2); }
+  .sheet-note-sm .ic { width: 16px; height: 16px; }
+
+  /* 320 px phones: the two-price line and the add pill tighten instead of wrapping */
+  @media (max-width: 340px) {
+    .gprice-2 b { font-size: 20px; }
+    .gprice .sep { margin: 0 1px; }
+    .obtn { padding: 0 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+
+  /* ── the delivery rider: pulls in from the LEFT edge of the header band and parks
+        in the strip left of the plate, announces «وصل سخون وكيفور». Lives INSIDE the
+        header and never crosses the plate or the tagline (landing_smoke samples the
+        whole ride), so it can never cover a price, name, button or the brand. ── */
+  #rider { position: absolute; bottom: 6px; left: -64px; z-index: 2; width: 48px; height: 36px; pointer-events: none; }
+  #rider.is-run { left: 6px; transition: left 1.6s cubic-bezier(.2,.7,.3,1); }
+  .rider-svg { display: block; width: 48px; height: 36px; transform: scaleX(-1); } /* drawn facing left; rides right */
   .rider-bubble {
-    position: absolute; top: -8px; right: 42px; white-space: nowrap;
-    background: var(--cream); color: #1C1005; font-weight: 900; font-size: 13.5px;
-    font-family: 'Cairo', sans-serif; padding: 7px 12px;
-    border-radius: 999px 999px 4px 999px; box-shadow: 0 6px 18px rgba(0,0,0,.45);
-    opacity: 0; transform: scale(.6); transform-origin: 100% 100%;
-    transition: opacity .25s, transform .25s;
+    /* two short lines so it fits in the strip LEFT of the plate, even at 360 px */
+    position: absolute; bottom: calc(100% + 2px); left: 0; width: 66px;
+    text-align: center; line-height: 1.25;
+    background: var(--cream); color: var(--ink); font-weight: 900; font-size: 11px;
+    padding: 3px 6px; border-radius: 10px 10px 10px 3px;
+    opacity: 0; transform: scale(.6); transform-origin: 0 100%; transition: opacity .25s, transform .25s;
   }
   #rider.is-said .rider-bubble { opacity: 1; transform: scale(1); }
+  .rider-steam { position: absolute; top: 4px; left: 8px; opacity: 0; } /* over the bowl, which the mirror puts on the left */
+  #rider.is-run .rider-steam { opacity: 1; }
+  .rider-steam i {
+    position: absolute; width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(242,232,213,.8); animation: rpuff 1s infinite;
+  }
+  .rider-steam i:nth-child(2) { right: 7px; animation-delay: .33s; }
+  .rider-steam i:nth-child(3) { right: -6px; animation-delay: .66s; }
+  @keyframes rpuff { 0% { transform: translateY(0) scale(.6); opacity: .9; } 100% { transform: translateY(-16px) scale(1.4); opacity: 0; } }
   @media (prefers-reduced-motion: reduce) { #rider { display: none; } }
 </style>
 </head>
 <body>
+<!-- icon sprite: 24 grid, 2 px stroke, round caps (style sheet). Use: <svg class="ic"><use href="#i-x"/></svg> -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-delivery" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.5 18H14l2.6-10.5"/><path d="M15 7.5h3"/><path d="M3.5 18v-3a3 3 0 0 1 3-3h4.5l3 6"/><rect x="4" y="4" width="7" height="5" rx="1"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-cash" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 5-5.5 10.2-7.4 11.8a1 1 0 0 1-1.2 0C9.5 20.2 4 15 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-flip" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-locate" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+</svg>
+
 <div class="wrap">
-  <div class="head pad">
-    <img class="logo" src="img/card-brand-0819.jpg" alt="با رشيد">
-    <div class="head-txt">
-      <h1>با رشيد</h1>
-      <div class="tag">عشرين عام ونفس البنة 🐌</div>
+  <h1 class="vh">با رشيد — ببوش فطنجة، توصيل بالليل</h1>
+  <div class="head">
+    <img class="plate" src="img/logo-plate-1006.svg" alt="با رشيد — BaRachid" width="173" height="64">
+    <div class="tag">20 عام ونفس البنة</div>
+    <div id="rider" aria-hidden="true">
+      <span class="rider-bubble">وصل سخون وكيفور</span>
+      <!-- drawn facing LEFT, mirrored in CSS to ride in from the left; bowl on the back rack -->
+      <svg class="rider-svg" viewBox="0 0 48 36">
+        <circle cx="10" cy="29" r="5" fill="#1A1512"/><circle cx="38" cy="29" r="5" fill="#1A1512"/>
+        <circle cx="10" cy="29" r="2" fill="#F2E8D5"/><circle cx="38" cy="29" r="2" fill="#F2E8D5"/>
+        <path d="M6 27l5-9h5l3 6h14l3-3h7v6z" fill="#C8802D"/>
+        <path d="M12 18l-2-7h-3" fill="none" stroke="#1A1512" stroke-width="2" stroke-linecap="round"/>
+        <path d="M18 23l2-10h6l2 8z" fill="#F2E8D5"/>
+        <circle cx="23" cy="9" r="3.5" fill="#F2E8D5"/>
+        <path d="M33 15h12a6 6 0 0 1-12 0z" fill="#F2E8D5"/>
+      </svg>
+      <span class="rider-steam"><i></i><i></i><i></i></span>
     </div>
   </div>
 
-  <div class="pills pad">
-    <span class="pill pill-green">🛵 التوصيل فابور من 34 درهم 🎁</span>
-    <span class="pill">⏰ من 20:00 حتى 04:00</span>
-    <span class="pill">💰 كاش عند الباب</span>
+  <div class="info">
+    <span><svg class="ic"><use href="#i-delivery"/></svg><span>التوصيل فابور من 34 درهم</span></span>
+    <span><svg class="ic"><use href="#i-clock"/></svg><span>من <bdi dir="ltr">20:00</bdi> حتى <bdi dir="ltr">04:00</bdi></span></span>
+    <span><svg class="ic"><use href="#i-cash"/></svg><span>كاش عند الباب</span></span>
   </div>
 
   <div class="igrow-wrap pad">
     <a class="igrow" href="https://www.instagram.com/barachid101?igsi=a215ZDZtbWpqcXNz&amp;utm_source=qr"
        target="_blank" rel="noopener" aria-label="صفحتنا على إنستغرام — التقييم 5 نجوم">
       <svg class="ig-ic" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0 5.838a6 6 0 1 0 0 12 6 6 0 0 0 0-12zm0 9.894a3.894 3.894 0 1 1 0-7.788 3.894 3.894 0 0 1 0 7.788zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-      <bdi dir="ltr">@barachid101</bdi>
+      <bdi dir="ltr" class="ighandle num">@barachid101</bdi>
       <span class="igstars" aria-hidden="true">★★★★★</span>
     </a>
   </div>
 
-  <!-- best-seller first; every card zooms full-screen in a tap -->
+  <!-- best-seller first; tapping a card FLIPS it to show the same order closed and sealed -->
   <div class="gwrap">
-  <button id="ar-l" class="garrow garrow-l" aria-label="الكارطة الجاية">‹</button>
-  <button id="ar-r" class="garrow garrow-r" aria-label="الكارطة اللي قبل">›</button>
+  <button id="ar-l" class="garrow garrow-l" aria-label="الكارطة الجاية"><svg class="ic"><use href="#i-left"/></svg></button>
+  <button id="ar-r" class="garrow garrow-r" aria-label="الكارطة اللي قبل"><svg class="ic"><use href="#i-right"/></svg></button>
   <div id="gallery" class="gallery" aria-label="الميني بالصور">
-    <a class="gcard" href="img/card-complet-zouji-0819.jpg">
-      <img src="img/card-complet-zouji-0819.jpg" alt="الطبق الكامل — زوجي 50 درهم — 3 بولات ببوش · 3 بولات حمص · بطاطا · مرقة">
-      <span class="zoom">🔍</span>
-    </a>
-    <a class="gcard" href="img/card-complet-aili-0819.jpg">
-      <img src="img/card-complet-aili-0819.jpg" alt="الطبق الكامل — عائلي 89 درهم — 6 بولات ببوش · 6 بولات حمص · بطاطا كبيرة · مرقة" loading="lazy">
-      <span class="zoom">🔍</span>
-    </a>
-    <a class="gcard" href="img/card-fardi-0819.jpg">
-      <img src="img/card-fardi-0819.jpg" alt="الطبق الفردي — 27 درهم" loading="lazy">
-      <span class="zoom">🔍</span>
-    </a>
-    <a class="gcard" href="img/card-babbouche-0819.jpg">
-      <img src="img/card-babbouche-0819.jpg" alt="باك الببوش — زوجي 37 · عائلي 50" loading="lazy">
-      <span class="zoom">🔍</span>
-    </a>
-    <a class="gcard" href="img/card-hummus-0819.jpg">
-      <img src="img/card-hummus-0819.jpg" alt="باك الحمص — زوجي 20 · عائلي 35" loading="lazy">
-      <span class="zoom">🔍</span>
-    </a>
-    <a class="gcard" href="img/card-marqa-0819.jpg">
-      <img src="img/card-marqa-0819.jpg" alt="زيادة مرقة الببوش — 6 درهم" loading="lazy">
-      <span class="zoom">🔍</span>
-    </a>
-    <a class="gcard" href="img/card-batata-0819.jpg">
-      <img src="img/card-batata-0819.jpg" alt="زيادة بطاطا — 6 درهم" loading="lazy">
-      <span class="zoom">🔍</span>
-    </a>
-    <a class="gcard" href="img/card-brand-0819.jpg">
-      <img src="img/card-brand-0819.jpg" alt="با رشيد — ببوش طنجة بالليل" loading="lazy">
-      <span class="zoom">🔍</span>
-    </a>
+    <button type="button" class="gcard" data-card="complet-zouji" aria-pressed="false" aria-label="الطبق الكامل — زوجي — قلب الكارطة تشوف الطلب مسدود">
+      <span class="gflip">
+        <span class="gface gfront">
+          <span class="gphoto"><img src="img/p-complet-zouji-1011.jpg" alt="الطبق الكامل — زوجي 50 درهم — 3 بولات ببوش · 3 بولات حمص · بطاطا · شوربة" width="960" height="480">
+            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gbody" aria-hidden="true"><span class="gname">الطبق الكامل — زوجي</span>
+          <span class="gsub">3 بولات ببوش · 3 بولات حمص · بطاطا · شوربة</span>
+          <span class="gprice"><b>50</b><small>درهم</small></span></span>
+        </span>
+        <span class="gface gback" aria-hidden="true">
+          <span class="gphoto"><img src="img/p-complet-zouji-sealed-1011.jpg" alt="" loading="lazy" width="960" height="480">
+            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gbody"><span class="gname">الطبق الكامل — زوجي</span>
+          <span class="gsub">مسدود بالختم ديالنا — كيوصلك سخون وما كيتكبّش</span>
+          <span class="gprice"><b>50</b><small>درهم</small></span></span>
+        </span>
+      </span>
+    </button>
+    <button type="button" class="gcard" data-card="complet-aili" aria-pressed="false" aria-label="الطبق الكامل — عائلي — قلب الكارطة تشوف الطلب مسدود">
+      <span class="gflip">
+        <span class="gface gfront">
+          <span class="gphoto"><img src="img/p-complet-aili-1011.jpg" alt="الطبق الكامل — عائلي 89 درهم — 6 بولات ببوش · 6 بولات حمص · بطاطا كبيرة · شوربة" loading="lazy" width="960" height="480">
+            <span class="badge badge-red">عرض الانطلاقة</span><span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gbody" aria-hidden="true"><span class="gname">الطبق الكامل — عائلي</span>
+          <span class="gsub">6 بولات ببوش · 6 بولات حمص · بطاطا كبيرة · شوربة</span>
+          <span class="gprice"><b>89</b><small>درهم</small><s>100</s></span></span>
+        </span>
+        <span class="gface gback" aria-hidden="true">
+          <span class="gphoto"><img src="img/p-complet-aili-sealed-1011.jpg" alt="" loading="lazy" width="960" height="480">
+            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gbody"><span class="gname">الطبق الكامل — عائلي</span>
+          <span class="gsub">مسدود بالختم ديالنا — كيوصلك سخون وما كيتكبّش</span>
+          <span class="gprice"><b>89</b><small>درهم</small><s>100</s></span></span>
+        </span>
+      </span>
+    </button>
+    <button type="button" class="gcard" data-card="fardi" aria-pressed="false" aria-label="الطبق الفردي — قلب الكارطة تشوف الطلب مسدود">
+      <span class="gflip">
+        <span class="gface gfront">
+          <span class="gphoto"><img src="img/p-fardi-1011.jpg" alt="الطبق الفردي — 27 درهم" loading="lazy" width="960" height="480">
+            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gbody" aria-hidden="true"><span class="gname">الطبق الفردي</span>
+          <span class="gsub">بول ونص ببوش · بول ونص حمص · بطاطا · شوربة</span>
+          <span class="gprice"><b>27</b><small>درهم</small></span></span>
+        </span>
+        <span class="gface gback" aria-hidden="true">
+          <span class="gphoto"><img src="img/p-fardi-sealed-1011.jpg" alt="" loading="lazy" width="960" height="480">
+            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gbody"><span class="gname">الطبق الفردي</span>
+          <span class="gsub">مسدود بالختم ديالنا — كيوصلك سخون وما كيتكبّش</span>
+          <span class="gprice"><b>27</b><small>درهم</small></span></span>
+        </span>
+      </span>
+    </button>
+    <button type="button" class="gcard" data-card="babbouche" aria-pressed="false" aria-label="باك الببوش — قلب الكارطة تشوف الطلب مسدود">
+      <span class="gflip">
+        <span class="gface gfront">
+          <span class="gphoto"><img src="img/p-babbouche-1011.jpg" alt="باك الببوش — زوجي 37 · عائلي 50" loading="lazy" width="960" height="480">
+            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gbody" aria-hidden="true"><span class="gname">باك الببوش</span>
+          <span class="gsub">ببوش + شوربة</span>
+          <span class="gprice gprice-2"><span class="sz">زوجي</span><b>37</b><span class="sep">·</span><span class="sz">عائلي</span><b>50</b><small>درهم</small></span></span>
+        </span>
+        <span class="gface gback" aria-hidden="true">
+          <span class="gphoto"><img src="img/p-babbouche-sealed-1011.jpg" alt="" loading="lazy" width="960" height="480">
+            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gbody"><span class="gname">باك الببوش</span>
+          <span class="gsub">مسدود بالختم ديالنا — كيوصلك سخون وما كيتكبّش</span>
+          <span class="gprice gprice-2"><span class="sz">زوجي</span><b>37</b><span class="sep">·</span><span class="sz">عائلي</span><b>50</b><small>درهم</small></span></span>
+        </span>
+      </span>
+    </button>
+    <button type="button" class="gcard" data-card="hummus" aria-pressed="false" aria-label="باك الحمص — قلب الكارطة تشوف الطلب مسدود">
+      <span class="gflip">
+        <span class="gface gfront">
+          <span class="gphoto"><img src="img/p-hummus-1011.jpg" alt="باك الحمص — زوجي 20 · عائلي 35" loading="lazy" width="960" height="480">
+            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gbody" aria-hidden="true"><span class="gname">باك الحمص</span>
+          <span class="gsub">حمص + شوربة</span>
+          <span class="gprice gprice-2"><span class="sz">زوجي</span><b>20</b><span class="sep">·</span><span class="sz">عائلي</span><b>35</b><small>درهم</small></span></span>
+        </span>
+        <span class="gface gback" aria-hidden="true">
+          <span class="gphoto"><img src="img/p-hummus-sealed-1011.jpg" alt="" loading="lazy" width="960" height="480">
+            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gbody"><span class="gname">باك الحمص</span>
+          <span class="gsub">مسدود بالختم ديالنا — كيوصلك سخون وما كيتكبّش</span>
+          <span class="gprice gprice-2"><span class="sz">زوجي</span><b>20</b><span class="sep">·</span><span class="sz">عائلي</span><b>35</b><small>درهم</small></span></span>
+        </span>
+      </span>
+    </button>
+    <button type="button" class="gcard" data-card="marqa" aria-pressed="false" aria-label="شوربة الببوش — قلب الكارطة تشوف الطلب مسدود">
+      <span class="gflip">
+        <span class="gface gfront">
+          <span class="gphoto"><img src="img/p-marqa-1011.jpg" alt="زيادة شوربة الببوش — 6 درهم" loading="lazy" width="960" height="480">
+            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gbody" aria-hidden="true"><span class="gkick">زيادة</span><span class="gname">شوربة الببوش</span>
+          <span class="gprice"><b>6</b><small>درهم</small></span></span>
+        </span>
+        <span class="gface gback" aria-hidden="true">
+          <span class="gphoto"><img src="img/p-marqa-sealed-1011.jpg" alt="" loading="lazy" width="960" height="480">
+            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gbody"><span class="gkick">زيادة</span><span class="gname">شوربة الببوش</span>
+          <span class="gsub">مسدود بالختم ديالنا — كيوصلك سخون وما كيتكبّش</span>
+          <span class="gprice"><b>6</b><small>درهم</small></span></span>
+        </span>
+      </span>
+    </button>
+    <button type="button" class="gcard" data-card="batata" aria-pressed="false" aria-label="بطاطا مسلوقة — قلب الكارطة تشوف الطلب مسدود">
+      <span class="gflip">
+        <span class="gface gfront">
+          <span class="gphoto"><img src="img/p-batata-1011.jpg" alt="زيادة بطاطا — 6 درهم" loading="lazy" width="960" height="480">
+            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gbody" aria-hidden="true"><span class="gkick">زيادة</span><span class="gname">بطاطا مسلوقة</span>
+          <span class="gprice"><b>6</b><small>درهم</small></span></span>
+        </span>
+        <span class="gface gback" aria-hidden="true">
+          <span class="gphoto"><img src="img/p-batata-sealed-1011.jpg" alt="" loading="lazy" width="960" height="480">
+            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gbody"><span class="gkick">زيادة</span><span class="gname">بطاطا مسلوقة</span>
+          <span class="gsub">مسدود بالختم ديالنا — كيوصلك سخون وما كيتكبّش</span>
+          <span class="gprice"><b>6</b><small>درهم</small></span></span>
+        </span>
+      </span>
+    </button>
   </div>
   </div>
   <div id="dots" class="dots" aria-hidden="true"></div>
-  <div class="swipe-hint"><span>👈</span> جرّ ولا ورّك على السهم باش تشوف الباقي</div>
 
-  <!-- رشيد live — looping, muted, gif-style -->
-  <div class="vidbox">
-    <video id="rvid" src="img/rachid-live-0819.mp4" poster="img/rachid-live-poster-0819.jpg"
-           autoplay muted loop playsinline preload="metadata" aria-label="رشيد كيطيب الببوش"></video>
-    <div class="vidcap">رشيد فالخدمة 🍲 كل ليلة على نفس الكانطرة — عشرين عام ونفس البنة</div>
+  <!-- looping, muted, gif-style clips: one plays, the others wait (no download) until shown -->
+  <div class="vidbox" id="vidbox">
+    <div class="vstage" id="vstage">
+      <video id="rvid" class="vslide is-on" src="img/rachid-live-0819.mp4" poster="img/rachid-live-poster-0819.jpg"
+             autoplay muted loop playsinline preload="metadata" aria-label="الببوش والحمص فالكروسة"
+             data-cap="رشيد فالخدمة، كل ليلة على نفس الكانطرة — عشرين عام ونفس البنة"></video>
+      <video class="vslide" data-src="img/v-pour-steam-1011.mp4" poster="img/v-pour-steam-1011-poster.jpg"
+             muted loop playsinline preload="none" aria-label="الشوربة كتصب من القدرة"
+             data-cap="الشوربة طالعة من القدرة — سخونة بالبخار ديالها"></video>
+      <button type="button" id="v-next" class="varrow varrow-l" aria-label="الفيديو الجاي"><svg class="ic"><use href="#i-left"/></svg></button>
+      <button type="button" id="v-prev" class="varrow varrow-r" aria-label="الفيديو اللي قبل"><svg class="ic"><use href="#i-right"/></svg></button>
+    </div>
+    <div class="vfoot">
+      <div class="vidcap" id="vidcap" aria-live="polite">رشيد فالخدمة، كل ليلة على نفس الكانطرة — عشرين عام ونفس البنة</div>
+      <div class="vdots" id="vdots" aria-hidden="true"></div>
+    </div>
   </div>
 
-  <!-- ===== in-page ordering (2026-08-24): same cards stacked, add buttons,
-       cart + checkout sheet driven by js/app.js — nothing else restored ===== -->
+  <!-- ===== in-page ordering: same products stacked, add buttons, cart + sheet via js/app.js ===== -->
   <section id="order" class="order">
-    <h2 class="order-h">كومندي من هنا 🛒</h2>
-    <p class="order-sub">زيد الباكات للسلة وصيفط الطلب فالواتساب — كاش عند الباب 💰</p>
+    <h2 class="order-h">كومندي من هنا</h2>
+    <p class="order-sub">زيد اللي بغيتي للسلة، وصيفط الطلب فالواتساب.</p>
 
     <div class="ocard">
-      <img src="img/card-complet-zouji-0819.jpg" alt="الطبق الكامل — زوجي 50 درهم" loading="lazy">
-      <div class="obtns">
-        <button type="button" class="obtn" data-add="complet" data-add-si="0" aria-label="زيد الطبق الكامل زوجي للسلة">زيد للسلة — 50 درهم <span class="add-lbl">+</span></button>
+      <span class="ophoto"><img src="img/p-complet-zouji-1011.jpg" alt="الطبق الكامل — زوجي 50 درهم" loading="lazy" width="960" height="480">
+        
+        <span class="incart-tag"><svg class="ic"><use href="#i-check"/></svg>فالسلة</span></span>
+      <span class="obody"><span class="oname">الطبق الكامل — زوجي</span>
+        <span class="osub">3 بولات ببوش · 3 بولات حمص · بطاطا · شوربة</span></span>
+      <div class="orows">
+        <div class="orow"><span class="oprice"><b>50</b><small>درهم</small></span>
+          <div class="qty"><button type="button" class="qbtn" data-dec="complet" data-dec-si="0" aria-label="نقص الطبق الكامل زوجي"><svg class="ic"><use href="#i-minus"/></svg></button><span class="qn" aria-live="polite">0</span><button type="button" class="obtn" data-add="complet" data-add-si="0" aria-label="زيد الطبق الكامل زوجي للسلة — 50 درهم"><span class="add-lbl">زيد</span><svg class="ic"><use href="#i-plus"/></svg></button></div></div>
       </div>
     </div>
     <div class="ocard">
-      <img src="img/card-complet-aili-0819.jpg" alt="الطبق الكامل — عائلي 89 درهم" loading="lazy">
-      <div class="obtns">
-        <button type="button" class="obtn" data-add="complet" data-add-si="1" aria-label="زيد الطبق الكامل عائلي للسلة">زيد للسلة — 89 درهم <span class="add-lbl">+</span></button>
+      <span class="ophoto"><img src="img/p-complet-aili-1011.jpg" alt="الطبق الكامل — عائلي 89 درهم" loading="lazy" width="960" height="480">
+        <span class="badge badge-red">عرض الانطلاقة</span>
+        <span class="incart-tag"><svg class="ic"><use href="#i-check"/></svg>فالسلة</span></span>
+      <span class="obody"><span class="oname">الطبق الكامل — عائلي</span>
+        <span class="osub">6 بولات ببوش · 6 بولات حمص · بطاطا كبيرة · شوربة</span></span>
+      <div class="orows">
+        <div class="orow"><span class="oprice"><b>89</b><small>درهم</small><s>100</s></span>
+          <div class="qty"><button type="button" class="qbtn" data-dec="complet" data-dec-si="1" aria-label="نقص الطبق الكامل عائلي"><svg class="ic"><use href="#i-minus"/></svg></button><span class="qn" aria-live="polite">0</span><button type="button" class="obtn" data-add="complet" data-add-si="1" aria-label="زيد الطبق الكامل عائلي للسلة — 89 درهم"><span class="add-lbl">زيد</span><svg class="ic"><use href="#i-plus"/></svg></button></div></div>
       </div>
     </div>
     <div class="ocard">
-      <img src="img/card-fardi-0819.jpg" alt="الطبق الفردي — 27 درهم" loading="lazy">
-      <div class="obtns">
-        <button type="button" class="obtn" data-add="fardi" data-add-si="0" aria-label="زيد الطبق الفردي للسلة">زيد للسلة — 27 درهم <span class="add-lbl">+</span></button>
+      <span class="ophoto"><img src="img/p-fardi-1011.jpg" alt="الطبق الفردي — 27 درهم" loading="lazy" width="960" height="480">
+        <span class="incart-tag"><svg class="ic"><use href="#i-check"/></svg>فالسلة</span></span>
+      <span class="obody"><span class="oname">الطبق الفردي</span>
+        <span class="osub">بول ونص ببوش · بول ونص حمص · بطاطا · شوربة</span></span>
+      <div class="orows">
+        <div class="orow"><span class="oprice"><b>27</b><small>درهم</small></span>
+          <div class="qty"><button type="button" class="qbtn" data-dec="fardi" data-dec-si="0" aria-label="نقص الطبق الفردي"><svg class="ic"><use href="#i-minus"/></svg></button><span class="qn" aria-live="polite">0</span><button type="button" class="obtn" data-add="fardi" data-add-si="0" aria-label="زيد الطبق الفردي للسلة — 27 درهم"><span class="add-lbl">زيد</span><svg class="ic"><use href="#i-plus"/></svg></button></div></div>
       </div>
     </div>
     <div class="ocard">
-      <img src="img/card-babbouche-0819.jpg" alt="باك الببوش — زوجي 37 · عائلي 50" loading="lazy">
-      <div class="obtns">
-        <button type="button" class="obtn" data-add="babbouche" data-add-si="0" aria-label="زيد باك الببوش زوجي للسلة">زوجي — 37 درهم <span class="add-lbl">+</span></button>
-        <button type="button" class="obtn" data-add="babbouche" data-add-si="1" aria-label="زيد باك الببوش عائلي للسلة">عائلي — 50 درهم <span class="add-lbl">+</span></button>
+      <span class="ophoto"><img src="img/p-babbouche-1011.jpg" alt="باك الببوش — زوجي 37 · عائلي 50" loading="lazy" width="960" height="480">
+        <span class="incart-tag"><svg class="ic"><use href="#i-check"/></svg>فالسلة</span></span>
+      <span class="obody"><span class="oname">باك الببوش</span>
+        <span class="osub">ببوش + شوربة</span></span>
+      <div class="orows">
+        <div class="orow"><span class="oprice"><span class="sz">زوجي</span><b>37</b><small>درهم</small></span>
+          <div class="qty"><button type="button" class="qbtn" data-dec="babbouche" data-dec-si="0" aria-label="نقص باك الببوش زوجي"><svg class="ic"><use href="#i-minus"/></svg></button><span class="qn" aria-live="polite">0</span><button type="button" class="obtn" data-add="babbouche" data-add-si="0" aria-label="زيد باك الببوش زوجي للسلة — 37 درهم"><span class="add-lbl">زيد</span><svg class="ic"><use href="#i-plus"/></svg></button></div></div>
+        <div class="orow"><span class="oprice"><span class="sz">عائلي</span><b>50</b><small>درهم</small></span>
+          <div class="qty"><button type="button" class="qbtn" data-dec="babbouche" data-dec-si="1" aria-label="نقص باك الببوش عائلي"><svg class="ic"><use href="#i-minus"/></svg></button><span class="qn" aria-live="polite">0</span><button type="button" class="obtn" data-add="babbouche" data-add-si="1" aria-label="زيد باك الببوش عائلي للسلة — 50 درهم"><span class="add-lbl">زيد</span><svg class="ic"><use href="#i-plus"/></svg></button></div></div>
       </div>
     </div>
     <div class="ocard">
-      <img src="img/card-hummus-0819.jpg" alt="باك الحمص — زوجي 20 · عائلي 35" loading="lazy">
-      <div class="obtns">
-        <button type="button" class="obtn" data-add="hummus" data-add-si="0" aria-label="زيد باك الحمص زوجي للسلة">زوجي — 20 درهم <span class="add-lbl">+</span></button>
-        <button type="button" class="obtn" data-add="hummus" data-add-si="1" aria-label="زيد باك الحمص عائلي للسلة">عائلي — 35 درهم <span class="add-lbl">+</span></button>
+      <span class="ophoto"><img src="img/p-hummus-1011.jpg" alt="باك الحمص — زوجي 20 · عائلي 35" loading="lazy" width="960" height="480">
+        <span class="incart-tag"><svg class="ic"><use href="#i-check"/></svg>فالسلة</span></span>
+      <span class="obody"><span class="oname">باك الحمص</span>
+        <span class="osub">حمص + شوربة</span></span>
+      <div class="orows">
+        <div class="orow"><span class="oprice"><span class="sz">زوجي</span><b>20</b><small>درهم</small></span>
+          <div class="qty"><button type="button" class="qbtn" data-dec="hummus" data-dec-si="0" aria-label="نقص باك الحمص زوجي"><svg class="ic"><use href="#i-minus"/></svg></button><span class="qn" aria-live="polite">0</span><button type="button" class="obtn" data-add="hummus" data-add-si="0" aria-label="زيد باك الحمص زوجي للسلة — 20 درهم"><span class="add-lbl">زيد</span><svg class="ic"><use href="#i-plus"/></svg></button></div></div>
+        <div class="orow"><span class="oprice"><span class="sz">عائلي</span><b>35</b><small>درهم</small></span>
+          <div class="qty"><button type="button" class="qbtn" data-dec="hummus" data-dec-si="1" aria-label="نقص باك الحمص عائلي"><svg class="ic"><use href="#i-minus"/></svg></button><span class="qn" aria-live="polite">0</span><button type="button" class="obtn" data-add="hummus" data-add-si="1" aria-label="زيد باك الحمص عائلي للسلة — 35 درهم"><span class="add-lbl">زيد</span><svg class="ic"><use href="#i-plus"/></svg></button></div></div>
       </div>
     </div>
     <div class="ocard">
-      <img src="img/card-marqa-0819.jpg" alt="زيادة مرقة الببوش — 6 درهم" loading="lazy">
-      <div class="obtns">
-        <button type="button" class="obtn" data-add="marqa" data-add-si="0" aria-label="زيد مرقة زيادة للسلة">زيد للسلة — 6 درهم <span class="add-lbl">+</span></button>
+      <span class="ophoto"><img src="img/p-marqa-1011.jpg" alt="زيادة شوربة الببوش — 6 درهم" loading="lazy" width="960" height="480">
+        <span class="incart-tag"><svg class="ic"><use href="#i-check"/></svg>فالسلة</span></span>
+      <span class="obody"><span class="okick">زيادة</span><span class="oname">شوربة الببوش</span></span>
+      <div class="orows">
+        <div class="orow"><span class="oprice"><b>6</b><small>درهم</small></span>
+          <div class="qty"><button type="button" class="qbtn" data-dec="marqa" data-dec-si="0" aria-label="نقص شوربة زيادة"><svg class="ic"><use href="#i-minus"/></svg></button><span class="qn" aria-live="polite">0</span><button type="button" class="obtn" data-add="marqa" data-add-si="0" aria-label="زيد شوربة زيادة للسلة — 6 درهم"><span class="add-lbl">زيد</span><svg class="ic"><use href="#i-plus"/></svg></button></div></div>
       </div>
     </div>
     <div class="ocard">
-      <img src="img/card-batata-0819.jpg" alt="زيادة بطاطا مسلوقة — 6 درهم" loading="lazy">
-      <div class="obtns">
-        <button type="button" class="obtn" data-add="batata" data-add-si="0" aria-label="زيد بطاطا مسلوقة للسلة">زيد للسلة — 6 درهم <span class="add-lbl">+</span></button>
+      <span class="ophoto"><img src="img/p-batata-1011.jpg" alt="زيادة بطاطا مسلوقة — 6 درهم" loading="lazy" width="960" height="480">
+        <span class="incart-tag"><svg class="ic"><use href="#i-check"/></svg>فالسلة</span></span>
+      <span class="obody"><span class="okick">زيادة</span><span class="oname">بطاطا مسلوقة</span></span>
+      <div class="orows">
+        <div class="orow"><span class="oprice"><b>6</b><small>درهم</small></span>
+          <div class="qty"><button type="button" class="qbtn" data-dec="batata" data-dec-si="0" aria-label="نقص بطاطا مسلوقة"><svg class="ic"><use href="#i-minus"/></svg></button><span class="qn" aria-live="polite">0</span><button type="button" class="obtn" data-add="batata" data-add-si="0" aria-label="زيد بطاطا مسلوقة للسلة — 6 درهم"><span class="add-lbl">زيد</span><svg class="ic"><use href="#i-plus"/></svg></button></div></div>
       </div>
     </div>
   </section>
 
-  <p class="note">صيفط لينا ميساج ولا عيط — ونتافقو على كولشي فالتيليفون 📞</p>
+  <p class="note">صيفط لينا ميساج ولا عيط — ونتافقو على كولشي فالتيليفون</p>
+  <p class="privacy">كنستعملو إحصائيات مجهولة (Meta · Microsoft Clarity) باش نحسنو الموقع — ما فيهاش العناوين ولا الأرقام اللي كتكتب.<br>
+    <span lang="fr" dir="ltr">Statistiques anonymes (Meta, Microsoft Clarity) pour améliorer le site, sans vos adresses ni numéros saisis.</span></p>
 
   <!-- hours stubs: app.js applyHours() requires these ids; the landing keeps its
-       own hours pill, so they stay invisible (display:none beats the hidden toggle) -->
+       own hours line, so they stay invisible (display:none beats the hidden toggle) -->
   <div style="display:none">
     <button type="button" id="cta-open" hidden></button>
     <div id="cta-closed" hidden><button type="button" id="cta-closed-btn"></button></div>
   </div>
 </div>
 
-<div id="lb" class="lb" role="dialog" aria-label="الصورة مكبرة">
-  <button class="lb-close" aria-label="سد">✕</button>
-  <img id="lb-img" src="" alt="">
-</div>
-
-<div id="rider" aria-hidden="true">
-  <span class="rider-bubble">وصل سخون وكيفور 🔥</span>
-  <span class="rider-guy">🛵<span class="rider-snail">🐌</span><span class="rider-steam"><i></i><i></i><i></i></span></span>
-</div>
 
 <div class="actions">
   <button type="button" id="cart-btn" class="cartbar-btn" hidden>
     <span class="cartbar-live" aria-live="polite">
       <span id="cart-count" class="cart-badge">0</span>
-      <span aria-hidden="true">🛒</span>
       <span id="cart-text"></span>
     </span>
-    <span class="cartbar-cta">شوف الطلب ‹</span>
+    <span class="cartbar-cta">شوف الطلب <svg class="ic"><use href="#i-left"/></svg></span>
   </button>
   <div id="cart-empty" hidden></div>
   <a id="wa-btn" class="btn btn-wa"
@@ -512,8 +903,8 @@ fbq('track', 'PageView');
     <svg class="wa-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
     كومندي فالواتساب
   </a>
-  <a id="order-btn" class="btn btn-order" href="#order">كومندي من الموقع 🛒</a>
-  <a id="call-btn" class="btn btn-call" href="tel:+212677710579">عيط لينا 📞</a>
+  <a id="order-btn" class="btn btn-order" href="#order"><svg class="ic"><use href="#i-cart"/></svg>كومندي من الموقع</a>
+  <a id="call-btn" class="btn btn-call" href="tel:+212677710579"><svg class="ic"><use href="#i-phone"/></svg>عيط لينا</a>
 </div>
 
 <!-- ===== checkout sheet (structure required by js/app.js) ===== -->
@@ -521,21 +912,18 @@ fbq('track', 'PageView');
 <div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
   <div class="sheet-panel">
     <div class="sheet-grab" aria-hidden="true"><span></span></div>
-
     <div class="sheet-head">
       <h2 id="sheet-title" class="sheet-title">الطلب ديالك</h2>
-      <button type="button" id="sheet-close" class="sheet-x" aria-label="سد الطلب">✕</button>
+      <button type="button" id="sheet-close" class="sheet-x" aria-label="سد الطلب"><svg class="ic"><use href="#i-close"/></svg></button>
     </div>
-
     <div id="lines" class="lines"></div>
-
     <div class="total-row">
       <span class="total-lbl">المجموع</span>
       <span id="total-text" class="total-val">0 درهم</span>
     </div>
     <div class="total-row total-row-sub">
       <span class="total-lbl total-lbl-sub">التوصيل</span>
-      <span id="delivery-text" class="total-val total-val-sub is-free">فابور 🎁</span>
+      <span id="delivery-text" class="total-val total-val-sub is-free">فابور</span>
     </div>
     <div class="total-row total-row-grand" id="grand-row" hidden>
       <span class="total-lbl">المجموع مع التوصيل</span>
@@ -544,31 +932,56 @@ fbq('track', 'PageView');
     <div id="free-nudge" class="free-nudge" hidden></div>
 
     <div class="addr-head">فين ساكن؟</div>
-    <p class="addr-hint">عمر اللي عرفتي — الباقي كنتافقو عليه فالتيليفون 📞</p>
-
+    <p class="addr-hint">عمر اللي عرفتي — الباقي كنتافقو عليه فالتيليفون</p>
     <label class="addr-lbl" for="addr-res">الإقامة <span class="addr-fr"><bdi>La résidence</bdi></span></label>
     <input type="text" id="addr-res" name="addr-res" class="addr" autocomplete="off" placeholder="سمية الإقامة ولا الحي">
-
     <label class="addr-lbl addr-lbl-gap" for="addr-apt">الطابق والشقة <span class="addr-fr"><bdi>Étage &amp; appart</bdi></span></label>
     <input type="text" id="addr-apt" name="addr-apt" class="addr" autocomplete="off" placeholder="مثلا: الطابق 3، الشقة 12">
-
     <label class="addr-lbl addr-lbl-gap" for="addr-rue">الزنقة ولا علامة <span class="addr-fr"><bdi>Rue ou repère</bdi></span></label>
     <input type="text" id="addr-rue" name="addr-rue" class="addr" autocomplete="off" placeholder="الزنقة، ولا علامة: صيدلية، قهوة...">
-
     <div id="loc-chip" class="locchip is-ok" role="status" hidden></div>
+    <button type="button" id="map-btn" class="cta-ghost map-btn"><svg class="ic"><use href="#i-pin"/></svg><span id="map-btn-lbl">زيد الموقع فالخريطة</span> <span class="map-btn-opt">(اختياري)</span></button>
 
-    <button type="button" id="map-btn" class="cta-ghost map-btn">📍 زيد الموقع فالخريطة <span class="map-btn-opt">(اختياري)</span></button>
-    <p id="map-hint" class="map-hint" hidden>جر العلامة للبلاصة ديالك</p>
-    <div id="map" class="map" hidden></div>
-    <button type="button" id="map-center-btn" class="cta-ghost map-center-btn" hidden>حط العلامة فوسط الخريطة ✔</button>
-
-    <p class="send-reassure">غير صيفط الطلب — كنعيطو ليك فالحين نأكدو معاك البلاصة 📞</p>
-    <button type="button" id="send-btn" class="wa-btn" disabled aria-disabled="true">صيفط الطلب فالواتساب ✅</button>
-    <div class="sheet-note-sm">كاش عند الباب 💰</div>
+    <p class="send-reassure">غير صيفط الطلب — كنعيطو ليك فالحين نأكدو معاك البلاصة</p>
+    <button type="button" id="send-btn" class="wa-btn" disabled aria-disabled="true">صيفط الطلب فالواتساب</button>
+    <div class="sheet-note-sm"><svg class="ic"><use href="#i-cash"/></svg>كاش عند الباب</div>
   </div>
 </div>
 
-<script src="js/app.js?v=20260901"></script>
+<!-- ===== full-screen location picker (Glovo-style: the pin stays, the map moves).
+     MapLibre + OpenFreeMap tiles load ONLY when the customer taps «زيد الموقع» ===== -->
+<div id="mapview" class="mapview" role="dialog" aria-modal="true" aria-labelledby="mapview-title" aria-hidden="true" inert>
+  <div class="mv-top">
+    <button type="button" id="mv-close" class="mv-x" aria-label="رجع للطلب"><svg class="ic"><use href="#i-close"/></svg></button>
+    <h2 id="mapview-title" class="mv-title">فين نوصلو ليك؟</h2>
+    <span class="mv-x mv-ghost" aria-hidden="true"></span>
+  </div>
+  <!-- ordering for somewhere else: type a neighbourhood, street or landmark, the map flies there -->
+  <div class="mv-search">
+    <div class="mv-field">
+      <svg class="ic"><use href="#i-search"/></svg>
+      <input id="mv-q" type="search" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false"
+             placeholder="قلب على حي، زنقة ولا بلاصة معروفة" aria-label="قلب على بلاصة"
+             role="combobox" aria-expanded="false" aria-controls="mv-results" aria-autocomplete="list">
+      <button type="button" id="mv-q-x" class="mv-q-x" aria-label="مسح البحث" hidden><svg class="ic"><use href="#i-close"/></svg></button>
+    </div>
+    <ul id="mv-results" class="mv-results" role="listbox" aria-label="النتائج" hidden></ul>
+  </div>
+  <div class="mv-mapwrap">
+    <div id="map" class="mv-map" aria-label="الخريطة"></div>
+    <div class="mv-pin" aria-hidden="true">
+      <svg viewBox="0 0 40 52" width="40" height="52"><path d="M20 50S35 33.6 35 21a15 15 0 0 0-30 0c0 12.6 15 29 15 29z" fill="#B3261E" stroke="#FBF7EF" stroke-width="2.5"/><circle cx="20" cy="21" r="6" fill="#FBF7EF"/></svg>
+    </div>
+    <button type="button" id="mv-locate" class="mv-locate" aria-label="موقعي"><svg class="ic"><use href="#i-locate"/></svg></button>
+    <p id="mv-msg" class="mv-msg" role="status" hidden></p>
+  </div>
+  <div class="mv-bottom">
+    <p id="map-hint" class="mv-hint">حرك الخريطة حتى تجي العلامة فوق الدار ديالك</p>
+    <button type="button" id="mv-confirm" class="mv-confirm" disabled>أكد البلاصة</button>
+  </div>
+</div>
+
+<script src="js/app.js?v=20261012b"></script>
 <script>
 (function () {
   'use strict';
@@ -601,11 +1014,14 @@ fbq('track', 'PageView');
 
   function px(ev) { try { if (window.fbq) window.fbq('track', ev); } catch (e) {} }
 
-  document.getElementById('wa-btn').addEventListener('click', function () {
-    track('wa_direct', {}); px('Contact');
+  /* direct taps -> app.js's contact(): one coded lead row per visitor per 30 min, and the
+     WhatsApp message carries the same code. Fallback (app.js failed): the old bare beacon. */
+  var waBtn = document.getElementById('wa-btn');
+  waBtn.addEventListener('click', function () {
+    if (window.BR) window.BR.contact('wa', waBtn); else { track('wa_direct', {}); px('Contact'); }
   });
   document.getElementById('call-btn').addEventListener('click', function () {
-    track('call', {}); px('Contact');
+    if (window.BR) window.BR.contact('call', null); else { track('call', {}); px('Contact'); }
   });
 
 
@@ -636,9 +1052,19 @@ fbq('track', 'PageView');
         if (dist < bestDist) { bestDist = dist; best = j; }
       }
       cur = best;
-      for (var k = 0; k < dots.length; k++) dots[k].className = 'dot' + (k === best ? ' on' : '');
+      syncNav();
     });
   }, { passive: true });
+
+  /* dots + arrow ends follow the centred card (RTL: the LEFT arrow goes forward) */
+  var arL = document.getElementById('ar-l');
+  var arR = document.getElementById('ar-r');
+  function syncNav() {
+    for (var k = 0; k < dots.length; k++) dots[k].className = 'dot' + (k === cur ? ' on' : '');
+    arR.classList.toggle('is-end', cur === 0);
+    arL.classList.toggle('is-end', cur === cards.length - 1);
+  }
+  syncNav();
 
   /* swipe guard — a drag that ends on a card must NOT count as a tap */
   var swiping = false, sx = 0, sy = 0;
@@ -652,41 +1078,24 @@ fbq('track', 'PageView');
         Math.abs(e.touches[0].clientY - sy) > 10) swiping = true;
   }, { passive: true });
 
-  /* tap a card -> in-page zoom overlay (never a new page).
-     Android back button closes the overlay instead of leaving the site. */
-  var lb = document.getElementById('lb');
-  var lbImg = document.getElementById('lb-img');
-  var lbPushed = false;
-  function openLb(src, alt) {
-    lbImg.src = src; lbImg.alt = alt || '';
-    lb.className = 'lb open';
-    try { document.body.style.overflow = 'hidden'; } catch (e) {}
-    try { history.pushState({ br: 'lb' }, ''); lbPushed = true; } catch (e) { lbPushed = false; }
-  }
-  function hideLb() {
-    lb.className = 'lb'; lbImg.src = '';
-    try { document.body.style.overflow = ''; } catch (e) {}
-    lbPushed = false;
-  }
-  function closeLb() {
-    if (lbPushed) { try { history.back(); return; } catch (e) {} }
-    hideLb();
-  }
-  window.addEventListener('popstate', function () {
-    if (lb.className.indexOf('open') !== -1) hideLb();
-  });
-  lb.addEventListener('click', closeLb);
+  /* tap a card -> it flips to show the same order closed and sealed; tap again -> back.
+     A swipe that ends on a card is never a tap. The zoom beacon now means "flipped to the seal". */
   for (var ci = 0; ci < cards.length; ci++) {
-    (function (a) {
-      a.addEventListener('click', function (ev) {
-        ev.preventDefault();          /* never navigate — with or without the overlay */
+    (function (card) {
+      card.addEventListener('click', function () {
         if (swiping) { swiping = false; return; }
-        var href = a.getAttribute('href');
-        var im = a.querySelector('img');
-        openLb(href, im ? im.alt : '');
-        var m = /card-([a-z0-9-]+?)-\d+\.(?:jpg|png)$/i.exec(href || '');
-        track('zoom', { card: m ? m[1].toLowerCase() : 'card' });
-        px('ViewContent');
+        var on = !card.classList.contains('is-flipped');
+        card.classList.toggle('is-flipped', on);
+        card.setAttribute('aria-pressed', on ? 'true' : 'false');
+        var faces = card.querySelectorAll('.gface');
+        if (faces.length === 2) {
+          faces[0].setAttribute('aria-hidden', on ? 'true' : 'false');
+          faces[1].setAttribute('aria-hidden', on ? 'false' : 'true');
+        }
+        if (on) {
+          track('zoom', { card: (card.getAttribute('data-card') || 'card').toLowerCase() });
+          px('ViewContent');
+        }
       });
     })(cards[ci]);
   }
@@ -701,8 +1110,8 @@ fbq('track', 'PageView');
       cards[cur].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     } catch (e) { cards[cur].scrollIntoView(); }
   }
-  document.getElementById('ar-l').addEventListener('click', function () { goTo(cur + 1); });
-  document.getElementById('ar-r').addEventListener('click', function () { goTo(cur - 1); });
+  arL.addEventListener('click', function () { goTo(cur + 1); });
+  arR.addEventListener('click', function () { goTo(cur - 1); });
 
   /* one gentle auto-nudge so the swipe is discoverable without reading —
      but never fight a lead who is already touching the gallery */
@@ -711,36 +1120,75 @@ fbq('track', 'PageView');
   gal.addEventListener('wheel', markTouched, { passive: true, once: true });
   try {
     if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setTimeout(function () { if (!interacted) gal.scrollBy({ left: -70, behavior: 'smooth' }); }, 1100);
-      setTimeout(function () { if (!interacted) gal.scrollBy({ left: 70, behavior: 'smooth' }); }, 1900);
+      /* a CSS lean on the cards (never a scroll — scrolling against the snap made
+         the row jump); removed once it has played so it can never replay */
+      setTimeout(function () {
+        if (interacted) return;
+        gal.classList.add('is-nudge');
+        setTimeout(function () { gal.classList.remove('is-nudge'); }, 1200);
+      }, 1100);
     }
   } catch (e) {}
 
-  /* looping video: iOS sometimes blocks autoplay — retry on first touch */
-  var rv = document.getElementById('rvid');
-  if (rv) {
-    var kick = function () { var p = rv.play(); if (p && p.catch) p.catch(function () {}); };
-    kick();
-    document.addEventListener('touchstart', kick, { once: true, passive: true });
+  /* video carousel: only the visible clip plays; a hidden clip downloads the first time it
+     is shown. Arrows (RTL: LEFT = next), dots, and a horizontal swipe on the stage. */
+  var vids = Array.prototype.slice.call(document.querySelectorAll('#vstage .vslide'));
+  var vcap = document.getElementById('vidcap');
+  var vdots = document.getElementById('vdots');
+  var vi = 0;
+  vids.forEach(function (_, k) {
+    var d = document.createElement('span'); if (k === 0) d.className = 'on'; vdots.appendChild(d);
+  });
+  function playV(v) {
+    try { var p = v.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {}
   }
+  function showV(i) {
+    var n = vids.length; i = (i % n + n) % n;
+    if (i === vi) return;
+    var old = vids[vi], nu = vids[i];
+    if (!nu.getAttribute('src') && nu.getAttribute('data-src')) {
+      nu.setAttribute('src', nu.getAttribute('data-src')); nu.load();
+    }
+    nu.classList.add('is-on'); old.classList.remove('is-on');
+    playV(nu);
+    setTimeout(function () { if (!old.classList.contains('is-on')) old.pause(); }, 460);
+    vi = i;
+    if (window.BR) { window.BR.track('video', { clip: i }); window.BR.pxc('VideoPlay', { clip: i }); }
+    vcap.textContent = nu.getAttribute('data-cap') || '';
+    for (var k = 0; k < vdots.children.length; k++) vdots.children[k].className = k === vi ? 'on' : '';
+  }
+  document.getElementById('v-next').addEventListener('click', function () { showV(vi + 1); });
+  document.getElementById('v-prev').addEventListener('click', function () { showV(vi - 1); });
+  var vstage = document.getElementById('vstage'), vx = null, vy = 0;
+  vstage.addEventListener('touchstart', function (e) {
+    if (e.touches && e.touches[0]) { vx = e.touches[0].clientX; vy = e.touches[0].clientY; }
+  }, { passive: true });
+  vstage.addEventListener('touchend', function (e) {
+    if (vx === null || !e.changedTouches || !e.changedTouches[0]) return;
+    var dx = e.changedTouches[0].clientX - vx, dy = e.changedTouches[0].clientY - vy; vx = null;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) showV(dx > 0 ? vi + 1 : vi - 1);  /* RTL: swipe right = next */
+  }, { passive: true });
+  /* iOS sometimes blocks autoplay — retry the visible clip on first touch */
+  playV(vids[0]);
+  document.addEventListener('touchstart', function () { playV(vids[vi]); }, { once: true, passive: true });
 
   /* the visit beacon (with its ?s= source tag) is fired by js/app.js since
      2026-08-24 — firing it here too would double every visit in the live feed */
 
   /* «كومندي من الموقع» only shows while the add-to-cart section is OFF screen:
      scroll down to the cards -> it steps aside; scroll back up -> it returns.
-     The -180px bottom margin discounts the strip hidden behind the fixed stack. */
+     The -140px bottom margin discounts the strip hidden behind the fixed action bar (~132 px). */
   try {
     var orderBtn2 = document.getElementById('order-btn');
     var orderSec = document.getElementById('order');
     if (orderBtn2 && orderSec && 'IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {
         orderBtn2.classList.toggle('is-away', entries[0].isIntersecting);
-      }, { rootMargin: '0px 0px -180px 0px' }).observe(orderSec);
+      }, { rootMargin: '0px 0px -140px 0px' }).observe(orderSec);
     }
   } catch (e) { /* no observer -> the button simply stays */ }
 
-  /* the delivery snail: down in 3s, announces for 3s, rests, repeats */
+  /* the delivery rider: pulls in from the left in 1.6s, announces for 3s, rests, repeats */
   try {
     var rider = document.getElementById('rider');
     var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
