@@ -19,7 +19,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="fonts/fonts.css">
-<link rel="preload" as="image" href="img/p-complet-zouji-1011.jpg">
+<link rel="preload" as="image" href="img/p-complet-zouji-1017.jpg">
 
 <!-- Meta pixel — the ONE deliberate external request (ad optimization). Async and
      failure-proof: if it never loads, the page works exactly the same. -->
@@ -643,131 +643,83 @@ fbq('track', 'PageView');
     </a>
   </div>
 
-  <!-- best-seller first; tapping a card FLIPS it to show the same order closed and sealed -->
+  <!-- best-seller first. Sealed back faces OFF since 2026-10-17 (Saif): the JS only flips a card
+       that has a .gback, so restoring them = put the gback spans back (img/p-*-sealed-1011.jpg) -->
   <div class="gwrap">
   <button id="ar-l" class="garrow garrow-l" aria-label="الكارطة الجاية"><svg class="ic"><use href="#i-left"/></svg></button>
   <button id="ar-r" class="garrow garrow-r" aria-label="الكارطة اللي قبل"><svg class="ic"><use href="#i-right"/></svg></button>
   <div id="gallery" class="gallery" aria-label="الميني بالصور">
-    <button type="button" class="gcard" data-card="complet-zouji" aria-pressed="false" aria-label="الطبق الكامل — زوجي — قلب الكارطة تشوف الطلب مسدود">
+    <button type="button" class="gcard" data-card="complet-zouji" aria-label="الطبق الكامل — زوجي">
       <span class="gflip">
         <span class="gface gfront">
-          <span class="gphoto"><img src="img/p-complet-zouji-1011.jpg" alt="الطبق الكامل — زوجي 50 درهم — 3 بولات ببوش · 3 بولات حمص · بطاطا · شوربة" width="960" height="480">
-            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gphoto"><img src="img/p-complet-zouji-1017.jpg" alt="الطبق الكامل — زوجي 50 درهم — 3 بولات ببوش · 3 بولات حمص · بطاطا · شوربة" width="960" height="480">
+            </span>
           <span class="gbody" aria-hidden="true"><span class="gname">الطبق الكامل — زوجي</span>
           <span class="gsub">3 بولات ببوش · 3 بولات حمص · بطاطا · شوربة</span>
           <span class="gprice"><b>50</b><small>درهم</small></span></span>
         </span>
-        <span class="gface gback" aria-hidden="true">
-          <span class="gphoto"><img src="img/p-complet-zouji-sealed-1011.jpg" alt="" loading="lazy" width="960" height="480">
-            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
-          <span class="gbody"><span class="gname">الطبق الكامل — زوجي</span>
-          <span class="gsub">مسدود بالختم ديالنا — كيوصلك سخون وما كيتكبّش</span>
-          <span class="gprice"><b>50</b><small>درهم</small></span></span>
-        </span>
       </span>
     </button>
-    <button type="button" class="gcard" data-card="complet-aili" aria-pressed="false" aria-label="الطبق الكامل — عائلي — قلب الكارطة تشوف الطلب مسدود">
+    <button type="button" class="gcard" data-card="complet-aili" aria-label="الطبق الكامل — عائلي">
       <span class="gflip">
         <span class="gface gfront">
-          <span class="gphoto"><img src="img/p-complet-aili-1011.jpg" alt="الطبق الكامل — عائلي 89 درهم — 6 بولات ببوش · 6 بولات حمص · بطاطا كبيرة · شوربة" loading="lazy" width="960" height="480">
-            <span class="badge badge-red">عرض الانطلاقة</span><span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gphoto"><img src="img/p-complet-aili-1017.jpg" alt="الطبق الكامل — عائلي 89 درهم — 6 بولات ببوش · 6 بولات حمص · بطاطا كبيرة · شوربة" loading="lazy" width="960" height="480">
+            <span class="badge badge-red">عرض الانطلاقة</span></span>
           <span class="gbody" aria-hidden="true"><span class="gname">الطبق الكامل — عائلي</span>
           <span class="gsub">6 بولات ببوش · 6 بولات حمص · بطاطا كبيرة · شوربة</span>
           <span class="gprice"><b>89</b><small>درهم</small><s>100</s></span></span>
         </span>
-        <span class="gface gback" aria-hidden="true">
-          <span class="gphoto"><img src="img/p-complet-aili-sealed-1011.jpg" alt="" loading="lazy" width="960" height="480">
-            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
-          <span class="gbody"><span class="gname">الطبق الكامل — عائلي</span>
-          <span class="gsub">مسدود بالختم ديالنا — كيوصلك سخون وما كيتكبّش</span>
-          <span class="gprice"><b>89</b><small>درهم</small><s>100</s></span></span>
-        </span>
       </span>
     </button>
-    <button type="button" class="gcard" data-card="fardi" aria-pressed="false" aria-label="الطبق الفردي — قلب الكارطة تشوف الطلب مسدود">
+    <button type="button" class="gcard" data-card="fardi" aria-label="الطبق الفردي">
       <span class="gflip">
         <span class="gface gfront">
-          <span class="gphoto"><img src="img/p-fardi-1011.jpg" alt="الطبق الفردي — 27 درهم" loading="lazy" width="960" height="480">
-            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gphoto"><img src="img/p-fardi-1017.jpg" alt="الطبق الفردي — 27 درهم" loading="lazy" width="960" height="480">
+            </span>
           <span class="gbody" aria-hidden="true"><span class="gname">الطبق الفردي</span>
           <span class="gsub">بول ونص ببوش · بول ونص حمص · بطاطا · شوربة</span>
           <span class="gprice"><b>27</b><small>درهم</small></span></span>
         </span>
-        <span class="gface gback" aria-hidden="true">
-          <span class="gphoto"><img src="img/p-fardi-sealed-1011.jpg" alt="" loading="lazy" width="960" height="480">
-            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
-          <span class="gbody"><span class="gname">الطبق الفردي</span>
-          <span class="gsub">مسدود بالختم ديالنا — كيوصلك سخون وما كيتكبّش</span>
-          <span class="gprice"><b>27</b><small>درهم</small></span></span>
-        </span>
       </span>
     </button>
-    <button type="button" class="gcard" data-card="babbouche" aria-pressed="false" aria-label="باك الببوش — قلب الكارطة تشوف الطلب مسدود">
+    <button type="button" class="gcard" data-card="babbouche" aria-label="باك الببوش">
       <span class="gflip">
         <span class="gface gfront">
-          <span class="gphoto"><img src="img/p-babbouche-1011.jpg" alt="باك الببوش — زوجي 37 · عائلي 50" loading="lazy" width="960" height="480">
-            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gphoto"><img src="img/p-babbouche-1017.jpg" alt="باك الببوش — زوجي 37 · عائلي 50" loading="lazy" width="960" height="480">
+            </span>
           <span class="gbody" aria-hidden="true"><span class="gname">باك الببوش</span>
           <span class="gsub">ببوش + شوربة</span>
           <span class="gprice gprice-2"><span class="sz">زوجي</span><b>37</b><span class="sep">·</span><span class="sz">عائلي</span><b>50</b><small>درهم</small></span></span>
         </span>
-        <span class="gface gback" aria-hidden="true">
-          <span class="gphoto"><img src="img/p-babbouche-sealed-1011.jpg" alt="" loading="lazy" width="960" height="480">
-            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
-          <span class="gbody"><span class="gname">باك الببوش</span>
-          <span class="gsub">مسدود بالختم ديالنا — كيوصلك سخون وما كيتكبّش</span>
-          <span class="gprice gprice-2"><span class="sz">زوجي</span><b>37</b><span class="sep">·</span><span class="sz">عائلي</span><b>50</b><small>درهم</small></span></span>
-        </span>
       </span>
     </button>
-    <button type="button" class="gcard" data-card="hummus" aria-pressed="false" aria-label="باك الحمص — قلب الكارطة تشوف الطلب مسدود">
+    <button type="button" class="gcard" data-card="hummus" aria-label="باك الحمص">
       <span class="gflip">
         <span class="gface gfront">
-          <span class="gphoto"><img src="img/p-hummus-1011.jpg" alt="باك الحمص — زوجي 20 · عائلي 35" loading="lazy" width="960" height="480">
-            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gphoto"><img src="img/p-hummus-1017.jpg" alt="باك الحمص — زوجي 20 · عائلي 35" loading="lazy" width="960" height="480">
+            </span>
           <span class="gbody" aria-hidden="true"><span class="gname">باك الحمص</span>
           <span class="gsub">حمص + شوربة</span>
           <span class="gprice gprice-2"><span class="sz">زوجي</span><b>20</b><span class="sep">·</span><span class="sz">عائلي</span><b>35</b><small>درهم</small></span></span>
         </span>
-        <span class="gface gback" aria-hidden="true">
-          <span class="gphoto"><img src="img/p-hummus-sealed-1011.jpg" alt="" loading="lazy" width="960" height="480">
-            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
-          <span class="gbody"><span class="gname">باك الحمص</span>
-          <span class="gsub">مسدود بالختم ديالنا — كيوصلك سخون وما كيتكبّش</span>
-          <span class="gprice gprice-2"><span class="sz">زوجي</span><b>20</b><span class="sep">·</span><span class="sz">عائلي</span><b>35</b><small>درهم</small></span></span>
-        </span>
       </span>
     </button>
-    <button type="button" class="gcard" data-card="marqa" aria-pressed="false" aria-label="شوربة الببوش — قلب الكارطة تشوف الطلب مسدود">
+    <button type="button" class="gcard" data-card="marqa" aria-label="شوربة الببوش">
       <span class="gflip">
         <span class="gface gfront">
-          <span class="gphoto"><img src="img/p-marqa-1011.jpg" alt="زيادة شوربة الببوش — 6 درهم" loading="lazy" width="960" height="480">
-            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gphoto"><img src="img/p-marqa-1017.jpg" alt="زيادة شوربة الببوش — 6 درهم" loading="lazy" width="960" height="480">
+            </span>
           <span class="gbody" aria-hidden="true"><span class="gkick">زيادة</span><span class="gname">شوربة الببوش</span>
           <span class="gprice"><b>6</b><small>درهم</small></span></span>
         </span>
-        <span class="gface gback" aria-hidden="true">
-          <span class="gphoto"><img src="img/p-marqa-sealed-1011.jpg" alt="" loading="lazy" width="960" height="480">
-            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
-          <span class="gbody"><span class="gkick">زيادة</span><span class="gname">شوربة الببوش</span>
-          <span class="gsub">مسدود بالختم ديالنا — كيوصلك سخون وما كيتكبّش</span>
-          <span class="gprice"><b>6</b><small>درهم</small></span></span>
-        </span>
       </span>
     </button>
-    <button type="button" class="gcard" data-card="batata" aria-pressed="false" aria-label="بطاطا مسلوقة — قلب الكارطة تشوف الطلب مسدود">
+    <button type="button" class="gcard" data-card="batata" aria-label="بطاطا مسلوقة">
       <span class="gflip">
         <span class="gface gfront">
-          <span class="gphoto"><img src="img/p-batata-1011.jpg" alt="زيادة بطاطا — 6 درهم" loading="lazy" width="960" height="480">
-            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
+          <span class="gphoto"><img src="img/p-batata-1017.jpg" alt="زيادة بطاطا — 6 درهم" loading="lazy" width="960" height="480">
+            </span>
           <span class="gbody" aria-hidden="true"><span class="gkick">زيادة</span><span class="gname">بطاطا مسلوقة</span>
-          <span class="gprice"><b>6</b><small>درهم</small></span></span>
-        </span>
-        <span class="gface gback" aria-hidden="true">
-          <span class="gphoto"><img src="img/p-batata-sealed-1011.jpg" alt="" loading="lazy" width="960" height="480">
-            <span class="flipicon" aria-hidden="true"><svg class="ic"><use href="#i-flip"/></svg></span></span>
-          <span class="gbody"><span class="gkick">زيادة</span><span class="gname">بطاطا مسلوقة</span>
-          <span class="gsub">مسدود بالختم ديالنا — كيوصلك سخون وما كيتكبّش</span>
           <span class="gprice"><b>6</b><small>درهم</small></span></span>
         </span>
       </span>
@@ -800,7 +752,7 @@ fbq('track', 'PageView');
     <p class="order-sub">زيد اللي بغيتي للسلة، وصيفط الطلب فالواتساب.</p>
 
     <div class="ocard">
-      <span class="ophoto"><img src="img/p-complet-zouji-1011.jpg" alt="الطبق الكامل — زوجي 50 درهم" loading="lazy" width="960" height="480">
+      <span class="ophoto"><img src="img/p-complet-zouji-1017.jpg" alt="الطبق الكامل — زوجي 50 درهم" loading="lazy" width="960" height="480">
         
         <span class="incart-tag"><svg class="ic"><use href="#i-check"/></svg>فالسلة</span></span>
       <span class="obody"><span class="oname">الطبق الكامل — زوجي</span>
@@ -811,7 +763,7 @@ fbq('track', 'PageView');
       </div>
     </div>
     <div class="ocard">
-      <span class="ophoto"><img src="img/p-complet-aili-1011.jpg" alt="الطبق الكامل — عائلي 89 درهم" loading="lazy" width="960" height="480">
+      <span class="ophoto"><img src="img/p-complet-aili-1017.jpg" alt="الطبق الكامل — عائلي 89 درهم" loading="lazy" width="960" height="480">
         <span class="badge badge-red">عرض الانطلاقة</span>
         <span class="incart-tag"><svg class="ic"><use href="#i-check"/></svg>فالسلة</span></span>
       <span class="obody"><span class="oname">الطبق الكامل — عائلي</span>
@@ -822,7 +774,7 @@ fbq('track', 'PageView');
       </div>
     </div>
     <div class="ocard">
-      <span class="ophoto"><img src="img/p-fardi-1011.jpg" alt="الطبق الفردي — 27 درهم" loading="lazy" width="960" height="480">
+      <span class="ophoto"><img src="img/p-fardi-1017.jpg" alt="الطبق الفردي — 27 درهم" loading="lazy" width="960" height="480">
         <span class="incart-tag"><svg class="ic"><use href="#i-check"/></svg>فالسلة</span></span>
       <span class="obody"><span class="oname">الطبق الفردي</span>
         <span class="osub">بول ونص ببوش · بول ونص حمص · بطاطا · شوربة</span></span>
@@ -832,7 +784,7 @@ fbq('track', 'PageView');
       </div>
     </div>
     <div class="ocard">
-      <span class="ophoto"><img src="img/p-babbouche-1011.jpg" alt="باك الببوش — زوجي 37 · عائلي 50" loading="lazy" width="960" height="480">
+      <span class="ophoto"><img src="img/p-babbouche-1017.jpg" alt="باك الببوش — زوجي 37 · عائلي 50" loading="lazy" width="960" height="480">
         <span class="incart-tag"><svg class="ic"><use href="#i-check"/></svg>فالسلة</span></span>
       <span class="obody"><span class="oname">باك الببوش</span>
         <span class="osub">ببوش + شوربة</span></span>
@@ -844,7 +796,7 @@ fbq('track', 'PageView');
       </div>
     </div>
     <div class="ocard">
-      <span class="ophoto"><img src="img/p-hummus-1011.jpg" alt="باك الحمص — زوجي 20 · عائلي 35" loading="lazy" width="960" height="480">
+      <span class="ophoto"><img src="img/p-hummus-1017.jpg" alt="باك الحمص — زوجي 20 · عائلي 35" loading="lazy" width="960" height="480">
         <span class="incart-tag"><svg class="ic"><use href="#i-check"/></svg>فالسلة</span></span>
       <span class="obody"><span class="oname">باك الحمص</span>
         <span class="osub">حمص + شوربة</span></span>
@@ -856,7 +808,7 @@ fbq('track', 'PageView');
       </div>
     </div>
     <div class="ocard">
-      <span class="ophoto"><img src="img/p-marqa-1011.jpg" alt="زيادة شوربة الببوش — 6 درهم" loading="lazy" width="960" height="480">
+      <span class="ophoto"><img src="img/p-marqa-1017.jpg" alt="زيادة شوربة الببوش — 6 درهم" loading="lazy" width="960" height="480">
         <span class="incart-tag"><svg class="ic"><use href="#i-check"/></svg>فالسلة</span></span>
       <span class="obody"><span class="okick">زيادة</span><span class="oname">شوربة الببوش</span></span>
       <div class="orows">
@@ -865,7 +817,7 @@ fbq('track', 'PageView');
       </div>
     </div>
     <div class="ocard">
-      <span class="ophoto"><img src="img/p-batata-1011.jpg" alt="زيادة بطاطا مسلوقة — 6 درهم" loading="lazy" width="960" height="480">
+      <span class="ophoto"><img src="img/p-batata-1017.jpg" alt="زيادة بطاطا مسلوقة — 6 درهم" loading="lazy" width="960" height="480">
         <span class="incart-tag"><svg class="ic"><use href="#i-check"/></svg>فالسلة</span></span>
       <span class="obody"><span class="okick">زيادة</span><span class="oname">بطاطا مسلوقة</span></span>
       <div class="orows">
@@ -1079,11 +1031,13 @@ fbq('track', 'PageView');
   }, { passive: true });
 
   /* tap a card -> it flips to show the same order closed and sealed; tap again -> back.
+     Only when the card HAS a sealed face (they are off since 2026-10-17).
      A swipe that ends on a card is never a tap. The zoom beacon now means "flipped to the seal". */
   for (var ci = 0; ci < cards.length; ci++) {
     (function (card) {
       card.addEventListener('click', function () {
         if (swiping) { swiping = false; return; }
+        if (!card.querySelector('.gback')) return;   /* sealed faces off (10-17): nothing to flip to */
         var on = !card.classList.contains('is-flipped');
         card.classList.toggle('is-flipped', on);
         card.setAttribute('aria-pressed', on ? 'true' : 'false');
