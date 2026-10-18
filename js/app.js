@@ -1317,6 +1317,19 @@
     /* opt-in location (2026-08-10): tapping the map button is the ONLY thing that
        triggers the OS permission popup — and the map opens under it either way */
     elMapBtn.addEventListener('click', function () { requestGeo(); openMapView(); });
+
+    /* one-tap cart (2026-10-18): the address + map live behind an optional fold so the
+       first screen is items, total, send. Typed text and a pin survive folding. */
+    var elAddrToggle = $('#addr-toggle');
+    var elAddrBox = $('#addr-box');
+    if (elAddrToggle && elAddrBox) {
+      elAddrToggle.addEventListener('click', function () {
+        var open = elAddrBox.hidden;
+        elAddrBox.hidden = !open;
+        elAddrToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open) elAddrRes.focus();
+      });
+    }
     elMvClose.addEventListener('click', function () { closeMapView(false); });
     elMvConfirm.addEventListener('click', confirmSpot);
     elMvLocate.addEventListener('click', locateMe);

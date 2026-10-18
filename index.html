@@ -397,6 +397,23 @@ fbq('track', 'PageView');
     margin: 12px 0 0; padding: 12px 14px; border-radius: 14px;
     background: rgba(200,128,45,.16); border: 1px solid rgba(200,128,45,.35); font-size: 14px; font-weight: 700;
   }
+  .addr-toggle {
+    margin-top: 16px; width: 100%; min-height: 48px; padding: 0 14px; border-radius: 14px; cursor: pointer;
+    border: 1.5px dashed var(--line); background: transparent; color: var(--ink);
+    font-family: 'Cairo', sans-serif; font-size: 15px; font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .addr-toggle .ic { width: 18px; height: 18px; color: var(--red); flex-shrink: 0; }
+  .addr-toggle .addr-chev { margin-right: auto; transition: transform .2s var(--ease); }
+  .addr-toggle[aria-expanded="true"] .addr-chev { transform: rotate(45deg); }
+  .addr-box .addr-head { margin-top: 16px; }
+  .sheet-foot {
+    position: sticky; bottom: calc(-22px - env(safe-area-inset-bottom)); z-index: 2;
+    margin: 14px -16px calc(-22px - env(safe-area-inset-bottom));
+    padding: 4px 16px calc(14px + env(safe-area-inset-bottom));
+    background: var(--cream); box-shadow: 0 -10px 16px -12px rgba(26,21,18,.35);
+  }
+  .sheet-foot .send-reassure { margin: 8px 2px 8px; }
   .addr-head { font-size: 17px; font-weight: 900; margin: 22px 0 2px; }
   .addr-hint { margin: 0 0 14px; font-size: 12.5px; line-height: 1.7; color: var(--text2); }
   .addr-lbl { display: block; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
@@ -883,20 +900,31 @@ fbq('track', 'PageView');
     </div>
     <div id="free-nudge" class="free-nudge" hidden></div>
 
-    <div class="addr-head">فين ساكن؟</div>
-    <p class="addr-hint">عمر اللي عرفتي — الباقي كنتافقو عليه فالتيليفون</p>
-    <label class="addr-lbl" for="addr-res">الإقامة <span class="addr-fr"><bdi>La résidence</bdi></span></label>
-    <input type="text" id="addr-res" name="addr-res" class="addr" autocomplete="off" placeholder="سمية الإقامة ولا الحي">
-    <label class="addr-lbl addr-lbl-gap" for="addr-apt">الطابق والشقة <span class="addr-fr"><bdi>Étage &amp; appart</bdi></span></label>
-    <input type="text" id="addr-apt" name="addr-apt" class="addr" autocomplete="off" placeholder="مثلا: الطابق 3، الشقة 12">
-    <label class="addr-lbl addr-lbl-gap" for="addr-rue">الزنقة ولا علامة <span class="addr-fr"><bdi>Rue ou repère</bdi></span></label>
-    <input type="text" id="addr-rue" name="addr-rue" class="addr" autocomplete="off" placeholder="الزنقة، ولا علامة: صيدلية، قهوة...">
-    <div id="loc-chip" class="locchip is-ok" role="status" hidden></div>
-    <button type="button" id="map-btn" class="cta-ghost map-btn"><svg class="ic"><use href="#i-pin"/></svg><span id="map-btn-lbl">زيد الموقع فالخريطة</span> <span class="map-btn-opt">(اختياري)</span></button>
+    <!-- 2026-10-18: one-tap cart. Two nights: 12 of 14 abandons closed the sheet on its FIRST
+         screen without typing — the 3 address fields read as a required form and pushed the
+         send button off-screen. The address stays optional, folded here; the call settles it. -->
+    <button type="button" id="addr-toggle" class="addr-toggle" aria-expanded="false" aria-controls="addr-box">
+      <svg class="ic"><use href="#i-pin"/></svg><span>زيد العنوان ولا الموقع</span> <span class="map-btn-opt">(اختياري)</span>
+      <svg class="ic addr-chev"><use href="#i-plus"/></svg></button>
+    <div id="addr-box" class="addr-box" hidden>
+      <div class="addr-head">فين ساكن؟</div>
+      <p class="addr-hint">عمر اللي عرفتي — الباقي كنتافقو عليه فالتيليفون</p>
+      <label class="addr-lbl" for="addr-res">الإقامة <span class="addr-fr"><bdi>La résidence</bdi></span></label>
+      <input type="text" id="addr-res" name="addr-res" class="addr" autocomplete="off" placeholder="سمية الإقامة ولا الحي">
+      <label class="addr-lbl addr-lbl-gap" for="addr-apt">الطابق والشقة <span class="addr-fr"><bdi>Étage &amp; appart</bdi></span></label>
+      <input type="text" id="addr-apt" name="addr-apt" class="addr" autocomplete="off" placeholder="مثلا: الطابق 3، الشقة 12">
+      <label class="addr-lbl addr-lbl-gap" for="addr-rue">الزنقة ولا علامة <span class="addr-fr"><bdi>Rue ou repère</bdi></span></label>
+      <input type="text" id="addr-rue" name="addr-rue" class="addr" autocomplete="off" placeholder="الزنقة، ولا علامة: صيدلية، قهوة...">
+      <div id="loc-chip" class="locchip is-ok" role="status" hidden></div>
+      <button type="button" id="map-btn" class="cta-ghost map-btn"><svg class="ic"><use href="#i-pin"/></svg><span id="map-btn-lbl">زيد الموقع فالخريطة</span> <span class="map-btn-opt">(اختياري)</span></button>
+    </div>
 
-    <p class="send-reassure">غير صيفط الطلب — كنعيطو ليك فالحين نأكدو معاك البلاصة</p>
-    <button type="button" id="send-btn" class="wa-btn" disabled aria-disabled="true">صيفط الطلب فالواتساب</button>
-    <div class="sheet-note-sm"><svg class="ic"><use href="#i-cash"/></svg>كاش عند الباب</div>
+    <!-- always on screen, under the total: the send button never hides below the fold -->
+    <div class="sheet-foot">
+      <p class="send-reassure">غير صيفط الطلب — كنعيطو ليك فالحين نأكدو معاك البلاصة</p>
+      <button type="button" id="send-btn" class="wa-btn" disabled aria-disabled="true">صيفط الطلب فالواتساب</button>
+      <div class="sheet-note-sm"><svg class="ic"><use href="#i-cash"/></svg>كاش عند الباب</div>
+    </div>
   </div>
 </div>
 
@@ -933,7 +961,7 @@ fbq('track', 'PageView');
   </div>
 </div>
 
-<script src="js/app.js?v=20261012b"></script>
+<script src="js/app.js?v=20261018a"></script>
 <script>
 (function () {
   'use strict';
