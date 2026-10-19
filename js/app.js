@@ -143,6 +143,33 @@
   }
   window.buildOrderMessage = buildOrderMessage;
 
+  /* 2026-10-19 — the green WhatsApp button carries the cart. Night 3 (10-18): 13 adders,
+     1 cart send, 4 orders — all plain «السلام» chats, some from visitors who had a full cart
+     and tapped the green button instead. So meet them there: same greeting, plus what they
+     picked and the cash-at-the-door total. No address, no form. Empty cart → the plain
+     greeting exactly as before. «المجموع:» is the GRAND total, same rule as the cart. */
+  function buildDirectMessage(cartLines, total, delivery, code) {
+    var lines;
+    if (!cartLines || !cartLines.length) {
+      lines = [WA_DIRECT_TEXT];
+    } else {
+      lines = ['السلام 👋 بغيت نطلب من با رشيد:'];
+      for (var i = 0; i < cartLines.length; i++) {
+        var it = cartLines[i];
+        lines.push('• ' + it.name + (it.size ? ' (' + it.size + ')' : '') + ' ×' + it.qty + ' — ' + it.total + ' درهم');
+      }
+      if (delivery > 0) {
+        lines.push('التوصيل: ' + delivery + ' درهم');
+        lines.push('المجموع: ' + (total + delivery) + ' درهم (مع التوصيل)');
+      } else {
+        lines.push('المجموع: ' + total + ' درهم — التوصيل فابور');
+      }
+    }
+    if (code) lines.push('🔖 كود: #' + code);
+    return lines.join('\n');
+  }
+  window.buildDirectMessage = buildDirectMessage;
+
   /* ---------------------------------------------------------------------------
      Traceability — order code, visitor id, beacons. All fire-and-forget.
      ------------------------------------------------------------------------- */
@@ -268,8 +295,9 @@
   }
 
   function directWaUrl(code) {
+    var total = cartTotal();
     return 'https://wa.me/' + WA_DIRECT + '?text=' +
-      encodeURIComponent(WA_DIRECT_TEXT + (code ? '\n🔖 كود: #' + code : ''));
+      encodeURIComponent(buildDirectMessage(cartLines(), total, deliveryFee(total), code));
   }
 
   /* kind 'wa' | 'call', from the link's own click handler. For WhatsApp it re-points the
