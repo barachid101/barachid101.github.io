@@ -39,8 +39,9 @@
                                     fardi added — a v3 cart would silently restore
                                     stale labels/prices, so it must not restore. */
   var OPEN_HOUR = 20;    /* 20:00 inclusive (permanent hours since 2026-08-09) */
-  var CLOSE_HOUR = 4;    /* closes 04:00 the next day (exclusive) — matches the
-                            landing pill + WhatsApp hours since the 08-11 pivot */
+  var CLOSE_HOUR = 1;    /* closes 01:00 the next day (exclusive) — Saif closes at 1 (10-20;
+                            was 04:00 since the 08-11 pivot). Matches the
+                            landing pill. */
   var TZ = 'Africa/Casablanca';
   var DIV = '─────────────';
   /* Delivery model (Saif's call 2026-08-10, mid-run-4): NO product floor anymore —
