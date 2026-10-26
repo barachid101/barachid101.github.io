@@ -27,13 +27,13 @@
      the money path: no auto-ack, dashboard rows stay sent_click (phone/received-
      merge lost). The send beacon still logs everything.
      Bot mode again: set this back to '212647351006' (the Meta Cloud API number). */
-  var WA_NUMBER = '212643392648';
+  var WA_NUMBER = '212677710579';
   /* The hero's «كومندي فالواتساب» button goes to the same WhatsApp line; the call
      button stays Saif's personal number. They are the escape hatch for visitors
      who will not use a cart. No source tag in the text (Saif's call 2026-08-08) —
      ask «منين عرفتونا؟» in chat. These orders never get a code and never reach the
      dashboard's order table — only the wa_direct / call beacons prove they happened. */
-  var WA_DIRECT = '212643392648';
+  var WA_DIRECT = '212677710579';
   var WA_DIRECT_TEXT = 'السلام 👋 بغيت نطلب ببوش من با رشيد';
   var STORE_KEY = 'br-cart-v4';  /* v4 2026-08-24: وسط→زوجي rename, batata 10→6,
                                     fardi added — a v3 cart would silently restore
