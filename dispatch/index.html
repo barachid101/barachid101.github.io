@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>BaRachid — Tournées</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+  :root {
+    --bg: #f6f1e7; --card: #fffaf0; --ink: #2b1d12; --mute: #7a6a5a; --line: #e2d6c3;
+    --brand: #b5301f; --ok: #2f7d4a; --warn: #c27a00; --late: #b5301f; --chip: #efe4d2;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.4 Cairo, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+  header { position: sticky; top: 0; z-index: 5; background: var(--brand); color: #fff;
+    padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  header h1 { font-size: 18px; margin: 0; }
+  header .clock { font-variant-numeric: tabular-nums; opacity: .9; }
+  main { max-width: 760px; margin: 0 auto; padding: 12px 16px 80px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px; margin-bottom: 12px; }
+  h2 { font-size: 16px; margin: 0 0 8px; display: flex; justify-content: space-between; align-items: center; }
+  label { display: block; font-size: 13px; color: var(--mute); margin: 8px 0 3px; }
+  input, textarea, select { width: 100%; font: inherit; padding: 9px 10px; border: 1px solid var(--line);
+    border-radius: 8px; background: #fff; color: var(--ink); }
+  textarea { min-height: 54px; resize: vertical; }
+  .row { display: flex; gap: 8px; }
+  .row > * { flex: 1; min-width: 0; }
+  button { font: inherit; border: 0; border-radius: 8px; padding: 10px 12px; cursor: pointer;
+    background: var(--chip); color: var(--ink); }
+  button.primary { background: var(--brand); color: #fff; font-weight: 700; }
+  button.ok { background: var(--ok); color: #fff; }
+  button.small { padding: 6px 9px; font-size: 13px; }
+  button:disabled { opacity: .5; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .chips button { padding: 5px 9px; font-size: 13px; }
+  .hint { font-size: 12px; color: var(--mute); margin-top: 4px; }
+  .hint.bad { color: var(--late); }
+  .hint.good { color: var(--ok); }
+  .order { border-top: 1px solid var(--line); padding: 8px 0; display: grid;
+    grid-template-columns: 1fr auto; gap: 4px 8px; }
+  .order:first-of-type { border-top: 0; }
+  .order .what { font-weight: 700; }
+  .order .meta { font-size: 13px; color: var(--mute); grid-column: 1 / -1; }
+  .order .acts { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  .tag { display: inline-block; font-size: 12px; padding: 1px 7px; border-radius: 99px;
+    background: var(--chip); margin-inline-end: 4px; }
+  .tag.new { background: #e6eefc; } .tag.packed { background: #fdf0d5; }
+  .tag.sent { background: #dff2e5; } .tag.returned { background: #eee; color: #777; }
+  .tag.late { background: var(--late); color: #fff; }
+  .tag.nogps { background: #f3e1de; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { border: 1px solid var(--line); padding: 6px; text-align: start; vertical-align: top; }
+  th { background: var(--chip); font-size: 12px; }
+  .empty { color: var(--mute); font-size: 14px; }
+  details summary { cursor: pointer; font-weight: 700; }
+  a { color: var(--brand); }
+  #ticket { display: none; }
+  .trip { border-top: 1px solid var(--line); padding: 8px 0; }
+  .trip:first-of-type { border-top: 0; }
+
+  @media print {
+    body { background: #fff; }
+    header, main { display: none !important; }
+    #ticket { display: block !important; padding: 0 4mm; }
+    #ticket h1 { font-size: 20px; margin: 0 0 4px; }
+    #ticket .sub { font-size: 13px; margin-bottom: 8px; }
+    #ticket table { font-size: 13px; }
+    #ticket th { background: #eee; }
+    #ticket a { color: #000; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>🛵 Tournées · با رشيد</h1>
+  <span class="clock" id="clock">--:--</span>
+</header>
+
+<main>
+  <!-- 1. add a confirmed order -->
+  <section>
+    <h2>➕ Nouvelle commande confirmée</h2>
+    <label for="f-what">Commande</label>
+    <textarea id="f-what" placeholder="ex: Complet zouji ×1 + batata"></textarea>
+    <div class="chips" id="quick"></div>
+    <div class="row">
+      <div><label for="f-phone">Numéro</label><input id="f-phone" inputmode="tel" placeholder="06…"></div>
+      <div><label for="f-time">Heure de la commande</label><input id="f-time" type="time"></div>
+    </div>
+    <label for="f-loc">Localisation (lien Maps, pin, ou adresse écrite)</label>
+    <input id="f-loc" placeholder="https://maps.google.com/?q=35.75,-5.85 · ou «Mesnana gold 145»">
+    <div class="hint" id="loc-hint"></div>
+    <div class="row" style="margin-top:10px">
+      <button class="primary" id="add">Ajouter</button>
+    </div>
+  </section>
+
+  <!-- 2. next trip -->
+  <section>
+    <h2>🧭 Prochaine tournée</h2>
+    <div class="row">
+      <select id="t-driver"></select>
+      <button class="primary" id="plan">Proposer</button>
+    </div>
+    <div id="plan-out"></div>
+  </section>
+
+  <!-- 3. orders -->
+  <section>
+    <h2>📋 Commandes <span id="counts" class="hint"></span></h2>
+    <div id="orders"></div>
+  </section>
+
+  <!-- 4. trips -->
+  <section>
+    <h2>🛵 Tournées envoyées</h2>
+    <div id="trips"></div>
+  </section>
+
+  <!-- 5. settings -->
+  <section>
+    <details>
+      <summary>⚙️ Réglages</summary>
+      <label>Point de départ (le chariot)</label>
+      <div class="row">
+        <input id="s-base" placeholder="35.7421,-5.8591">
+        <button class="small" id="s-here">📍 Je suis ici</button>
+      </div>
+      <div class="hint" id="base-hint"></div>
+      <div class="row">
+        <div><label for="s-max">Max commandes / tournée</label><input id="s-max" type="number" min="1" max="8"></div>
+        <div><label for="s-late">«En retard» après (min)</label><input id="s-late" type="number" min="5" max="180"></div>
+      </div>
+      <label>Livreurs (nom · WhatsApp)</label>
+      <div class="row"><input id="s-d1n" placeholder="Livreur 1"><input id="s-d1p" inputmode="tel" placeholder="06…"></div>
+      <div class="row" style="margin-top:6px"><input id="s-d2n" placeholder="Livreur 2"><input id="s-d2p" inputmode="tel" placeholder="06…"></div>
+      <div class="row" style="margin-top:10px">
+        <button id="s-save" class="ok">Enregistrer</button>
+        <button id="s-reset">🧹 Nouvelle soirée</button>
+      </div>
+      <div class="hint">Les commandes restent sur ce téléphone uniquement (rien n'est envoyé en ligne).</div>
+    </details>
+  </section>
+</main>
+
+<div id="ticket"></div>
+
+<script>
+(function () {
+  'use strict';
+  var KEY = 'brd-dispatch-v1';
+  var QUICK = ['Complet زوجي 50', 'Complet عائلي 89', 'Solo فردي 27', 'Pack ببوش زوجي 37',
+    'Pack ببوش عائلي 50', 'Pack حمص زوجي 20', 'Pack حمص عائلي 35', '+ شوربة 6', '+ بطاطا 6'];
+  var STATUS = { new: 'Confirmée', packed: 'Packed', sent: 'Sent', returned: 'Returned' };
+
+  var $ = function (s) { return document.querySelector(s); };
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+  /* ---------- state ---------- */
+  var state = load();
+  function blank() {
+    return { orders: [], trips: [], seq: 0, tripSeq: 0,
+      cfg: { base: { lat: 35.7421, lng: -5.8591 }, max: 4, late: 45,
+        drivers: [{ n: 'Livreur 1', p: '' }, { n: 'Livreur 2', p: '' }] } };
+  }
+  function load() {
+    try { var s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s && s.orders) return s; } catch (e) {}
+    return blank();
+  }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  /* ---------- location parsing ---------- */
+  function inTangier(p) { return p && p.lat > 35.4 && p.lat < 36.1 && p.lng > -6.3 && p.lng < -5.3; }
+  function dms(str) {
+    var re = /(\d{1,3})°\s*(\d{1,2})['′]\s*([\d.]+)["″]?\s*([NSEW])/gi, m, out = [];
+    while ((m = re.exec(str))) {
+      var v = +m[1] + m[2] / 60 + m[3] / 3600;
+      if (/[SW]/i.test(m[4])) v = -v;
+      out.push({ v: v, ax: /[NS]/i.test(m[4]) ? 'lat' : 'lng' });
+    }
+    if (out.length >= 2) {
+      var p = {}; out.forEach(function (o) { p[o.ax] = o.v; });
+      if (p.lat != null && p.lng != null) return p;
+    }
+    return null;
+  }
+  function parseLoc(raw) {
+    var s = (raw || '').trim(), m;
+    if (!s) return null;
+    m = s.match(/[?&](?:q|query|ll|destination)=(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/) ||
+        s.match(/@(-?\d{1,2}\.\d+),(-?\d{1,3}\.\d+)/) ||
+        s.match(/(-?\d{1,2}\.\d{3,})\s*,\s*(-?\d{1,3}\.\d{3,})/);
+    if (m) return { lat: +m[1], lng: +m[2] };
+    return dms(s);
+  }
+  function km(a, b) {
+    var R = 6371, r = Math.PI / 180, dLa = (b.lat - a.lat) * r, dLo = (b.lng - a.lng) * r;
+    var h = Math.sin(dLa / 2) * Math.sin(dLa / 2) +
+      Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLo / 2) * Math.sin(dLo / 2);
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+  function mapsLink(p) { return 'https://maps.google.com/?q=' + p.lat.toFixed(6) + ',' + p.lng.toFixed(6); }
+
+  /* ---------- time ---------- */
+  function hhmm(d) { return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); }
+  /* minutes since the order was placed; an order time "after" now means yesterday evening */
+  function waited(o, now) {
+    var t = o.time.split(':'), d = new Date(now);
+    d.setHours(+t[0], +t[1], 0, 0);
+    var mins = Math.round((now - d) / 60000);
+    if (mins < -720) mins += 1440;   /* 23:50 order read at 00:30 = 40 min */
+    return Math.max(0, mins);
+  }
+
+  /* ---------- the trip planner ----------
+     1. the customer who has waited longest goes on this trip, whatever the distance;
+     2. the other seats go to the orders closest to that customer — a «late» order
+        counts as if it were 1.5 km closer, so nobody waits forever;
+     3. orders without GPS fill leftover seats by waiting time;
+     4. stops are put in order nearest-next from the cart; no-GPS stops go last
+        (the delivery guy calls them). */
+  function planTrip(now) {
+    var cfg = state.cfg, max = Math.max(1, +cfg.max || 4);
+    var pool = state.orders.filter(function (o) { return o.status === 'new' || o.status === 'packed'; });
+    if (!pool.length) return [];
+    pool.sort(function (a, b) { return waited(b, now) - waited(a, now); });
+    var anchor = pool[0], pick = [anchor], rest = pool.slice(1);
+    /* no GPS on the anchor → group the trip around the longest-waiting order that has one */
+    var center = anchor.geo || (rest.filter(function (o) { return o.geo; })[0] || {}).geo || null;
+    if (center) {
+      var withGeo = rest.filter(function (o) { return o.geo; }).map(function (o) {
+        var late = waited(o, now) >= cfg.late ? 1.5 : 0;
+        return { o: o, s: km(center, o.geo) - late };
+      }).sort(function (a, b) { return a.s - b.s; });
+      withGeo.forEach(function (x) { if (pick.length < max && x.s <= 3) pick.push(x.o); });
+    }
+    rest.forEach(function (o) { if (pick.length < max && pick.indexOf(o) < 0) pick.push(o); });
+    return route(pick);
+  }
+  function route(list) {
+    var here = state.cfg.base, geo = list.filter(function (o) { return o.geo; }),
+        nogeo = list.filter(function (o) { return !o.geo; }), out = [], total = 0;
+    while (geo.length) {
+      var bi = 0, bd = Infinity;
+      geo.forEach(function (o, i) { var d = km(here, o.geo); if (d < bd) { bd = d; bi = i; } });
+      var nx = geo.splice(bi, 1)[0]; nx._leg = bd; total += bd; out.push(nx); here = nx.geo;
+    }
+    nogeo.forEach(function (o) { o._leg = null; out.push(o); });
+    out._km = total;
+    return out;
+  }
+  function routeUrl(stops) {
+    var g = stops.filter(function (o) { return o.geo; });
+    if (!g.length) return '';
+    var b = state.cfg.base, f = function (p) { return p.lat.toFixed(6) + ',' + p.lng.toFixed(6); };
+    var url = 'https://www.google.com/maps/dir/?api=1&travelmode=driving&origin=' + f(b) +
+      '&destination=' + f(g[g.length - 1].geo);
+    if (g.length > 1) url += '&waypoints=' + encodeURIComponent(g.slice(0, -1).map(function (o) { return f(o.geo); }).join('|'));
+    return url;
+  }
+
+  /* ---------- rendering ---------- */
+  var planned = [];
+  function render() {
+    var now = Date.now(), cfg = state.cfg;
+    $('#clock').textContent = hhmm(new Date(now));
+
+    // driver select
+    var sel = $('#t-driver'), cur = sel.value;
+    sel.innerHTML = cfg.drivers.map(function (d, i) { return '<option value="' + i + '">' + esc(d.n || ('Livreur ' + (i + 1))) + '</option>'; }).join('');
+    if (cur) sel.value = cur;
+
+    // orders
+    var active = state.orders.filter(function (o) { return o.status !== 'returned'; });
+    var byStatus = function (s) { return state.orders.filter(function (o) { return o.status === s; }).length; };
+    $('#counts').textContent = 'à envoyer ' + (byStatus('new') + byStatus('packed')) + ' · en route ' + byStatus('sent') + ' · returned ' + byStatus('returned');
+    var list = state.orders.slice().sort(function (a, b) {
+      var rank = { new: 0, packed: 0, sent: 1, returned: 2 };
+      return rank[a.status] - rank[b.status] || waited(b, now) - waited(a, now);
+    });
+    $('#orders').innerHTML = list.length ? list.map(function (o) { return orderRow(o, now); }).join('') :
+      '<div class="empty">Aucune commande pour l\'instant.</div>';
+
+    // trips
+    $('#trips').innerHTML = state.trips.length ? state.trips.slice().reverse().map(function (t) {
+      var stops = t.ids.map(byId).filter(Boolean), open = stops.some(function (o) { return o.status === 'sent'; });
+      return '<div class="trip"><b>#' + t.n + ' · ' + esc(t.driver) + '</b> — parti ' + t.at +
+        ' · ' + stops.length + ' cmd' + (open ? '' : ' · ✅ rentré') +
+        '<div class="acts" style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">' +
+        '<button class="small" data-ticket="' + t.n + '">🧾 Ticket / PDF</button>' +
+        '<button class="small" data-wa="' + t.n + '">💬 WhatsApp livreur</button>' +
+        (open ? '<button class="small ok" data-back="' + t.n + '">↩︎ Livreur rentré</button>' : '') +
+        '</div></div>';
+    }).join('') : '<div class="empty">Pas encore de tournée.</div>';
+  }
+  function orderRow(o, now) {
+    var w = waited(o, now), late = (o.status === 'new' || o.status === 'packed') && w >= state.cfg.late;
+    var d = o.geo ? km(state.cfg.base, o.geo).toFixed(1) + ' km' : 'sans GPS';
+    var acts = '';
+    if (o.status === 'new') acts += '<button class="small" data-st="packed" data-id="' + o.id + '">Packed</button>';
+    if (o.status === 'packed') acts += '<button class="small" data-st="new" data-id="' + o.id + '">↶</button>';
+    if (o.status === 'sent') acts += '<button class="small" data-st="returned" data-id="' + o.id + '">Returned</button>';
+    if (o.status === 'returned') acts += '<button class="small" data-st="sent" data-id="' + o.id + '">↶</button>';
+    acts += '<button class="small" data-del="' + o.id + '">✕</button>';
+    return '<div class="order"><div><span class="tag ' + o.status + '">' + STATUS[o.status] + '</span>' +
+      (late ? '<span class="tag late">' + w + ' min</span>' : '') +
+      (o.geo ? '' : '<span class="tag nogps">sans GPS</span>') +
+      '<span class="what">' + esc(o.what || '—') + '</span></div><div class="acts">' + acts + '</div>' +
+      '<div class="meta">🕒 ' + esc(o.time) + ' (' + w + ' min) · 📞 ' + esc(o.phone || '—') + ' · 📍 ' + d +
+      (o.loc && !o.geo ? ' · ' + esc(o.loc) : '') + (o.trip ? ' · tournée #' + o.trip : '') + '</div></div>';
+  }
+  function byId(id) { for (var i = 0; i < state.orders.length; i++) if (state.orders[i].id === id) return state.orders[i]; return null; }
+
+  function renderPlan() {
+    var out = $('#plan-out'), now = Date.now();
+    if (!planned.length) { out.innerHTML = '<div class="empty" style="margin-top:8px">Rien à envoyer.</div>'; return; }
+    var rows = planned.map(function (o, i) {
+      var w = waited(o, now);
+      return '<tr><td>' + (i + 1) + '</td><td>' + esc(o.what) + '</td><td>' + esc(o.phone) + '</td><td>' +
+        (o.geo ? (o._leg != null ? '+' + o._leg.toFixed(1) + ' km' : '') : 'sans GPS — ' + esc(o.loc || 'appeler')) +
+        '</td><td>' + w + ' min' + (w >= state.cfg.late ? ' ⚠️' : '') + '</td>' +
+        '<td><button class="small" data-drop="' + o.id + '">✕</button></td></tr>';
+    }).join('');
+    out.innerHTML = '<table style="margin-top:8px"><tr><th>#</th><th>Commande</th><th>Numéro</th><th>Trajet</th><th>Attente</th><th></th></tr>' +
+      rows + '</table><div class="hint">≈ ' + planned._km.toFixed(1) + ' km à vol d\'oiseau (aller). Retire une commande avec ✕.</div>' +
+      '<div class="row" style="margin-top:8px"><button class="ok" id="send">✅ Envoyer cette tournée</button></div>';
+  }
+
+  /* ---------- ticket (print → PDF) + WhatsApp text ---------- */
+  function tripStops(t) { return route(t.ids.map(byId).filter(Boolean)); }
+  function showTicket(n) {
+    var t = state.trips.filter(function (x) { return x.n === n; })[0]; if (!t) return;
+    var stops = tripStops(t), url = routeUrl(stops), now = Date.now();
+    $('#ticket').innerHTML = '<h1>با رشيد · Tournée #' + t.n + ' — ' + esc(t.driver) + '</h1>' +
+      '<div class="sub">Départ ' + t.at + ' · ' + stops.length + ' commandes · ≈ ' + stops._km.toFixed(1) + ' km' +
+      (url ? ' · Itinéraire: <a href="' + esc(url) + '">' + esc(url) + '</a>' : '') + '</div>' +
+      '<table><tr><th>#</th><th>Numéro</th><th>Commande</th><th>Localisation</th><th>Commandé</th><th>Priorité</th></tr>' +
+      stops.map(function (o, i) {
+        var w = waited(o, now), pr = w >= state.cfg.late ? 'URGENT (' + w + ' min)' : (o.geo ? 'normal' : 'appeler');
+        return '<tr><td>' + (i + 1) + '</td><td>' + esc(o.phone) + '</td><td>' + esc(o.what) + '</td><td>' +
+          (o.geo ? '<a href="' + mapsLink(o.geo) + '">' + mapsLink(o.geo) + '</a>' : '') +
+          (o.loc && !o.geo ? esc(o.loc) : '') + (!o.loc && !o.geo ? '— appeler le client' : '') +
+          '</td><td>' + esc(o.time) + '</td><td>' + pr + '</td></tr>';
+      }).join('') + '</table>' +
+      '<div class="sub" style="margin-top:8px">💰 Cash à la porte · Couvercles bien fermés, double sac.</div>';
+    document.title = 'Tournee-' + t.n + '-' + (t.driver || '').replace(/\s+/g, '-');
+    window.print();
+    setTimeout(function () { document.title = 'BaRachid — Tournées'; }, 1500);
+  }
+  function waText(t) {
+    var stops = tripStops(t), url = routeUrl(stops), now = Date.now();
+    var lines = ['🛵 Tournée #' + t.n + ' — ' + t.driver + ' (' + t.at + ')'];
+    if (url) lines.push('🗺️ Itinéraire: ' + url);
+    stops.forEach(function (o, i) {
+      var w = waited(o, now);
+      lines.push('', (i + 1) + ') ' + (w >= state.cfg.late ? '⚠️ URGENT ' : '') + (o.what || ''),
+        '📞 ' + (o.phone || '—'),
+        '📍 ' + (o.geo ? mapsLink(o.geo) : (o.loc || 'appeler le client')));
+    });
+    lines.push('', '💰 Cash à la porte');
+    return lines.join('\n');
+  }
+  function intlPhone(p) {
+    var d = (p || '').replace(/\D/g, '');
+    if (d.indexOf('00') === 0) d = d.slice(2);
+    if (d.indexOf('0') === 0) d = '212' + d.slice(1);
+    return d;
+  }
+
+  /* ---------- events ---------- */
+  $('#quick').innerHTML = QUICK.map(function (q) { return '<button type="button">' + esc(q) + '</button>'; }).join('');
+  $('#quick').addEventListener('click', function (e) {
+    if (e.target.tagName !== 'BUTTON') return;
+    var f = $('#f-what'); f.value = (f.value ? f.value + ' + ' : '') + e.target.textContent; f.focus();
+  });
+  function locHint() {
+    var raw = $('#f-loc').value, p = parseLoc(raw), h = $('#loc-hint');
+    if (!raw.trim()) { h.className = 'hint'; h.textContent = 'Vide = le livreur appelle le client.'; return; }
+    if (p && inTangier(p)) { h.className = 'hint good'; h.textContent = '✓ GPS lu · ' + km(state.cfg.base, p).toFixed(1) + ' km du chariot'; }
+    else if (p) { h.className = 'hint bad'; h.textContent = '⚠️ Position hors de Tanger — vérifie le lien.'; }
+    else { h.className = 'hint'; h.textContent = 'Adresse écrite (pas de GPS) — passera en fin de tournée.'; }
+  }
+  $('#f-loc').addEventListener('input', locHint);
+  function resetForm() {
+    $('#f-what').value = ''; $('#f-phone').value = ''; $('#f-loc').value = '';
+    $('#f-time').value = hhmm(new Date()); locHint();
+  }
+  $('#add').addEventListener('click', function () {
+    var what = $('#f-what').value.trim(), phone = $('#f-phone').value.trim(), loc = $('#f-loc').value.trim();
+    if (!what && !phone) { $('#f-what').focus(); return; }
+    var p = parseLoc(loc);
+    state.orders.push({ id: ++state.seq, what: what, phone: phone, loc: loc,
+      geo: p && inTangier(p) ? p : null, time: $('#f-time').value || hhmm(new Date()),
+      status: 'new', trip: null });
+    save(); resetForm(); render();
+  });
+  $('#plan').addEventListener('click', function () { planned = planTrip(Date.now()); renderPlan(); });
+  $('#plan-out').addEventListener('click', function (e) {
+    var drop = e.target.getAttribute('data-drop');
+    if (drop) { planned = route(planned.filter(function (o) { return o.id !== +drop; })); renderPlan(); return; }
+    if (e.target.id === 'send' && planned.length) {
+      var di = +$('#t-driver').value || 0, d = state.cfg.drivers[di] || {};
+      var t = { n: ++state.tripSeq, driver: d.n || ('Livreur ' + (di + 1)), phone: d.p || '', at: hhmm(new Date()),
+        ids: planned.map(function (o) { return o.id; }) };
+      planned.forEach(function (o) { o.status = 'sent'; o.trip = t.n; });
+      state.trips.push(t); planned = []; save(); renderPlan(); render();
+      $('#plan-out').innerHTML = '<div class="hint good" style="margin-top:8px">Tournée #' + t.n + ' envoyée — ticket et WhatsApp en bas.</div>';
+    }
+  });
+  document.addEventListener('click', function (e) {
+    var el = e.target, id;
+    if ((id = el.getAttribute('data-st'))) {
+      var o = byId(+el.getAttribute('data-id')); if (!o) return;
+      o.status = id; if (id === 'new' || id === 'packed') o.trip = null;
+      save(); render();
+    } else if ((id = el.getAttribute('data-del'))) {
+      if (confirm('Supprimer cette commande ?')) {
+        state.orders = state.orders.filter(function (o) { return o.id !== +id; }); save(); render();
+      }
+    } else if ((id = el.getAttribute('data-ticket'))) { showTicket(+id); }
+    else if ((id = el.getAttribute('data-wa'))) {
+      var t = state.trips.filter(function (x) { return x.n === +id; })[0]; if (!t) return;
+      var to = intlPhone(t.phone);
+      window.open('https://wa.me/' + to + '?text=' + encodeURIComponent(waText(t)), '_blank');
+    } else if ((id = el.getAttribute('data-back'))) {
+      var tr = state.trips.filter(function (x) { return x.n === +id; })[0]; if (!tr) return;
+      tr.ids.forEach(function (oid) { var o = byId(oid); if (o && o.status === 'sent') o.status = 'returned'; });
+      tr.backAt = hhmm(new Date()); save(); render();
+    }
+  });
+
+  /* settings */
+  function fillSettings() {
+    var c = state.cfg;
+    $('#s-base').value = c.base.lat.toFixed(5) + ',' + c.base.lng.toFixed(5);
+    $('#s-max').value = c.max; $('#s-late').value = c.late;
+    $('#s-d1n').value = c.drivers[0].n; $('#s-d1p').value = c.drivers[0].p;
+    $('#s-d2n').value = c.drivers[1].n; $('#s-d2p').value = c.drivers[1].p;
+  }
+  $('#s-here').addEventListener('click', function () {
+    if (!navigator.geolocation) return;
+    $('#base-hint').textContent = 'Localisation…';
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      $('#s-base').value = pos.coords.latitude.toFixed(5) + ',' + pos.coords.longitude.toFixed(5);
+      $('#base-hint').textContent = 'Position lue — appuie sur Enregistrer.';
+    }, function () { $('#base-hint').textContent = 'GPS refusé — colle les coordonnées à la main.'; },
+    { enableHighAccuracy: true, timeout: 10000 });
+  });
+  $('#s-save').addEventListener('click', function () {
+    var c = state.cfg, p = parseLoc($('#s-base').value);
+    if (p && inTangier(p)) c.base = p; else { $('#base-hint').textContent = 'Point de départ illisible — inchangé.'; }
+    c.max = Math.min(8, Math.max(1, +$('#s-max').value || 4));
+    c.late = Math.min(180, Math.max(5, +$('#s-late').value || 45));
+    c.drivers = [{ n: $('#s-d1n').value.trim() || 'Livreur 1', p: $('#s-d1p').value.trim() },
+                 { n: $('#s-d2n').value.trim() || 'Livreur 2', p: $('#s-d2p').value.trim() }];
+    save(); fillSettings(); render(); locHint();
+    $('#base-hint').textContent = $('#base-hint').textContent || 'Enregistré.';
+  });
+  $('#s-reset').addEventListener('click', function () {
+    if (!confirm('Effacer toutes les commandes et tournées de ce soir ? (les réglages restent)')) return;
+    var cfg = state.cfg; state = blank(); state.cfg = cfg; planned = []; save(); render(); renderPlan();
+    $('#plan-out').innerHTML = '';
+  });
+
+  fillSettings(); resetForm(); render();
+  setInterval(render, 30000);
+})();
+</script>
+</body>
+</html>
