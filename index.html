@@ -605,6 +605,60 @@ fbq('track', 'PageView');
 </style>
 </head>
 <body>
+<!-- ===== RAIN SPLASH (عرض الشتا, 2026-11-11) — remove this block + its script below to turn off ===== -->
+<div id="rain-splash" aria-live="polite" role="status">
+  <div class="rs-drops" aria-hidden="true"></div>
+  <div class="rs-card">
+    <svg class="rs-cloud" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15a4 4 0 0 1-.6-7.96A5.5 5.5 0 0 1 17 8.5a3.5 3.5 0 0 1 .5 6.5"/></svg>
+    <div class="rs-title">عرض الشتا</div>
+    <div class="rs-line">التوصيل غير <b>9</b> درهم</div>
+    <div class="rs-fr" dir="ltr">Livraison seulement 9 DH</div>
+  </div>
+</div>
+<style>
+  #rain-splash { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
+    background: rgba(26,21,18,.86); overflow: hidden; transition: opacity .5s ease; cursor: pointer; }
+  #rain-splash.rs-out { opacity: 0; pointer-events: none; }
+  #rain-splash .rs-drops { position: absolute; inset: 0; }
+  #rain-splash .rs-drops i { position: absolute; top: -12%; width: 2px; height: 70px; border-radius: 2px;
+    background: linear-gradient(to bottom, rgba(242,232,213,0), rgba(242,232,213,.75));
+    animation: rs-fall linear infinite; }
+  @keyframes rs-fall { to { transform: translateY(125vh); } }
+  #rain-splash .rs-card { position: relative; text-align: center; color: #F2E8D5; background: #B3261E;
+    border: 6px solid #C8802D; border-radius: 28px; padding: 22px 34px 24px; margin: 0 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.45); animation: rs-pop .5s cubic-bezier(.2,1.4,.4,1) both; }
+  @keyframes rs-pop { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  #rain-splash .rs-cloud { width: 56px; height: 56px; display: block; margin: 0 auto 2px; }
+  #rain-splash .rs-title { font-family: 'Cairo', system-ui, sans-serif; font-weight: 900; font-size: 40px; line-height: 1.2; }
+  #rain-splash .rs-line { font-family: 'Cairo', system-ui, sans-serif; font-weight: 800; font-size: 26px; line-height: 1.5; }
+  #rain-splash .rs-line b { font-family: 'Alfa Slab One', 'Cairo', sans-serif; font-weight: 400; font-size: 44px; vertical-align: -4px; }
+  #rain-splash .rs-fr { font-family: 'Cairo', system-ui, sans-serif; font-weight: 700; font-size: 17px; opacity: .95; }
+  @media (prefers-reduced-motion: reduce) { #rain-splash .rs-drops { display: none; } #rain-splash .rs-card { animation: none; } }
+</style>
+<script>
+(function () {
+  var el = document.getElementById('rain-splash'); if (!el) return;
+  /* once per browser session: coming back from WhatsApp must not replay it */
+  try { if (sessionStorage.getItem('brd-rain-seen')) { el.remove(); return; } sessionStorage.setItem('brd-rain-seen', '1'); } catch (e) {}
+  var box = el.querySelector('.rs-drops'), n = window.innerWidth < 500 ? 55 : 90, html = '';
+  for (var i = 0; i < n; i++) {
+    html += '<i style="left:' + (Math.random() * 100).toFixed(1) + '%;animation-duration:' +
+      (0.55 + Math.random() * 0.5).toFixed(2) + 's;animation-delay:-' + (Math.random() * 1.2).toFixed(2) +
+      's;opacity:' + (0.35 + Math.random() * 0.6).toFixed(2) + '"></i>';
+  }
+  box.innerHTML = html;
+  var done = false;
+  function close() { if (done) return; done = true; el.classList.add('rs-out'); setTimeout(function () { el.remove(); }, 550); }
+  el.addEventListener('click', close);
+  /* the 3 s count from when the page is up (load), not from first parse — but never wait
+     more than 2 s for a slow load, so the menu is never held hostage */
+  var started = false;
+  function start() { if (started) return; started = true; setTimeout(close, 3000); }
+  window.addEventListener('load', start);
+  setTimeout(start, 2000);
+})();
+</script>
+<!-- ===== /RAIN SPLASH ===== -->
 <!-- icon sprite: 24 grid, 2 px stroke, round caps (style sheet). Use: <svg class="ic"><use href="#i-x"/></svg> -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-delivery" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.5 18H14l2.6-10.5"/><path d="M15 7.5h3"/><path d="M3.5 18v-3a3 3 0 0 1 3-3h4.5l3 6"/><rect x="4" y="4" width="7" height="5" rx="1"/></symbol>
