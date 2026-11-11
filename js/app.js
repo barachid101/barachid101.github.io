@@ -53,7 +53,15 @@
   var FREE_FROM = 34;         /* dh — delivery free from here up */
   var DELIVERY_FEE = 12;      /* dh — charged below FREE_FROM */
 
+  /* «عرض الشتا» (Saif's call 2026-11-11, rain night): flat RAIN_FEE on EVERY order,
+     no free threshold, no nudge. Other delivery charges more in rain — 9 dh is the promo.
+     Set RAIN_PROMO = false to go back to the FREE_FROM / DELIVERY_FEE model. */
+  var RAIN_PROMO = true;
+  var RAIN_FEE = 9;
+  var DELIVERY_LABEL = RAIN_PROMO ? 'التوصيل (عرض الشتا 🌧️): ' : 'التوصيل: ';
+
   function deliveryFee(subtotal) {
+    if (RAIN_PROMO) return RAIN_FEE;
     return subtotal >= FREE_FROM ? 0 : DELIVERY_FEE;
   }
 
@@ -124,7 +132,7 @@
     /* «المجموع:» must stay the GRAND total (cash at the door) — it is the line
        bot/tracking.py::parse_order reads, and the dashboard's revenue with it. */
     if (delivery > 0) {
-      lines.push('التوصيل: ' + delivery + ' درهم');
+      lines.push(DELIVERY_LABEL + delivery + ' درهم');
       lines.push('المجموع: ' + (total + delivery) + ' درهم (مع التوصيل)');
     } else {
       lines.push('المجموع: ' + total + ' درهم — التوصيل فابور');
@@ -160,7 +168,7 @@
         lines.push('• ' + it.name + (it.size ? ' (' + it.size + ')' : '') + ' ×' + it.qty + ' — ' + it.total + ' درهم');
       }
       if (delivery > 0) {
-        lines.push('التوصيل: ' + delivery + ' درهم');
+        lines.push(DELIVERY_LABEL + delivery + ' درهم');
         lines.push('المجموع: ' + (total + delivery) + ' درهم (مع التوصيل)');
       } else {
         lines.push('المجموع: ' + total + ' درهم — التوصيل فابور');
@@ -536,7 +544,7 @@
       elGrandRow.hidden = false;
       /* the honest upsell: what's missing for the fee to disappear */
       elNudge.textContent = 'زيد ' + (FREE_FROM - total) + ' درهم وولي التوصيل فابور';
-      elNudge.hidden = false;
+      elNudge.hidden = RAIN_PROMO;
     } else {
       elDelivery.textContent = 'فابور';
       elDelivery.classList.add('is-free');
