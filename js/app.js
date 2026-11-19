@@ -14,7 +14,7 @@
        the struck-through 100 next to it. Raise back by editing BOTH here and the
        static best-solo/menu chips in index.html (grep: best-price). */
     complet:   { name: 'الطبق الكامل',  sizes: [['زوجي', 50], ['عائلي', 89]] },
-    fardi:     { name: 'الطبق الفردي',  sizes: [['', 27]] },
+    fardi:     { name: 'الطبق الفردي',  sizes: [['', 35]] },   /* 27 → 35 (Saif, 2026-11-19) */
     babbouche: { name: 'باك الببوش',    sizes: [['زوجي', 37], ['عائلي', 50]] },
     hummus:    { name: 'باك الحمص',     sizes: [['زوجي', 20], ['عائلي', 35]] },
     marqa:     { name: 'شوربة الببوش زيادة', sizes: [['', 6]] },
@@ -53,16 +53,24 @@
   var FREE_FROM = 34;         /* dh — delivery free from here up */
   var DELIVERY_FEE = 12;      /* dh — charged below FREE_FROM */
 
-  /* «عرض الشتا» (Saif's call 2026-11-11, rain night): flat RAIN_FEE on EVERY order,
-     no free threshold, no nudge. Other delivery charges more in rain — 9 dh is the promo.
-     Set RAIN_PROMO = false to go back to the FREE_FROM / DELIVERY_FEE model. */
-  var RAIN_PROMO = true;
-  var RAIN_FEE = 9;
-  var DELIVERY_LABEL = RAIN_PROMO ? 'التوصيل (عرض الشتا 🌧️): ' : 'التوصيل: ';
+  /* Delivery model 2026-11-19 (Saif's call, replaces the 11-11 rain promo): a flat
+     DELIVERY_FLAT on EVERY order — his margin on the bike — EXCEPT a cart holding the
+     Family Complet (الطبق الكامل عائلي, 89): delivery free. FREE_FROM / DELIVERY_FEE above
+     are the old model, kept for history; deliveryFee() no longer reads them. */
+  var DELIVERY_FLAT = 9;
+  var DELIVERY_LABEL = 'التوصيل: ';
+  var FREE_WITH = { id: 'complet', si: 1 };   /* الطبق الكامل · عائلي */
+
+  function hasFreeDeliveryItem() {
+    var c = (typeof state !== 'undefined' && state && state.cart) || [];
+    for (var i = 0; i < c.length; i++) {
+      if (c[i].id === FREE_WITH.id && c[i].si === FREE_WITH.si && c[i].qty > 0) return true;
+    }
+    return false;
+  }
 
   function deliveryFee(subtotal) {
-    if (RAIN_PROMO) return RAIN_FEE;
-    return subtotal >= FREE_FROM ? 0 : DELIVERY_FEE;
+    return hasFreeDeliveryItem() ? 0 : DELIVERY_FLAT;
   }
 
   /* Traceability: invisible, no UI, fire-and-forget. If the VPS is down or slow NOTHING here
@@ -543,8 +551,8 @@
       money(elGrandText, total + fee);
       elGrandRow.hidden = false;
       /* the honest upsell: what's missing for the fee to disappear */
-      elNudge.textContent = 'زيد ' + (FREE_FROM - total) + ' درهم وولي التوصيل فابور';
-      elNudge.hidden = RAIN_PROMO;
+      elNudge.textContent = 'التوصيل فابور مع الطبق الكامل العائلي 🎁';
+      elNudge.hidden = false;
     } else {
       elDelivery.textContent = 'فابور';
       elDelivery.classList.add('is-free');
