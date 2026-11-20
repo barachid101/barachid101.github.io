@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#B3261E">
+<title>BaRachid — Caisse</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+  /* Caisse de la soirée (Saif, 2026-11-20). Client-only: every order lives in THIS phone's
+     localStorage (key brd-caisse-v1). Nothing is sent anywhere. Costs/recipes = Réglages. */
+  :root { --red: #B3261E; --cream: #F2E8D5; --ink: #1A1512; --amber: #C8802D; --mute: #6b5d52;
+          --line: #ddd0bb; --card: #fffaf1; --ok: #1f7a3a; --bad: #a3221b; }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--cream); color: var(--ink);
+    font: 15px/1.4 Cairo, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding-bottom: 96px; }
+  header { background: var(--red); color: var(--cream); padding: 10px 16px; position: sticky; top: 0; z-index: 5; }
+  header .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  header h1 { font-size: 18px; margin: 0; }
+  header .night { font-size: 13px; opacity: .9; }
+  nav { display: flex; gap: 6px; margin-top: 8px; }
+  nav button { flex: 1; background: rgba(242,232,213,.15); color: var(--cream); border: 0; border-radius: 10px;
+    padding: 9px 4px; font: inherit; font-weight: 700; min-height: 44px; }
+  nav button.on { background: var(--cream); color: var(--red); }
+  main { max-width: 980px; margin: 0 auto; padding: 12px 16px; }
+  section.tab { display: none; } section.tab.on { display: block; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px; margin-bottom: 12px; }
+  h2 { font-size: 16px; margin: 0 0 8px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  h3 { font-size: 14px; margin: 10px 0 6px; color: var(--mute); }
+  label { display: block; font-size: 13px; color: var(--mute); margin: 8px 0 3px; }
+  input, select { width: 100%; font: inherit; padding: 9px 10px; border: 1px solid var(--line); border-radius: 10px;
+    background: #fff; color: var(--ink); min-height: 44px; }
+  button { font: inherit; cursor: pointer; }
+  .btn { border: 0; border-radius: 10px; padding: 10px 14px; font-weight: 700; min-height: 44px; background: var(--ink); color: #fff; }
+  .btn.red { background: var(--red); } .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .btn.small { min-height: 36px; padding: 6px 10px; font-size: 13px; }
+  .grid2 { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  @media (min-width: 820px) { .grid2 { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } .sticky { position: sticky; top: 120px; } }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 8px 14px; font-weight: 700; min-height: 44px; }
+  .chip.on { background: var(--red); border-color: var(--red); color: var(--cream); }
+  .item { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+  .item:last-child { border-bottom: 0; }
+  .item .nm { font-weight: 700; } .item .pr { font-size: 13px; color: var(--mute); }
+  .step { display: flex; align-items: center; gap: 6px; }
+  .step button { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: #fff; font-size: 22px; font-weight: 700; }
+  .step button.plus { background: var(--red); color: var(--cream); border-color: var(--red); }
+  .step .q { min-width: 28px; text-align: center; font-weight: 800; font-size: 18px; font-variant-numeric: tabular-nums; }
+  .ar { font-family: Cairo, sans-serif; direction: rtl; unicode-bidi: isolate; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  td, th { padding: 5px 4px; text-align: left; vertical-align: top; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  tr.sep td { border-top: 1px solid var(--line); }
+  tr.tot td { font-weight: 800; font-size: 16px; border-top: 2px solid var(--ink); }
+  tr.cost td.n { color: var(--bad); }
+  .profit { color: var(--ok); } .neg { color: var(--bad); }
+  .muted { color: var(--mute); font-size: 13px; }
+  .facture { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+  .facture .hd { display: flex; justify-content: space-between; font-weight: 800; margin-bottom: 6px; }
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: var(--card); border-top: 1px solid var(--line);
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); display: flex; gap: 10px; align-items: center; z-index: 6; }
+  .bar .sum { flex: 1; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .bar .sum small { display: block; font-weight: 600; color: var(--mute); }
+  .olist .o { display: flex; justify-content: space-between; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+  .olist .o:last-child { border-bottom: 0; }
+  .olist .o button { background: none; border: 0; text-align: left; padding: 0; color: inherit; flex: 1; min-height: 44px; }
+  .tag { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 999px; background: var(--cream); margin-left: 4px; }
+  .tag.miss { background: #f6d5d2; color: var(--bad); }
+  .kpis { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  @media (min-width: 600px) { .kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .kpi { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 10px; }
+  .kpi b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
+  .kpi span { font-size: 12px; color: var(--mute); }
+  .set td input { min-height: 38px; padding: 6px 8px; width: 72px; text-align: right; }
+  .toast { position: fixed; left: 50%; top: 14px; transform: translateX(-50%); background: var(--ink); color: #fff;
+    padding: 10px 16px; border-radius: 10px; z-index: 20; display: none; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .row > * { flex: 1 1 140px; }
+  .editing { outline: 3px solid var(--amber); }
+</style>
+</head>
+<body>
+<header>
+  <div class="row"><h1>Caisse BaRachid</h1><span class="night" id="nightLbl"></span></div>
+  <nav>
+    <button type="button" data-tab="cmd" class="on">Commande</button>
+    <button type="button" data-tab="soir">Soirée</button>
+    <button type="button" data-tab="reg">Réglages</button>
+  </nav>
+</header>
+<div class="toast" id="toast" role="status"></div>
+
+<main>
+<!-- ================= COMMANDE ================= -->
+<section class="tab on" id="tab-cmd">
+  <div class="grid2">
+    <div>
+      <div class="card" id="formCard">
+        <h2><span id="formTitle">Nouvelle commande</span><button type="button" class="btn ghost small" id="btnReset">Vider</button></h2>
+        <div id="items"></div>
+      </div>
+      <div class="card">
+        <h2>Livraison</h2>
+        <div class="chips" id="delivModes"></div>
+        <label>Livreur</label>
+        <div class="chips" id="driverChips"></div>
+        <div class="row" style="margin-top:6px">
+          <div><label for="fCode">Code (optionnel)</label><input id="fCode" autocomplete="off" placeholder="ex. 5DPE" style="text-transform:uppercase"></div>
+          <div><label for="fNote">Note / quartier</label><input id="fNote" autocomplete="off" placeholder="ex. Castilla"></div>
+        </div>
+        <label>Statut</label>
+        <div class="chips" id="statusChips"></div>
+      </div>
+    </div>
+    <div class="sticky">
+      <div class="facture" id="facture"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Commandes de la soirée <span class="muted" id="countLbl"></span></h2>
+    <div class="olist" id="olist"></div>
+  </div>
+</section>
+
+<!-- ================= SOIRÉE ================= -->
+<section class="tab" id="tab-soir">
+  <div class="card">
+    <h2>Livreurs ce soir</h2>
+    <div class="chips" id="driverEdit"></div>
+    <div class="row" style="margin-top:8px">
+      <input id="newDriver" placeholder="Nom du livreur" autocomplete="off">
+      <button type="button" class="btn" id="btnAddDriver" style="flex:0 0 auto">Ajouter</button>
+    </div>
+    <p class="muted">Ajoute-les avant la soirée. Un livreur qui a déjà des commandes ne peut pas être supprimé.</p>
+  </div>
+  <div class="card"><h2>Bilan</h2><div class="kpis" id="kpis"></div></div>
+  <div class="card"><h2>À donner au fournisseur (Rachid)</h2><div id="supplier"></div></div>
+  <div class="card"><h2>Livreurs — paie et cash</h2><div id="drivers"></div></div>
+  <div class="card"><h2>Détail des coûts</h2><div id="costs"></div></div>
+  <div class="card">
+    <h2>Fin de soirée</h2>
+    <div class="row">
+      <button type="button" class="btn" id="btnCopy">Copier le bilan</button>
+      <button type="button" class="btn ghost" id="btnCsv">Télécharger CSV</button>
+      <button type="button" class="btn red" id="btnNewNight">Nouvelle soirée</button>
+    </div>
+    <p class="muted">«Copier le bilan» → colle-le sur WhatsApp ou envoie-le à Claude. «Nouvelle soirée» archive la soirée (gardée sur ce téléphone) et vide la liste; les livreurs restent.</p>
+    <h3>Soirées archivées</h3>
+    <div id="archive" class="muted"></div>
+  </div>
+</section>
+
+<!-- ================= RÉGLAGES ================= -->
+<section class="tab" id="tab-reg">
+  <div class="card">
+    <h2>Coûts</h2>
+    <table class="set" id="setCosts"></table>
+  </div>
+  <div class="card">
+    <h2>Produits — prix de vente et recette</h2>
+    <p class="muted">Portions par plat. Une «portion» = ce que tu paies au fournisseur (ببوش, حمص, بطاطا). La شوربة incluse dans un plat est gratuite; seule la شوربة زيادة coûte.</p>
+    <div style="overflow-x:auto"><table class="set" id="setProducts"></table></div>
+  </div>
+  <div class="card">
+    <button type="button" class="btn ghost" id="btnDefaults">Remettre les valeurs par défaut</button>
+    <p class="muted">Les réglages changent le calcul de TOUTES les commandes de la soirée en cours (pas les soirées archivées).</p>
+  </div>
+</section>
+</main>
+
+<div class="bar">
+  <div class="sum" id="barSum">0 DH<small>profit 0 DH</small></div>
+  <button type="button" class="btn red" id="btnSave">Enregistrer</button>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var KEY = 'brd-caisse-v1';
+
+  /* ---- defaults: Saif's numbers of 2026-11-20; portions per plate = Claude's guesses (Réglages) ---- */
+  function defaults() {
+    return {
+      cost: { sn: 5, ch: 3, po: 5, so: 2 },          /* ببوش, حمص, بطاطا per portion; شوربة زيادة */
+      packBase: 5, packPerAdd: 1,                      /* emballage: 5 / commande, +1 par زيادة */
+      driverPay: 10, delivFee: 9,
+      products: [
+        { k: 'c2', nm: 'الطبق الكامل زوجي', p: 50, sn: 2, ch: 2, po: 1, so: 0, add: false, free: false },
+        { k: 'c4', nm: 'الطبق الكامل عائلي', p: 89, sn: 4, ch: 4, po: 2, so: 0, add: false, free: true },
+        { k: 's1', nm: 'الطبق الفردي', p: 35, sn: 1, ch: 1, po: 1, so: 0, add: false, free: false },
+        { k: 'b2', nm: 'باك الببوش زوجي', p: 37, sn: 2, ch: 0, po: 0, so: 0, add: false, free: false },
+        { k: 'b4', nm: 'باك الببوش عائلي', p: 50, sn: 4, ch: 0, po: 0, so: 0, add: false, free: false },
+        { k: 'h2', nm: 'باك الحمص زوجي', p: 20, sn: 0, ch: 2, po: 0, so: 0, add: false, free: false },
+        { k: 'h4', nm: 'باك الحمص عائلي', p: 35, sn: 0, ch: 4, po: 0, so: 0, add: false, free: false },
+        { k: 'xm', nm: 'شوربة زيادة', p: 6, sn: 0, ch: 0, po: 0, so: 1, add: true, free: false },
+        { k: 'xp', nm: 'بطاطا مسلوقة', p: 6, sn: 0, ch: 0, po: 1, so: 0, add: true, free: false }
+      ]
+    };
+  }
+  function today() {
+    /* a night runs 20:00→01:00: before 06:00 it still belongs to yesterday's night */
+    var d = new Date(); if (d.getHours() < 6) d.setDate(d.getDate() - 1);
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  function freshNight(drivers) { return { date: today(), drivers: drivers || ['Livreur 1'], orders: [] }; }
+
+  var S;
+  function load() {
+    try { S = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { S = null; }
+    if (!S || !S.settings) S = { settings: defaults(), night: freshNight(), archive: [] };
+    if (!S.archive) S.archive = [];
+  }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('⚠️ Sauvegarde impossible'); } }
+
+  /* ---- the draft order being typed ---- */
+  var draft;
+  function newDraft() {
+    var d = S.night.drivers;
+    draft = { id: null, items: {}, mode: 'auto', driver: d.length === 1 ? d[0] : (draft && draft.driver) || '', status: 'ok', code: '', note: '' };
+  }
+
+  function prod(k) { var ps = S.settings.products; for (var i = 0; i < ps.length; i++) if (ps[i].k === k) return ps[i]; return null; }
+  function n(x) { x = +x; return isFinite(x) ? x : 0; }
+  function dh(x) { return (Math.round(x * 100) / 100).toLocaleString('fr-FR') + ' DH'; }
+
+  /* ---- the one calculation everything uses ---- */
+  function calc(o) {
+    var st = S.settings, r = { lines: [], sales: 0, sn: 0, ch: 0, po: 0, so: 0, adds: 0, hasFree: false, qty: 0 };
+    Object.keys(o.items).forEach(function (k) {
+      var q = n(o.items[k]), p = prod(k); if (!q || !p) return;
+      r.qty += q; r.sales += q * n(p.p);
+      r.sn += q * n(p.sn); r.ch += q * n(p.ch); r.po += q * n(p.po); r.so += q * n(p.so);
+      if (p.add) r.adds += q;
+      if (p.free) r.hasFree = true;
+      r.lines.push({ nm: p.nm, q: q, u: n(p.p), t: q * n(p.p) });
+    });
+    var mode = o.mode || 'auto';
+    r.deliv = mode === 'pickup' || mode === 'free' ? 0 : mode === 'paid' ? n(st.delivFee) : (r.hasFree ? 0 : n(st.delivFee));
+    r.cash = r.sales + r.deliv;
+    r.cSn = r.sn * n(st.cost.sn); r.cCh = r.ch * n(st.cost.ch); r.cPo = r.po * n(st.cost.po); r.cSo = r.so * n(st.cost.so);
+    r.food = r.cSn + r.cCh + r.cPo + r.cSo;
+    r.pack = r.qty ? n(st.packBase) + n(st.packPerAdd) * r.adds : 0;
+    r.driver = mode === 'pickup' || !r.qty ? 0 : n(st.driverPay);
+    r.costs = r.food + r.pack + r.driver;
+    r.profit = r.cash - r.costs;
+    return r;
+  }
+
+  /* ---- rendering ---- */
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  var MODES = [['auto', 'Auto'], ['paid', 'Payée 9'], ['free', 'Offerte'], ['pickup', 'Sur place']];
+
+  function renderForm() {
+    $('items').innerHTML = S.settings.products.map(function (p) {
+      var q = n(draft.items[p.k]);
+      return '<div class="item"><div><div class="nm ar">' + esc(p.nm) + '</div><div class="pr">' + dh(p.p) +
+        (p.free ? ' · livraison offerte' : '') + (p.add ? ' · زيادة' : '') + '</div></div>' +
+        '<div class="step"><button type="button" data-dec="' + p.k + '" aria-label="moins">−</button><span class="q">' + q +
+        '</span><button type="button" class="plus" data-inc="' + p.k + '" aria-label="plus">+</button></div></div>';
+    }).join('');
+    var st = S.settings;
+    $('delivModes').innerHTML = MODES.map(function (m) {
+      var lbl = m[0] === 'paid' ? 'Payée ' + st.delivFee : m[1];
+      return '<button type="button" class="chip' + (draft.mode === m[0] ? ' on' : '') + '" data-mode="' + m[0] + '">' + lbl + '</button>';
+    }).join('');
+    $('driverChips').innerHTML = S.night.drivers.map(function (d) {
+      return '<button type="button" class="chip' + (draft.driver === d ? ' on' : '') + '" data-driver="' + esc(d) + '">' + esc(d) + '</button>';
+    }).join('') || '<span class="muted">Ajoute un livreur dans «Soirée».</span>';
+    $('statusChips').innerHTML = [['ok', 'Livrée'], ['miss', 'Ratée / annulée']].map(function (s) {
+      return '<button type="button" class="chip' + (draft.status === s[0] ? ' on' : '') + '" data-status="' + s[0] + '">' + s[1] + '</button>';
+    }).join('');
+    $('fCode').value = draft.code; $('fNote').value = draft.note;
+    $('formTitle').textContent = draft.id ? 'Modifier la commande' : 'Nouvelle commande';
+    $('formCard').classList.toggle('editing', !!draft.id);
+    $('btnSave').textContent = draft.id ? 'Mettre à jour' : 'Enregistrer';
+    renderFacture();
+  }
+
+  function factureHtml(o, r, title) {
+    var st = S.settings, h = '<div class="hd"><span>' + esc(title) + '</span><span class="muted">' + esc(o.driver || '—') + '</span></div><table>';
+    if (!r.lines.length) return h + '<tr><td class="muted">Ajoute des produits…</td></tr></table>';
+    r.lines.forEach(function (l) { h += '<tr><td><bdi>' + esc(l.nm) + '</bdi> ×' + l.q + '</td><td class="n">' + dh(l.t) + '</td></tr>'; });
+    h += '<tr><td>Livraison client' + (r.deliv ? '' : (o.mode === 'pickup' ? ' (sur place)' : ' (offerte)')) + '</td><td class="n">' + dh(r.deliv) + '</td></tr>';
+    h += '<tr class="tot"><td>Encaissé (cash)</td><td class="n">' + dh(r.cash) + '</td></tr>';
+    h += '<tr class="sep"><td colspan="2" class="muted">Dépenses</td></tr>';
+    if (r.sn) h += '<tr class="cost"><td><bdi>ببوش</bdi> ' + r.sn + ' × ' + st.cost.sn + '</td><td class="n">− ' + dh(r.cSn) + '</td></tr>';
+    if (r.ch) h += '<tr class="cost"><td><bdi>حمص</bdi> ' + r.ch + ' × ' + st.cost.ch + '</td><td class="n">− ' + dh(r.cCh) + '</td></tr>';
+    if (r.po) h += '<tr class="cost"><td><bdi>بطاطا</bdi> ' + r.po + ' × ' + st.cost.po + '</td><td class="n">− ' + dh(r.cPo) + '</td></tr>';
+    if (r.so) h += '<tr class="cost"><td><bdi>شوربة زيادة</bdi> ' + r.so + ' × ' + st.cost.so + '</td><td class="n">− ' + dh(r.cSo) + '</td></tr>';
+    h += '<tr class="cost"><td>Emballage (' + st.packBase + (r.adds ? ' + ' + r.adds + '×' + st.packPerAdd : '') + ')</td><td class="n">− ' + dh(r.pack) + '</td></tr>';
+    if (r.driver) h += '<tr class="cost"><td>Livreur</td><td class="n">− ' + dh(r.driver) + '</td></tr>';
+    h += '<tr class="tot"><td>Profit réel</td><td class="n ' + (r.profit >= 0 ? 'profit' : 'neg') + '">' + dh(r.profit) + '</td></tr></table>';
+    h += '<p class="muted">Fournisseur: ' + dh(r.food) + ' · Marge ' + (r.cash ? Math.round(100 * r.profit / r.cash) : 0) + ' %</p>';
+    return h;
+  }
+  function renderFacture() {
+    var r = calc(draft);
+    $('facture').innerHTML = factureHtml(draft, r, draft.code ? 'Facture #' + draft.code.toUpperCase() : 'Facture');
+    $('barSum').innerHTML = dh(r.cash) + '<small>profit <span class="' + (r.profit >= 0 ? 'profit' : 'neg') + '">' + dh(r.profit) + '</span></small>';
+  }
+
+  function renderList() {
+    var os = S.night.orders, ok = os.filter(function (o) { return o.status !== 'miss'; }).length;
+    $('countLbl').textContent = ok + ' livrée(s)' + (os.length - ok ? ' · ' + (os.length - ok) + ' ratée(s)' : '');
+    $('olist').innerHTML = os.slice().reverse().map(function (o) {
+      var r = calc(o), items = r.lines.map(function (l) { return '<bdi>' + esc(l.nm) + '</bdi> ×' + l.q; }).join(' · ');
+      return '<div class="o"><button type="button" data-edit="' + o.id + '"><b>' + o.t + '</b> ' + (o.code ? '#' + esc(o.code) + ' ' : '') +
+        '<span class="tag">' + esc(o.driver || '—') + '</span>' + (o.status === 'miss' ? '<span class="tag miss">ratée</span>' : '') +
+        '<div class="muted">' + items + (o.note ? ' — ' + esc(o.note) : '') + '</div></button>' +
+        '<div style="text-align:right;white-space:nowrap"><b>' + dh(r.cash) + '</b><div class="' + (o.status === 'miss' ? 'muted' : 'profit') + '">' +
+        (o.status === 'miss' ? '—' : dh(r.profit)) + '</div></div></div>';
+    }).join('') || '<p class="muted">Aucune commande encore.</p>';
+  }
+
+  function totals(night) {
+    var t = { n: 0, miss: 0, cash: 0, sales: 0, deliv: 0, food: 0, pack: 0, driver: 0, profit: 0, sn: 0, ch: 0, po: 0, so: 0,
+              cSn: 0, cCh: 0, cPo: 0, cSo: 0, per: {} };
+    night.drivers.forEach(function (d) { t.per[d] = { n: 0, cash: 0, pay: 0 }; });
+    night.orders.forEach(function (o) {
+      if (o.status === 'miss') { t.miss++; return; }
+      var r = calc(o); t.n++;
+      ['cash', 'sales', 'deliv', 'food', 'pack', 'driver', 'profit', 'sn', 'ch', 'po', 'so', 'cSn', 'cCh', 'cPo', 'cSo'].forEach(function (k) { t[k] += r[k]; });
+      var d = o.driver || '—'; if (!t.per[d]) t.per[d] = { n: 0, cash: 0, pay: 0 };
+      t.per[d].n++; t.per[d].cash += r.cash; t.per[d].pay += r.driver;
+    });
+    return t;
+  }
+
+  function renderNight() {
+    var t = totals(S.night), st = S.settings;
+    $('nightLbl').textContent = 'Soirée du ' + S.night.date;
+    $('driverEdit').innerHTML = S.night.drivers.map(function (d) {
+      return '<span class="chip">' + esc(d) + ' <button type="button" data-deldriver="' + esc(d) + '" aria-label="Supprimer ' + esc(d) + '" style="border:0;background:none;font-weight:800;color:var(--bad);min-height:0">×</button></span>';
+    }).join('') || '<span class="muted">Aucun livreur.</span>';
+    $('kpis').innerHTML = [['Commandes livrées', t.n + (t.miss ? ' <small class="muted">(+' + t.miss + ' ratée)</small>' : '')], ['Encaissé', dh(t.cash)],
+      ['Dépenses', dh(t.food + t.pack + t.driver)], ['Profit réel', '<span class="' + (t.profit >= 0 ? 'profit' : 'neg') + '">' + dh(t.profit) + '</span>'],
+      ['Panier moyen', dh(t.n ? t.cash / t.n : 0)], ['Profit / commande', dh(t.n ? t.profit / t.n : 0)],
+      ['Livraisons payées', dh(t.deliv)], ['Marge', (t.cash ? Math.round(100 * t.profit / t.cash) : 0) + ' %']]
+      .map(function (k) { return '<div class="kpi"><b>' + k[1] + '</b><span>' + k[0] + '</span></div>'; }).join('');
+    $('supplier').innerHTML = '<table>' +
+      '<tr><td><bdi>ببوش</bdi> ' + t.sn + ' portion(s) × ' + st.cost.sn + '</td><td class="n">' + dh(t.cSn) + '</td></tr>' +
+      '<tr><td><bdi>حمص</bdi> ' + t.ch + ' portion(s) × ' + st.cost.ch + '</td><td class="n">' + dh(t.cCh) + '</td></tr>' +
+      '<tr><td><bdi>بطاطا</bdi> ' + t.po + ' portion(s) × ' + st.cost.po + '</td><td class="n">' + dh(t.cPo) + '</td></tr>' +
+      '<tr><td><bdi>شوربة زيادة</bdi> ' + t.so + ' × ' + st.cost.so + '</td><td class="n">' + dh(t.cSo) + '</td></tr>' +
+      '<tr class="tot"><td>Total à payer au fournisseur</td><td class="n">' + dh(t.food) + '</td></tr></table>';
+    var names = Object.keys(t.per);
+    $('drivers').innerHTML = names.length ? '<table><tr><th>Livreur</th><th class="n">Cmd</th><th class="n">Cash reçu</th><th class="n">Sa paie</th><th class="n">Il te rend</th></tr>' +
+      names.map(function (d) { var p = t.per[d]; return '<tr><td>' + esc(d) + '</td><td class="n">' + p.n + '</td><td class="n">' + dh(p.cash) + '</td><td class="n"><b>' + dh(p.pay) + '</b></td><td class="n">' + dh(p.cash - p.pay) + '</td></tr>'; }).join('') +
+      '<tr class="tot"><td>Total</td><td class="n">' + t.n + '</td><td class="n">' + dh(t.cash) + '</td><td class="n">' + dh(t.driver) + '</td><td class="n">' + dh(t.cash - t.driver) + '</td></tr></table>' +
+      '<p class="muted">«Il te rend» = le cash qu\'il a encaissé moins sa paie (' + st.driverPay + ' DH par commande livrée).</p>' : '<p class="muted">Aucun livreur.</p>';
+    $('costs').innerHTML = '<table><tr><td>Ventes produits</td><td class="n">' + dh(t.sales) + '</td></tr><tr><td>Livraisons payées par les clients</td><td class="n">' + dh(t.deliv) + '</td></tr>' +
+      '<tr class="tot"><td>Encaissé</td><td class="n">' + dh(t.cash) + '</td></tr>' +
+      '<tr class="cost"><td>Fournisseur</td><td class="n">− ' + dh(t.food) + '</td></tr><tr class="cost"><td>Emballage</td><td class="n">− ' + dh(t.pack) + '</td></tr>' +
+      '<tr class="cost"><td>Livreurs</td><td class="n">− ' + dh(t.driver) + '</td></tr>' +
+      '<tr class="tot"><td>Profit réel</td><td class="n ' + (t.profit >= 0 ? 'profit' : 'neg') + '">' + dh(t.profit) + '</td></tr></table>';
+    $('archive').innerHTML = S.archive.slice().reverse().map(function (a) {
+      return a.date + ' — ' + a.summary.n + ' cmd · encaissé ' + dh(a.summary.cash) + ' · profit ' + dh(a.summary.profit);
+    }).join('<br>') || 'Aucune.';
+  }
+
+  function renderSettings() {
+    var st = S.settings;
+    function row(lbl, path, v) { return '<tr><td>' + lbl + '</td><td class="n"><input type="number" inputmode="decimal" step="0.5" data-set="' + path + '" value="' + v + '"></td></tr>'; }
+    $('setCosts').innerHTML = row('Portion ببوش (escargots)', 'cost.sn', st.cost.sn) + row('Portion حمص (pois chiches)', 'cost.ch', st.cost.ch) +
+      row('Portion بطاطا', 'cost.po', st.cost.po) + row('شوربة زيادة (la شوربة incluse = gratuite)', 'cost.so', st.cost.so) +
+      row('Emballage par commande', 'packBase', st.packBase) + row('Emballage + par زيادة', 'packPerAdd', st.packPerAdd) +
+      row('Paie livreur par commande', 'driverPay', st.driverPay) + row('Livraison payée par le client', 'delivFee', st.delivFee);
+    $('setProducts').innerHTML = '<tr><th>Produit</th><th class="n">Prix</th><th class="n">ببوش</th><th class="n">حمص</th><th class="n">بطاطا</th><th class="n">شوربة</th></tr>' +
+      st.products.map(function (p, i) {
+        function c(f) { return '<td class="n"><input type="number" inputmode="decimal" step="0.5" data-set="products.' + i + '.' + f + '" value="' + p[f] + '"></td>'; }
+        return '<tr><td class="ar">' + esc(p.nm) + '</td>' + c('p') + c('sn') + c('ch') + c('po') + c('so') + '</tr>';
+      }).join('');
+  }
+
+  function renderAll() { renderForm(); renderList(); renderNight(); }
+
+  /* ---- actions ---- */
+  function toast(m) { var t = $('toast'); t.textContent = m; t.style.display = 'block'; clearTimeout(toast.h); toast.h = setTimeout(function () { t.style.display = 'none'; }, 1800); }
+  function hhmm() { var d = new Date(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
+
+  function saveOrder() {
+    var r = calc(draft);
+    if (!r.qty) { toast('Ajoute au moins un produit'); return; }
+    if (draft.mode !== 'pickup' && draft.status !== 'miss' && !draft.driver && S.night.drivers.length) { toast('Choisis le livreur'); return; }
+    draft.code = $('fCode').value.trim().toUpperCase().replace(/^#/, ''); draft.note = $('fNote').value.trim();
+    var clean = {}; Object.keys(draft.items).forEach(function (k) { if (n(draft.items[k]) > 0) clean[k] = n(draft.items[k]); });
+    var rec = { id: draft.id || Date.now().toString(36), t: draft.t || hhmm(), code: draft.code, note: draft.note, items: clean,
+                mode: draft.mode, driver: draft.mode === 'pickup' ? '' : draft.driver, status: draft.status };
+    var i = S.night.orders.findIndex(function (o) { return o.id === rec.id; });
+    if (i >= 0) S.night.orders[i] = rec; else S.night.orders.push(rec);
+    save(); toast(i >= 0 ? 'Commande mise à jour' : 'Commande enregistrée ✓');
+    newDraft(); renderAll(); window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function editOrder(id) {
+    var o = S.night.orders.find(function (x) { return x.id === id; }); if (!o) return;
+    draft = JSON.parse(JSON.stringify(o)); renderForm();
+    var b = document.querySelector('[data-tab="cmd"]'); b.click(); window.scrollTo({ top: 0, behavior: 'smooth' });
+    toast('Modification — «Vider» pour annuler');
+    $('formCard').insertAdjacentHTML('beforeend', '<button type="button" class="btn ghost small" id="btnDel" style="margin-top:8px;color:var(--bad)">Supprimer cette commande</button>');
+  }
+
+  function summaryText() {
+    var t = totals(S.night), st = S.settings, L = [];
+    L.push('BaRachid — soirée du ' + S.night.date);
+    L.push(t.n + ' livrées' + (t.miss ? ', ' + t.miss + ' ratée(s)' : ''));
+    L.push('Encaissé: ' + dh(t.cash) + ' (produits ' + dh(t.sales) + ' + livraisons ' + dh(t.deliv) + ')');
+    L.push('Fournisseur: ' + dh(t.food) + ' (ببوش ' + t.sn + ' · حمص ' + t.ch + ' · بطاطا ' + t.po + ' · شوربة ' + t.so + ')');
+    L.push('Emballage: ' + dh(t.pack) + ' · Livreurs: ' + dh(t.driver));
+    L.push('PROFIT RÉEL: ' + dh(t.profit));
+    Object.keys(t.per).forEach(function (d) { var p = t.per[d]; if (p.n) L.push('- ' + d + ': ' + p.n + ' cmd, cash ' + dh(p.cash) + ', paie ' + dh(p.pay) + ', rend ' + dh(p.cash - p.pay)); });
+    L.push(''); L.push('Commandes:');
+    S.night.orders.forEach(function (o) {
+      var r = calc(o);
+      L.push(o.t + ' ' + (o.code ? '#' + o.code + ' ' : '') + r.lines.map(function (l) { return l.nm + '×' + l.q; }).join(', ') +
+        ' | ' + dh(r.cash) + ' | ' + (o.driver || o.mode) + (o.status === 'miss' ? ' | RATÉE' : '') + (o.note ? ' | ' + o.note : ''));
+    });
+    return L.join('\n');
+  }
+  function copy(txt) {
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function () { toast('Bilan copié ✓'); }, fallback); else fallback();
+    function fallback() { var a = document.createElement('textarea'); a.value = txt; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); toast('Bilan copié ✓'); } catch (e) { toast('Copie impossible'); } a.remove(); }
+  }
+  function csv() {
+    var rows = [['date', 'heure', 'code', 'produits', 'livreur', 'mode', 'statut', 'encaisse', 'livraison', 'fournisseur', 'emballage', 'paie_livreur', 'profit', 'note']];
+    S.night.orders.forEach(function (o) {
+      var r = calc(o);
+      rows.push([S.night.date, o.t, o.code, r.lines.map(function (l) { return l.nm + 'x' + l.q; }).join(' + '), o.driver, o.mode, o.status, r.cash, r.deliv, r.food, r.pack, r.driver, r.profit, o.note]);
+    });
+    var s = '﻿' + rows.map(function (r) { return r.map(function (c) { c = String(c == null ? '' : c); return /[",;\n]/.test(c) ? '"' + c.replace(/"/g, '""') + '"' : c; }).join(';'); }).join('\n');
+    var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([s], { type: 'text/csv;charset=utf-8' }));
+    a.download = 'barachid-caisse-' + S.night.date + '.csv'; document.body.appendChild(a); a.click(); a.remove();
+  }
+  function newNight() {
+    if (S.night.orders.length && !confirm('Archiver la soirée du ' + S.night.date + ' et commencer une nouvelle?')) return;
+    if (S.night.orders.length) {
+      var t = totals(S.night);
+      S.archive.push({ date: S.night.date, summary: { n: t.n, miss: t.miss, cash: t.cash, food: t.food, pack: t.pack, driver: t.driver, profit: t.profit },
+                       orders: S.night.orders, drivers: S.night.drivers, settings: JSON.parse(JSON.stringify(S.settings)) });
+    }
+    S.night = freshNight(S.night.drivers.slice()); save(); newDraft(); renderAll(); toast('Nouvelle soirée');
+  }
+
+  /* ---- events ---- */
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    var d = b.dataset;
+    if (d.tab) {
+      document.querySelectorAll('nav button').forEach(function (x) { x.classList.toggle('on', x === b); });
+      document.querySelectorAll('section.tab').forEach(function (s) { s.classList.toggle('on', s.id === 'tab-' + d.tab); });
+      if (d.tab === 'soir') renderNight(); if (d.tab === 'reg') renderSettings();
+      $('btnSave').parentElement.style.display = d.tab === 'cmd' ? '' : 'none';
+      return;
+    }
+    if (d.inc) { draft.items[d.inc] = n(draft.items[d.inc]) + 1; renderForm(); return; }
+    if (d.dec) { draft.items[d.dec] = Math.max(0, n(draft.items[d.dec]) - 1); renderForm(); return; }
+    if (d.mode) { draft.mode = d.mode; renderForm(); return; }
+    if (d.driver !== undefined && b.closest('#driverChips')) { draft.driver = d.driver; renderForm(); return; }
+    if (d.status) { draft.status = d.status; renderForm(); return; }
+    if (d.edit) { editOrder(d.edit); return; }
+    if (d.deldriver !== undefined) {
+      var used = S.night.orders.some(function (o) { return o.driver === d.deldriver; });
+      if (used) { toast('Ce livreur a déjà des commandes'); return; }
+      S.night.drivers = S.night.drivers.filter(function (x) { return x !== d.deldriver; }); save(); renderAll(); return;
+    }
+    if (b.id === 'btnDel') {
+      if (!confirm('Supprimer cette commande?')) return;
+      S.night.orders = S.night.orders.filter(function (o) { return o.id !== draft.id; }); save(); newDraft(); renderAll(); toast('Supprimée'); return;
+    }
+  });
+  $('btnSave').addEventListener('click', saveOrder);
+  $('btnReset').addEventListener('click', function () { newDraft(); renderForm(); });
+  $('fCode').addEventListener('input', function () { draft.code = this.value.trim().toUpperCase(); renderFacture(); });
+  $('fNote').addEventListener('input', function () { draft.note = this.value; });
+  $('btnAddDriver').addEventListener('click', function () {
+    var v = $('newDriver').value.trim(); if (!v) return;
+    if (S.night.drivers.indexOf(v) >= 0) { toast('Déjà dans la liste'); return; }
+    S.night.drivers.push(v); $('newDriver').value = ''; save(); renderAll(); toast(v + ' ajouté');
+  });
+  $('newDriver').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('btnAddDriver').click(); });
+  $('btnCopy').addEventListener('click', function () { copy(summaryText()); });
+  $('btnCsv').addEventListener('click', csv);
+  $('btnNewNight').addEventListener('click', newNight);
+  $('btnDefaults').addEventListener('click', function () {
+    if (!confirm('Remettre tous les prix et recettes par défaut?')) return;
+    S.settings = defaults(); save(); renderSettings(); renderAll(); toast('Valeurs par défaut');
+  });
+  document.addEventListener('change', function (e) {
+    var p = e.target.dataset && e.target.dataset.set; if (!p) return;
+    var parts = p.split('.'), o = S.settings;
+    for (var i = 0; i < parts.length - 1; i++) o = o[parts[i]];
+    o[parts[parts.length - 1]] = n(e.target.value); save(); renderAll(); toast('Réglage enregistré');
+  });
+
+  load(); newDraft(); renderAll();
+  window.__caisse = { calc: calc, totals: totals, state: function () { return S; } };   /* for tests */
+})();
+</script>
+</body>
+</html>
