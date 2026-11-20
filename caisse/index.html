@@ -149,6 +149,8 @@
     <p class="muted">«Copier le bilan» → colle-le sur WhatsApp ou envoie-le à Claude. «Nouvelle soirée» archive la soirée (gardée sur ce téléphone) et vide la liste; les livreurs restent.</p>
     <h3>Soirées archivées</h3>
     <div id="archive" class="muted"></div>
+    <button type="button" class="btn ghost small" id="btnWipe" style="margin-top:12px;color:var(--bad)">Effacer tout (tests)</button>
+    <p class="muted">Supprime les commandes de la soirée ET les soirées archivées, sans rien archiver. Garde les livreurs et les réglages.</p>
   </div>
 </section>
 
@@ -484,6 +486,10 @@
   $('btnCopy').addEventListener('click', function () { copy(summaryText()); });
   $('btnCsv').addEventListener('click', csv);
   $('btnNewNight').addEventListener('click', newNight);
+  $('btnWipe').addEventListener('click', function () {
+    if (!confirm('Effacer TOUTES les commandes et les soirées archivées? (livreurs et réglages gardés)')) return;
+    S.night = freshNight(S.night.drivers.slice()); S.archive = []; save(); newDraft(); renderAll(); toast('Tout effacé ✓');
+  });
   $('btnDefaults').addEventListener('click', function () {
     if (!confirm('Remettre tous les prix et recettes par défaut?')) return;
     S.settings = defaults(); save(); renderSettings(); renderAll(); toast('Valeurs par défaut');
